@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@chakra-ui/react": "^1.8.6",
+>>>>>>> b94364decf7057bfa97469e4273fd70ce577543d
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
@@ -11,7 +15,12 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.41",
     "@types/react-dom": "^17.0.14",
+<<<<<<< HEAD
     "axios": "^0.26.1",
+=======
+    "@types/react-router": "^5.1.18",
+    "@types/styled-components": "^5.1.24",
+>>>>>>> b94364decf7057bfa97469e4273fd70ce577543d
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",

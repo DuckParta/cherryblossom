@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom';
+<<<<<<< HEAD
 import App from './app/App';
 
 import { Provider } from "react-redux";
@@ -13,6 +14,9 @@ const store = configureStore({
 
 export type ThunkAppDispatch = ThunkDispatch<RootState, void, Action>;
 export const useAppThunkDispatch = () => useDispatch<ThunkAppDispatch>();
+=======
+import App from './App';
+>>>>>>> b94364decf7057bfa97469e4273fd70ce577543d
 
 ReactDOM.render(
   <Provider store={store}>
