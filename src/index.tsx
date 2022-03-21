@@ -12,7 +12,7 @@ const store = configureStore({
 
 export type ThunkAppDispatch = ThunkDispatch<RootState, void, Action>;
 export const useAppThunkDispatch = () => useDispatch<ThunkAppDispatch>();
-import App from './App';
+import App from './app/App';
 
 ReactDOM.render(
   <Provider store={store}>
