@@ -11,6 +11,18 @@ export default function Container() {
   const getData = async () => {
     await dispatch(fetchFestivalData());
   }
+  const items = body.items;
+  const itemsRender = items.map((item, index) => {
+    return (
+    <div>
+      <div>{index +1}</div>
+      <div>{item.fstvlNm}</div>
+      <div>{item.auspcInstt}</div>
+      <div>{item.opar}</div>
+      <div>{item.fstvlStartDate}</div>
+    </div>
+    )
+  })
   
   useEffect(() => {
     getData();
@@ -21,6 +33,7 @@ export default function Container() {
   return (
     <>
     <div>
+      {itemsRender}
     </div>
     </>
   ) 
