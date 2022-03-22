@@ -20,9 +20,15 @@ const Map = () => {
       level: 3,
     };
 
-    let map = new kakao.maps.Map(container, options);
-
-    console.log("loading kakao map");
+    const map = new kakao.maps.Map(container, options);
+    // 마커가 표시될 위치입니다
+    const markerPosition = new kakao.maps.LatLng(latitude, longitude);
+    // 마커를 생성합니다
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker.setMap(map);
   }, []);
 
   return (
