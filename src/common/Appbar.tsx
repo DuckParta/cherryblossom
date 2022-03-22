@@ -4,7 +4,7 @@ import { Flex } from "@chakra-ui/react";
 function Appbar() {
   return (
     <Flex justifyContent="center">
-      <Box w="50em">
+      <Box w="55em">
         <Image htmlWidth="100px" src="../images/logo.png" />
       </Box>
       <Center w="7em">
