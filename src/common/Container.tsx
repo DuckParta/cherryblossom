@@ -1,37 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { RootState } from '../features/reducers';
 import { fetchFestivalData } from '../features/async/fetchFestivalData';
+import { Items } from './festivalDataInterface';
+import FestivalsList from './FestivalsList';
 
 
 export default function Container() {
   const dispatch = useDispatch();
-  const { body } = useSelector((store: RootState) => store.festivalDataReducer);
+  const { body, isLoading } = useSelector((store: RootState) => store.festivalDataReducer);
   const getData = async () => {
     await dispatch(fetchFestivalData());
   }
+  console.log(body)
   const items = body.items;
-  const itemsRender = items.map((item, index) => {
+  const itemsRender = items?.map((item: Items, index): JSX.Element => {
     return (
-    <div>
-      <div>{index +1}</div>
-      <div>{item.fstvlNm}</div>
-      <div>{item.auspcInstt}</div>
-      <div>{item.opar}</div>
-      <div>{item.fstvlStartDate}</div>
-    </div>
-    )
-  })
+    <FestivalsList key={item.fstvlNm + JSON.stringify(index)} item={item}/>
+    );
+  });
   
   useEffect(() => {
     getData();
   },[]);
 
-  console.log(body);
+  // console.log(body);
 
   return (
     <>
+    <div>{isLoading && "Loading..."}</div>
     <div>
       {itemsRender}
     </div>

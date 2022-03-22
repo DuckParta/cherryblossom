@@ -1,10 +1,15 @@
 import Container from "../common/Container";
+import { ChakraProvider } from "@chakra-ui/react";
+import Appbar from "./Appbar";
 
 function App() {
   return (
-    <div className="App">
-      <Container />
-    </div>
+    <ChakraProvider>
+      <div className="App">
+        <Appbar />
+        <Container />
+      </div>
+    </ChakraProvider>
   );
 }
 
