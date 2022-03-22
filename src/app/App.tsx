@@ -1,6 +1,6 @@
 import Container from "../common/Container";
 import { ChakraProvider } from "@chakra-ui/react";
-import Appbar from "./Appbar";
+import Appbar from "../common/Appbar";
 
 function App() {
   return (
