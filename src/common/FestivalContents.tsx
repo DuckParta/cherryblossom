@@ -1,8 +1,9 @@
 import Appbar from "./Appbar";
 import { Box, Center, Container, Divider, Flex, Text } from "@chakra-ui/react";
+import Map from "./Map";
 
 function FestivalContents() {
-  return (
+    return (
     <Container maxW="container.xl" mt="2em">
       <Appbar />
       <Flex mt="2em" justifyContent="center">
@@ -21,7 +22,9 @@ function FestivalContents() {
           <div>공식 사이트</div>
 
           <div>축제 내용</div>
-          <div>지도</div>
+          <div>
+            <Map />
+          </div>
         </Flex>
         <Box bg="teal">d-day</Box>
       </Flex>
