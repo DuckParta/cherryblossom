@@ -2,6 +2,7 @@ export interface InitialFestivalData {
   header: HeaderData;
   body: BodyData;
   isLoading: boolean;
+  pageNumber: number;
 }
 
 export interface HeaderData {

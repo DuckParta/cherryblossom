@@ -1,7 +1,6 @@
-import { Items } from "./festivalDataInterface";
-
 export default function FestivalItem(props: any) {
   const item = props.item;
+
   return (
     <>
     <div>
@@ -9,7 +8,7 @@ export default function FestivalItem(props: any) {
       <div>{item.auspcInstt}</div>
       <div>{item.opar}</div>
       <div>{item.fstvlStartDate}</div>
-      </div>
+    </div>
     </>
   );
 }
