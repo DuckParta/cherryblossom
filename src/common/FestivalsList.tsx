@@ -14,7 +14,6 @@ export default function FestivalsList(props: any) {
   const getData = async () => {
     await dispatch(fetchFestivalData());
   }
-  // console.log(body);
 
   const items = body.items;
   const itemsRender = items?.map((item: Items, index): JSX.Element => {
@@ -27,12 +26,11 @@ export default function FestivalsList(props: any) {
   //   getData();
   // },[dispatch]);
 
-  console.log(body);
-
   // useIntersectionObserver
   const [page, setPage] = useState(1);
-  const { loading, error, list } = useIntersectionObserver(page);
+  const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
+
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
     if (target.isIntersecting) {
@@ -41,37 +39,40 @@ export default function FestivalsList(props: any) {
   }, []);
 
   useEffect(() => {
-    // getData();
     const option = {
       root: null,
       rootMargin: "20px",
       threshold: 0
     };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-  },[handleObserver]);
+    // let 
+    let observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) {
+      observer = new IntersectionObserver(handleObserver, {
+        ...option
+      });
+      observer.observe(loader.current);
+    }
+    return () => observer && observer.disconnect();
+  },[handleObserver, loader]);
 
   const renderList = list.map((item: Items, index: number): JSX.Element => {
-    const isLastElement = list.length === index + 1;
+    console.log(index);
     return (
       <div>{index}
-      <FestivalItem key={item.fstvlNm + JSON.stringify(index)} item={item}/>
-      {isLastElement && <FestivalItem key={item.fstvlNm + JSON.stringify(index)} item={item}/>}
-      {loading && <h1>io loading...</h1>}
-      <div ref={loader}></div>
+      <FestivalItem 
+      key={item.fstvlNm + JSON.stringify(index)} 
+      item={item}/>
       </div>
     )
   })
 
   return (
     <>
-    <div>
-      <div>=== IntersectionObserver ===</div>
-      {loading && <div><b>io loading...</b></div>}
-      <div>
-        {/* {itemsRender} */}
-        {renderList}
-      </div>
+    <div>{isLoading && "loading..."}=== IntersectionObserver ===</div>
+    <div id="scrollArea">
+      <div>{renderList}</div>
+      <div ref={loader}></div>
+      {loading && <span><b>io loading...</b></span>}
     </div>
     </>
   );
