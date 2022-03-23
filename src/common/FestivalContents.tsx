@@ -1,6 +1,6 @@
 import Appbar from "./Appbar";
 import { Box, Center, Container, Divider, Flex, Text } from "@chakra-ui/react";
-import Map from "./Map";
+import Map from "./Map/Map";
 
 function FestivalContents() {
     return (
