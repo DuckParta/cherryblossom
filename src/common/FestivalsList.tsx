@@ -1,15 +1,10 @@
-import { useSelector } from 'react-redux';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { RootState } from '../features/reducers';
 import { Items } from './festivalDataInterface';
 import FestivalItem from './FestivalItem';
 import useIntersectionObserver from '../features/hooks/useIntersectionObserver';
 
-export default function FestivalsList(props: any) {
-  const { items } = useSelector((store: RootState) => store.festivalDataReducer);
-
-  // useIntersectionObserver
+export default function FestivalsList() {
   const [page, setPage] = useState(1);
   const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
@@ -27,7 +22,6 @@ export default function FestivalsList(props: any) {
       rootMargin: "20px",
       threshold: 0
     };
-    // let 
     let observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) {
       observer = new IntersectionObserver(handleObserver, {
@@ -39,11 +33,10 @@ export default function FestivalsList(props: any) {
   },[handleObserver, loader]);
 
   const renderList = list.map((item: Items, index: number): JSX.Element => {
+    const itemKey = item.fstvlNm + JSON.stringify(index)
     return (
-      <div>{index}
-      <FestivalItem 
-      key={item.fstvlNm + JSON.stringify(index)} 
-      item={item}/>
+      <div key={itemKey}>
+        <FestivalItem item={item}/>
       </div>
     )
   });

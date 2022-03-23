@@ -1,12 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { BodyData, HeaderData, InitialFestivalData, Items } from '../../common/festivalDataInterface';
-import { fetchFestivalData } from '../async/fetchFestivalData';
+import { InitialFestivalData, Items } from '../../common/festivalDataInterface';
 
 const initialState = {
-  // header: {},
-  // body: {},
-  // isLoading: false,
-  // pageNumber: 1
   items: []
 }
 
