@@ -23,7 +23,7 @@ export default function useIntersectionObserver(page: any) {
       const response = await axios.get(URL);
       await setLoading(false);
       const items = response.data.response.body.items;
-      if(items) await setList((prev: any) => [...prev, ...items]);
+      if(items) await setList((prev: any) => [...new Set([...prev, ...items])]);
       
     } catch(error) {
       setError(error);
