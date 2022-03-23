@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { fetchFestivalData } from "../async/fetchFestivalData";
-import { RootState } from "../reducers";
+import { festivalDataReducer } from "../reducers/festivalDataReducer";
 
 export default function useIntersectionObserver(page: any) {
   const dispatch = useDispatch();
-  const { body } = useSelector((store: RootState) => store.festivalDataReducer);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(false);
@@ -18,12 +17,13 @@ export default function useIntersectionObserver(page: any) {
     try {
       await setLoading(true);
       await dispatch(fetchFestivalData());
-      // const items = body.items;
-      // const response = await axios.get("http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=0&numOfRows=100&type=json");
       const response = await axios.get(URL);
       await setLoading(false);
       const items = response.data.response.body.items;
-      if(items) await setList((prev: any) => [...new Set([...prev, ...items])]);
+      if(items) {
+        await setList((prev: any) => [...new Set([...prev, ...items])]);
+        await dispatch(festivalDataReducer.actions.getFestivalData(items));
+      }
       
     } catch(error) {
       setError(error);
@@ -32,7 +32,6 @@ export default function useIntersectionObserver(page: any) {
 
   useEffect(() => {
     sendQuery();
-    console.log(body.items)
   }, [sendQuery, page]);
 
   return { loading, list };
