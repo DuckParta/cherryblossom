@@ -1,8 +1,9 @@
 export interface InitialFestivalData {
-  header: HeaderData;
-  body: BodyData;
-  isLoading: boolean;
-  pageNumber: number;
+  // header: HeaderData;
+  // body: BodyData;
+  // isLoading: boolean;
+  // pageNumber: number;
+  items: Items[];
 }
 
 export interface HeaderData {

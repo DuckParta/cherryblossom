@@ -1,30 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { RootState } from '../features/reducers';
-import { fetchFestivalData } from '../features/async/fetchFestivalData';
 import { Items } from './festivalDataInterface';
 import FestivalItem from './FestivalItem';
 import useIntersectionObserver from '../features/hooks/useIntersectionObserver';
 
 export default function FestivalsList(props: any) {
-  const targetRef = useRef(null);
-  const dispatch = useDispatch();
-  const { body, isLoading } = useSelector((store: RootState) => store.festivalDataReducer);
-  const getData = async () => {
-    await dispatch(fetchFestivalData());
-  }
-
-  const items = body.items;
-  const itemsRender = items?.map((item: Items, index): JSX.Element => {
-    return (
-    <FestivalItem key={item.fstvlNm + JSON.stringify(index)} item={item}/>
-    );
-  });
-  
-  // useEffect(() => {
-  //   getData();
-  // },[dispatch]);
+  const { items } = useSelector((store: RootState) => store.festivalDataReducer);
 
   // useIntersectionObserver
   const [page, setPage] = useState(1);
@@ -56,7 +39,6 @@ export default function FestivalsList(props: any) {
   },[handleObserver, loader]);
 
   const renderList = list.map((item: Items, index: number): JSX.Element => {
-    console.log(index);
     return (
       <div>{index}
       <FestivalItem 
@@ -64,11 +46,10 @@ export default function FestivalsList(props: any) {
       item={item}/>
       </div>
     )
-  })
-
+  });
+  
   return (
     <>
-    <div>{isLoading && "loading..."}=== IntersectionObserver ===</div>
     <div id="scrollArea">
       <div>{renderList}</div>
       <div ref={loader}></div>
