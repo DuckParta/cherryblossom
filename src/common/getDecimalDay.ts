@@ -4,7 +4,6 @@ export default function getDecimalDay(festivalDay: string) {
   const distance = today.getTime() - formattedFestivalDate.getTime();
   
   const day = Math.floor(distance/(1000*60*60*24));
-  // const decimalDay = `${day }`
   if (day === 0) return "D - Day";
   else if (day > 0) return `D + ${day}`;
   else if (day < 0) return `D - ${-day}`;

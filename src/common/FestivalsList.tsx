@@ -39,7 +39,6 @@ export default function FestivalsList() {
 
   const renderList = items.map((item: Items, index: number): JSX.Element => {
     const itemKey = item.fstvlNm + JSON.stringify(index);
-    console.log(item.decimalDay, item.fstvlStartDate);
     return (
       <div key={itemKey}>
         <FestivalItem item={item}/>
