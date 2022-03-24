@@ -60,11 +60,11 @@ function Appbar() {
     name,
   });
 
+  localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
   const clientId = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
 
   useEffect(() => {
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
-
     if (userId !== "") {
       setLogin(true);
     }
