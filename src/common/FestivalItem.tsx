@@ -8,6 +8,7 @@ export default function FestivalItem(props: any) {
       <div>{item.auspcInstt}</div>
       <div>{item.opar}</div>
       <div>{item.fstvlStartDate}</div>
+      <div>{item.decimalDay}</div>
     </div>
     </>
   );

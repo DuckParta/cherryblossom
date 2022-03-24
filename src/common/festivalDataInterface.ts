@@ -1,8 +1,4 @@
 export interface InitialFestivalData {
-  // header: HeaderData;
-  // body: BodyData;
-  // isLoading: boolean;
-  // pageNumber: number;
   items: Items[];
 }
 
@@ -37,4 +33,7 @@ export interface Items {
   referenceDate: string;
   relateInfo: string;
   suprtInstt: string;
+  isPassedDate?: boolean;
+  decimalDay?: string;
+  location?: string;
 }
