@@ -1,7 +1,5 @@
 export interface InitialFestivalData {
-  header: HeaderData;
-  body: BodyData;
-  isLoading: boolean;
+  items: Items[];
 }
 
 export interface HeaderData {
@@ -35,4 +33,7 @@ export interface Items {
   referenceDate: string;
   relateInfo: string;
   suprtInstt: string;
+  isPassedDate?: boolean;
+  decimalDay?: string;
+  location?: string;
 }
