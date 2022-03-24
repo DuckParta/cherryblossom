@@ -50,25 +50,14 @@ function Appbar() {
     name: string;
   }
 
-  // 임시 데이터
-  const { userId, name } = JSON.parse(localStorage.getItem("userInfo") || "");
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [login, setLogin] = useState(false);
   const [userInfo, setUserInfo] = useState<IUser>({
-    userId,
-    name,
+    userId: "",
+    name: "",
   });
 
-  localStorage.setItem("userInfo", JSON.stringify(userInfo));
-
   const clientId = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
-
-  useEffect(() => {
-    if (userId !== "") {
-      setLogin(true);
-    }
-  }, []);
 
   const setLoginInfo = (userId: string, name: string) => {
     onClose();
