@@ -11,10 +11,11 @@ import {
   ModalOverlay,
   useDisclosure,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const GoogleBtn = styled.button`
   width: 100%;
@@ -45,33 +46,42 @@ const KakaoBtn = styled.button`
 
 function Appbar() {
   interface IUser {
-    googleId: string;
-    email: string;
+    userId: string;
     name: string;
   }
+
+  // 임시 데이터
+  const { userId, name } = JSON.parse(localStorage.getItem("userInfo") || "");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [login, setLogin] = useState(false);
   const [userInfo, setUserInfo] = useState<IUser>({
-    googleId: "",
-    email: "",
-    name: "",
+    userId,
+    name,
   });
 
-  const onGoogleLogin = (googleId: string, email: string, name: string) => {
-    setUserInfo({ googleId, email, name });
-    setLogin(true);
-    onClose();
-  };
-
   const clientId = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
+
+  useEffect(() => {
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+    if (userId !== "") {
+      setLogin(true);
+    }
+  }, []);
+
+  const setLoginInfo = (userId: string, name: string) => {
+    onClose();
+    setUserInfo({ userId: userId, name });
+    setLogin(true);
+  };
 
   function GoogleLoginBtn({ onGoogleLogin }: any) {
     const onSuccess = async (response: any) => {
       const {
-        profileObj: { googleId, email, name },
+        profileObj: { googleId: userId, name },
       } = response;
-      await onGoogleLogin(googleId, email, name);
+      await onGoogleLogin(userId, name);
     };
 
     const onFailure = (error: any) => {
@@ -96,29 +106,41 @@ function Appbar() {
     );
   }
 
-  function GoogleLogoutBtn() {
-    const logout = () => {
+  function LogoutBtn() {
+    const onLogout = () => {
+      setUserInfo({ userId: "", name: "" });
       setLogin(false);
-      setUserInfo({ googleId: "", email: "", name: "" });
     };
 
     return (
-      <GoogleLogout
-        clientId={clientId}
-        onLogoutSuccess={logout}
-        render={(renderProps) => (
-          <Center w="7em">
-            <Button
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              로그아웃
-            </Button>
-          </Center>
-        )}
-      />
+      <Center w="7em">
+        <Button onClick={onLogout}>로그아웃</Button>
+      </Center>
     );
   }
+
+  const { Kakao }: any = window;
+
+  const onKakaoLogin = () => {
+    Kakao.Auth.login({
+      success: (authObj: any) => {
+        Kakao.API.request({
+          url: "/v2/user/me",
+          success: (res: any) => {
+            const {
+              id,
+              properties: { nickname },
+            } = res;
+            setLoginInfo(id, nickname);
+          },
+          fail: (error: any) => console.error(error),
+        });
+      },
+      fail: function (err: any) {
+        console.log(JSON.stringify(err));
+      },
+    });
+  };
 
   return (
     <>
@@ -128,8 +150,10 @@ function Appbar() {
         </Box>
         {login ? (
           <>
-            안녕하세요 {userInfo?.name}님
-            <GoogleLogoutBtn />
+            <Center w="30em">
+              <Text>안녕하세요 {userInfo?.name}님</Text>
+              <LogoutBtn />
+            </Center>
           </>
         ) : (
           <Center w="7em">
@@ -155,8 +179,8 @@ function Appbar() {
             </ModalHeader>
             <ModalBody>
               <Flex flexDirection="column">
-                <GoogleLoginBtn onGoogleLogin={onGoogleLogin} />
-                <KakaoBtn>Kakao 로그인</KakaoBtn>
+                <GoogleLoginBtn onGoogleLogin={setLoginInfo} />
+                <KakaoBtn onClick={onKakaoLogin}>Kakao 로그인</KakaoBtn>
               </Flex>
             </ModalBody>
             <ModalFooter>
