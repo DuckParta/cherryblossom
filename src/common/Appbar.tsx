@@ -21,6 +21,7 @@ import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 import { useState } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
 const GoogleBtn = styled.button`
   width: 100%;
@@ -116,7 +117,9 @@ function Appbar() {
           <>
             <Center>
               <Menu>
-                <Text w={"3em"} mx={-3}>{userInfo?.name} 님</Text>
+                <Text w={"3em"} mx={-3}>
+                  {userInfo?.name} 님
+                </Text>
                 <MenuButton
                   mx={3}
                   px={2}
@@ -132,8 +135,8 @@ function Appbar() {
                 >
                   <ChevronDownIcon />
                 </MenuButton>
-                <MenuList px={3}>
-                  <MenuItem>내 정보</MenuItem>
+                <MenuList minWidth='150px' px={3}>
+                  <MenuItem><Link to='wishlist'><Text w='100px'>내 축제</Text></Link></MenuItem>
                   <MenuItem>
                     <LogoutBtn />
                   </MenuItem>
