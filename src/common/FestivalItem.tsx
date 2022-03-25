@@ -1,6 +1,7 @@
-export default function FestivalItem(props: any) {
-  const item = props.item;
-  const { fstvlNm } = props.item;
+import { Items } from "./festivalDataInterface";
+
+export default function FestivalItem(props: { items: Items }) {
+  const { fstvlNm, auspcInstt, opar, fstvlStartDate, decimalDay } = props.items;
 
   function handleFestivalListClick() {
     console.log(fstvlNm);
@@ -9,11 +10,11 @@ export default function FestivalItem(props: any) {
   return (
     <>
     <div onClick={handleFestivalListClick}>
-      <div>{item.fstvlNm}</div>
-      <div>{item.auspcInstt}</div>
-      <div>{item.opar}</div>
-      <div>{item.fstvlStartDate}</div>
-      <div>{item.decimalDay}</div>
+      <div>{fstvlNm}</div>
+      <div>{auspcInstt}</div>
+      <div>{opar}</div>
+      <div>{fstvlStartDate}</div>
+      <div>{decimalDay}</div>
     </div>
     </>
   );
