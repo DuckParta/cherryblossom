@@ -36,4 +36,5 @@ export interface Items {
   isPassedDate?: boolean;
   decimalDay?: string;
   location?: string;
+  id?: string;
 }

@@ -7,14 +7,21 @@ export default function FestivalItem(props: { items: Items }) {
     console.log(fstvlNm);
   }
 
+  function handleWishButtonClick() {
+    console.log(fstvlNm);
+  }
+
   return (
     <>
-    <div onClick={handleFestivalListClick}>
-      <div>{fstvlNm}</div>
-      <div>{auspcInstt}</div>
-      <div>{opar}</div>
-      <div>{fstvlStartDate}</div>
-      <div>{decimalDay}</div>
+    <div>
+      <div onClick={handleFestivalListClick}>
+        <div>{fstvlNm}</div>
+        <div>{auspcInstt}</div>
+        <div>{opar}</div>
+        <div>{fstvlStartDate}</div>
+        <div>{decimalDay}</div>
+      </div>
+      <button onClick={handleWishButtonClick}>찜하기</button>
     </div>
     </>
   );
