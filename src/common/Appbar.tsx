@@ -12,10 +12,15 @@ import {
   useDisclosure,
   Flex,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import styled from "styled-components";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { useEffect, useState } from "react";
+import GoogleLogin from "react-google-login";
+import { useState } from "react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const GoogleBtn = styled.button`
   width: 100%;
@@ -65,49 +70,6 @@ function Appbar() {
     setLogin(true);
   };
 
-  function GoogleLoginBtn({ onGoogleLogin }: any) {
-    const onSuccess = async (response: any) => {
-      const {
-        profileObj: { googleId: userId, name },
-      } = response;
-      await onGoogleLogin(userId, name);
-    };
-
-    const onFailure = (error: any) => {
-      console.log(error);
-    };
-
-    return (
-      <GoogleLogin
-        clientId={clientId}
-        responseType={"id_token"}
-        render={(renderProps) => (
-          <GoogleBtn
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            Google 로그인
-          </GoogleBtn>
-        )}
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-      />
-    );
-  }
-
-  function LogoutBtn() {
-    const onLogout = () => {
-      setUserInfo({ userId: "", name: "" });
-      setLogin(false);
-    };
-
-    return (
-      <Center w="7em">
-        <Button onClick={onLogout}>로그아웃</Button>
-      </Center>
-    );
-  }
-
   const { Kakao }: any = window;
 
   const onKakaoLogin = () => {
@@ -131,17 +93,52 @@ function Appbar() {
     });
   };
 
+  function LogoutBtn() {
+    const onLogout = () => {
+      setUserInfo({ userId: "", name: "" });
+      setLogin(false);
+    };
+
+    return (
+      <Text w="100%" onClick={onLogout}>
+        로그아웃
+      </Text>
+    );
+  }
+
   return (
     <>
       <Flex justifyContent="center">
-        <Box w="55em">
+        <Box w="50em" maxWidth="50em">
           <Image htmlWidth="100px" src="../images/logo.png" />
         </Box>
         {login ? (
           <>
-            <Center w="30em">
-              <Text>안녕하세요 {userInfo?.name}님</Text>
-              <LogoutBtn />
+            <Center>
+              <Menu>
+                <Text w={"3em"} mx={-3}>{userInfo?.name} 님</Text>
+                <MenuButton
+                  mx={3}
+                  px={2}
+                  py={2}
+                  as={Button}
+                  bgColor="#F7C8D9"
+                  transition="all 0.2s"
+                  borderRadius="3xl"
+                  borderWidth="1px"
+                  _hover={{ bg: "#ED9EA7" }}
+                  _expanded={{ bg: "#F7C8D9" }}
+                  _focus={{ boxShadow: "outline" }}
+                >
+                  <ChevronDownIcon />
+                </MenuButton>
+                <MenuList px={3}>
+                  <MenuItem>내 정보</MenuItem>
+                  <MenuItem>
+                    <LogoutBtn />
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Center>
           </>
         ) : (
@@ -168,7 +165,10 @@ function Appbar() {
             </ModalHeader>
             <ModalBody>
               <Flex flexDirection="column">
-                <GoogleLoginBtn onGoogleLogin={setLoginInfo} />
+                <GoogleLoginBtn
+                  onGoogleLogin={setLoginInfo}
+                  clientId={clientId}
+                />
                 <KakaoBtn onClick={onKakaoLogin}>Kakao 로그인</KakaoBtn>
               </Flex>
             </ModalBody>
@@ -181,6 +181,36 @@ function Appbar() {
         </ModalOverlay>
       </Modal>
     </>
+  );
+}
+
+function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
+  const onSuccess = async (response: any) => {
+    const {
+      profileObj: { googleId: userId, name },
+    } = response;
+    await onGoogleLogin(userId, name);
+  };
+
+  const onFailure = (error: any) => {
+    console.log(error);
+  };
+
+  return (
+    <GoogleLogin
+      clientId={clientId}
+      responseType={"id_token"}
+      render={(renderProps) => (
+        <GoogleBtn
+          onClick={renderProps.onClick}
+          disabled={renderProps.disabled}
+        >
+          Google 로그인
+        </GoogleBtn>
+      )}
+      onSuccess={onSuccess}
+      onFailure={onFailure}
+    />
   );
 }
 
