@@ -8,7 +8,7 @@ import {
   Td,
   Text,
   Box,
-  Container, Button,
+  Container
 } from "@chakra-ui/react";
 
 function WishList() {
