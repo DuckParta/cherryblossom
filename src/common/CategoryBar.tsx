@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
 
+import { Box, Flex, Text, Grid, GridItem, Center } from "@chakra-ui/react";
+
 export default function CategoryBar() {
   const dispatch = useDispatch();
   const LOCATION_LIST = ["서울", "경기/인천", "충청/대전", "전라/광주", "경북/대구", "경남/부산/울산", "강원", "제주"];
@@ -22,7 +24,9 @@ export default function CategoryBar() {
   return (
     <>
     <div>
+    <Flex flexFlow="row wrap"  >
       {locationButtonsList}
+    </Flex>
     </div>
     </>
   )
