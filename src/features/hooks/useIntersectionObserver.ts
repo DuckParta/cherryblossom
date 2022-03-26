@@ -18,11 +18,12 @@ export default function useIntersectionObserver(page: number) {
       const response = await axios.get(URL);
       setLoading(false);
       const items = response.data.response.body.items;
-      if (items) {
-        await setList((prev: Items[]) => [...new Set([...prev, ...items])]);
-        await dispatch(festivalDataReducer.actions.getFestivalData(items));
+      if (!items) {
+        // 에러 처리
         return;
       }
+      await setList((prev: Items[]) => [...new Set([...prev, ...items])]); // 주석처리
+      await dispatch(festivalDataReducer.actions.getFestivalData(items));
     } catch(error) {
       setError(error);
     }
