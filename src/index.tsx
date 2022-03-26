@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WishList from "./common/WishList";
 import { store } from "./app/store";
 
+import { auth } from './util/firebase';
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
