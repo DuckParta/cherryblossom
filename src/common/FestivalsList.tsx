@@ -41,7 +41,7 @@ export default function FestivalsList() {
     const itemKey = item.fstvlNm + JSON.stringify(index);
     return (
       <div key={itemKey}>
-        <FestivalItem item={item}/>
+        <FestivalItem items={item}/>
       </div>
     )
   });
