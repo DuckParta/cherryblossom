@@ -1,18 +1,20 @@
-import { Center, Flex, Image, Text } from "@chakra-ui/react";
+import { Center, Flex, Box, Text, Heading } from "@chakra-ui/react";
 
 function MainHeader() {
   return (
-    <Flex mt='2em' justifyContent="center">
-      <Center w="25em">
-        <Image htmlWidth="250px" src="../images/mainImage.png" />
+    <Box marginY="100px" justifyContent="center">
+      <Center>
+        <Heading fontSize="7xl" 
+        fontFamily="Courgette"
+        mb="50px"
+        >Cherry Blossom</Heading>
       </Center>
-      <Center mb="2em" w="20em">
+      <Center>
         <Text fontSize="2xl">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
+          
         </Text>
       </Center>
-    </Flex>
+    </Box>
   );
 }
 

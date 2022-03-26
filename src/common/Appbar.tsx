@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Center,
-  Image,
   Modal,
   ModalBody,
   ModalContent,
@@ -16,11 +15,13 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Heading,
+  Image
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 import { useEffect, useState } from "react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { TriangleDownIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
@@ -132,39 +133,56 @@ function Appbar() {
 
   return (
     <>
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" marginY="20px">
         <Box w="50em" maxWidth="50em">
-          <Image htmlWidth="100px" src="../images/logo.png" />
+          <Heading mx="15px"
+          fontFamily="Courgette" 
+          fontSize="3xl"
+          letterSpacing="widest"
+          >CB</Heading>
         </Box>
         {login ? (
           <>
-            <Center>
+            <Center mx="15px">
               <Menu>
-                <Text w={"3em"} mx={-3}>
-                  {userInfo?.name} 님
+                <Text w="10em" 
+                fontSize="lg" 
+                fontWeight="bold"
+                textAlign="right">
+                  {userInfo?.name}
                 </Text>
-                <MenuButton
+                <Box 
                   mx={3}
                   px={2}
                   py={2}
-                  as={Button}
-                  bgColor="#F7C8D9"
-                  transition="all 0.2s"
-                  borderRadius="3xl"
-                  borderWidth="1px"
-                  _hover={{ bg: "#ED9EA7" }}
-                  _expanded={{ bg: "#F7C8D9" }}
-                  _focus={{ boxShadow: "outline" }}
+                  borderRadius="full" 
+                  boxShadow="0 0 8px rgb(0 0 0 / 9%)"
+                  >
+                    <Image src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}  w="30px"/>
+                  </Box>
+                <MenuButton
+                  // mx={3}
+                  // px={2}
+                  // py={2}
+                  // as={Button}
+                  // bgColor="#F7C8D9"
+                  // transition="all 0.2s"
+                  // borderRadius="3xl"
+                  // borderWidth="1px"
+                  // _hover={{ bg: "#ED9EA7" }}
+                  // _expanded={{ bg: "#F7C8D9" }}
+                  // _focus={{ boxShadow: "outline" }}
                 >
-                  <ChevronDownIcon />
+                  <TriangleDownIcon w="3" color="gray.500" cursor="pointer"/>
                 </MenuButton>
+                {/* <TriangleDownIcon w="3" color="gray.500" cursor="pointer"/> */}
                 <MenuList minWidth="150px" px={3}>
-                  <MenuItem>
+                  <MenuItem borderRadius="lg">
                     <Link to="wishlist">
                       <Text w="100px">내 축제</Text>
                     </Link>
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem borderRadius="lg">
                     <LogoutBtn />
                   </MenuItem>
                 </MenuList>

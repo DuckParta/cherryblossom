@@ -1,16 +1,17 @@
 import CategoryBar from "./CategoryBar";
 import FestivalsList from "./FestivalsList";
 
-import { Center } from "@chakra-ui/react";
+import { Center, Box } from "@chakra-ui/react";
 
 export default function Container() {
   
   return (
-    <>
+    <Box>
     <CategoryBar />
-    <Center>
+    <Center bg="gray.50"
+      paddingTop="100px">
       <FestivalsList />
     </Center>
-    </>
+    </Box>
   ) 
 }

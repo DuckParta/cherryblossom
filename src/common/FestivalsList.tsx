@@ -5,7 +5,8 @@ import FestivalItem from './FestivalItem';
 import useIntersectionObserver from '../features/hooks/useIntersectionObserver';
 import { RootState } from '../features/reducers';
 
-import { Box, Flex, Text, Grid, GridItem, Center } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
+import SkeletonFestivalItem from './SkeletonFestivalItem';
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
@@ -41,11 +42,12 @@ export default function FestivalsList() {
     const itemKey = item.fstvlNm + JSON.stringify(index);
     return (
       <Box key={itemKey} 
-      margin="20px"
+      margin="15px"
       padding="30px"
-      w="280px"
-      h="280px" 
-      boxShadow="2xl"
+      w="300px"
+      h="300px" 
+      boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
+      bg="white"
       rounded="3xl"
       textAlign="center"
       >
@@ -53,16 +55,21 @@ export default function FestivalsList() {
       </Box>
     )
   });
+
+  const skeletonItemsList = [];
+
+  for (let i = 0; i < 6; i++) {
+    const skeletonItem = <SkeletonFestivalItem />
+    skeletonItemsList.push(skeletonItem);
+  }
   
   return (
-    <>
     <Box id="scrollArea" width="70%">
       <Flex flexFlow="row wrap" justifyContent="space-around" >
         {renderList}
+        {loading && skeletonItemsList}
       </Flex>
       <div ref={loader}></div>
-      {loading && <span><b>io loading...</b></span>}
     </Box>
-    </>
   );
 }
