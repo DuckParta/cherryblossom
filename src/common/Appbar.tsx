@@ -25,6 +25,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
 import { setInfo, setLogout } from "../features/reducers/userReducer";
+import { app, database } from "../util/firebase";
+import { set, ref } from "firebase/database";
 
 const GoogleBtn = styled.button`
   width: 100%;
@@ -70,6 +72,11 @@ function Appbar() {
 
   useEffect(() => {
     setUserInfo(user);
+
+    set(ref(database, "users/"), {
+      userId: userInfo.userId,
+      name: userInfo.name,
+    });
   }, [user]);
 
   useEffect(() => {
