@@ -19,9 +19,12 @@ import {
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../features/reducers";
+import { setInfo, setLogout } from "../features/reducers/userReducer";
 
 const GoogleBtn = styled.button`
   width: 100%;
@@ -56,19 +59,33 @@ function Appbar() {
     name: string;
   }
 
+  const dispatch = useDispatch();
+  const user = useSelector((store: RootState) => store.userReducer);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [login, setLogin] = useState(false);
   const [userInfo, setUserInfo] = useState<IUser>({
-    userId: "",
-    name: "",
+    userId: user.userId,
+    name: user.name,
   });
+
+  useEffect(() => {
+    setUserInfo(user);
+  }, [user]);
+
+  useEffect(() => {
+    if (userInfo.userId !== "" && userInfo.userId !== undefined) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+    dispatch(setInfo(userInfo));
+  }, [userInfo]);
 
   const clientId = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
 
   const setLoginInfo = (userId: string, name: string) => {
     onClose();
-    setUserInfo({ userId: userId, name });
-    setLogin(true);
+    setUserInfo({ userId, name });
   };
 
   const { Kakao }: any = window;
@@ -96,8 +113,7 @@ function Appbar() {
 
   function LogoutBtn() {
     const onLogout = () => {
-      setUserInfo({ userId: "", name: "" });
-      setLogin(false);
+      dispatch(setLogout());
     };
 
     return (
@@ -135,8 +151,12 @@ function Appbar() {
                 >
                   <ChevronDownIcon />
                 </MenuButton>
-                <MenuList minWidth='150px' px={3}>
-                  <MenuItem><Link to='wishlist'><Text w='100px'>내 축제</Text></Link></MenuItem>
+                <MenuList minWidth="150px" px={3}>
+                  <MenuItem>
+                    <Link to="wishlist">
+                      <Text w="100px">내 축제</Text>
+                    </Link>
+                  </MenuItem>
                   <MenuItem>
                     <LogoutBtn />
                   </MenuItem>
