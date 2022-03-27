@@ -5,7 +5,6 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   useDisclosure,
@@ -16,7 +15,8 @@ import {
   MenuList,
   MenuItem,
   Heading,
-  Image
+  Image,
+  CloseButton
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
@@ -27,32 +27,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
 import { setInfo, setLogout } from "../features/reducers/userReducer";
 
-const GoogleBtn = styled.button`
-  width: 100%;
-  height: 2.5em;
-  color: #000000;
-  background-color: #c7c7c7;
-  border-radius: 5px;
-  margin-bottom: 0.8em;
+// const GoogleBtn = styled.button`
+//   width: 100%;
+//   height: 2.5em;
+//   color: #000000;
+//   background-color: #c7c7c7;
+//   border-radius: 5px;
+//   margin-bottom: 0.8em;
 
-  &:hover {
-    color: white;
-    background-color: #9d9d9d;
-  }
-`;
+//   &:hover {
+//     color: white;
+//     background-color: #9d9d9d;
+//   }
+// `;
 
-const KakaoBtn = styled.button`
-  width: 100%;
-  height: 2.5em;
-  color: black;
-  background-color: #f2dc11;
-  border-radius: 5px;
+// const KakaoBtn = styled.button`
+//   width: 100%;
+//   height: 2.5em;
+//   color: black;
+//   background-color: #f2dc11;
+//   border-radius: 5px;
 
-  &:hover {
-    color: white;
-    background-color: #b09971;
-  }
-`;
+//   &:hover {
+//     color: white;
+//     background-color: #b09971;
+//   }
+// `;
 
 function Appbar() {
   interface IUser {
@@ -153,22 +153,9 @@ function Appbar() {
                   >
                     <Image src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}  w="30px"/>
                   </Box>
-                <MenuButton
-                  // mx={3}
-                  // px={2}
-                  // py={2}
-                  // as={Button}
-                  // bgColor="#F7C8D9"
-                  // transition="all 0.2s"
-                  // borderRadius="3xl"
-                  // borderWidth="1px"
-                  // _hover={{ bg: "#ED9EA7" }}
-                  // _expanded={{ bg: "#F7C8D9" }}
-                  // _focus={{ boxShadow: "outline" }}
-                >
+                <MenuButton>
                   <TriangleDownIcon w="3" color="gray.500" cursor="pointer"/>
                 </MenuButton>
-                {/* <TriangleDownIcon w="3" color="gray.500" cursor="pointer"/> */}
                 <MenuList minWidth="150px" px={3}>
                   <MenuItem borderRadius="lg">
                     <Link to="wishlist">
@@ -184,7 +171,12 @@ function Appbar() {
           </>
         ) : (
           <Center w="7em">
-            <Button onClick={onOpen} colorScheme="teal">
+            <Button onClick={onOpen} 
+            bgColor="transparent" 
+            _hover={{ bg: "pink.100" }}
+            _active = {{ bg: "pink.100" }} 
+            _focus={{ bg: "pink.200" }}
+            >
               로그인
             </Button>
           </Center>
@@ -192,7 +184,7 @@ function Appbar() {
       </Flex>
       <Modal
         blockScrollOnMount={true}
-        size="md"
+        size="2xl"
         isCentered
         motionPreset="slideInBottom"
         isOpen={isOpen}
@@ -202,22 +194,48 @@ function Appbar() {
         <ModalOverlay>
           <ModalContent>
             <ModalHeader>
-              <Center>Cherry Blossom에 오신 걸 환영합니다!</Center>
+              <Box float="right">
+                <CloseButton onClick={onClose} color="gray.500" size="lg"/>
+              </Box>
             </ModalHeader>
-            <ModalBody>
-              <Flex flexDirection="column">
-                <GoogleLoginBtn
-                  onGoogleLogin={setLoginInfo}
-                  clientId={clientId}
-                />
-                <KakaoBtn onClick={onKakaoLogin}>Kakao 로그인</KakaoBtn>
-              </Flex>
+            <ModalBody my="40px">
+              <Center mb="50px">
+                <Heading size="xl">
+                  Welcom to Cherry Blossom
+                </Heading>
+              </Center>
+              <Center>
+                <Flex flexFlow="row wrap"
+                justifyContent="space-between"
+                w="50%">
+                  <Flex 
+                  h="170px"
+                  flexDirection="column" 
+                  justifyContent="space-between"
+                  my="20px">
+                    <GoogleLoginBtn
+                      onGoogleLogin={setLoginInfo}
+                      clientId={clientId}
+                    />
+                    <Heading size="md" textAlign="center" textColor="GrayText">Google 로그인</Heading>
+                  </Flex>
+                  <Flex 
+                  h="170px"
+                  flexDirection="column" 
+                  justifyContent="space-between"
+                  my="20px">
+                    <Button onClick={onKakaoLogin}
+                      w="130px" h="130px"
+                      bgColor="#FFE711"
+                      borderRadius="xl"
+                      boxShadow="0 5px 25px rgb(0 0 0 / 15%)">
+                      <Image src={`${process.env.PUBLIC_URL}/images/kakaotalk_logo.jpeg`}  w="60px"/>
+                    </Button>
+                    <Heading size="md" textAlign="center" textColor="GrayText">Kakao 로그인</Heading>
+                  </Flex>
+                </Flex>
+              </Center>
             </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="gray" mr={3} onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
           </ModalContent>
         </ModalOverlay>
       </Modal>
@@ -242,12 +260,15 @@ function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
       clientId={clientId}
       responseType={"id_token"}
       render={(renderProps) => (
-        <GoogleBtn
-          onClick={renderProps.onClick}
+        <Button onClick={renderProps.onClick}
           disabled={renderProps.disabled}
+          w="130px" h="130px"
+          bgColor="white"
+          borderRadius="xl"
+          boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
         >
-          Google 로그인
-        </GoogleBtn>
+          <Image src={`${process.env.PUBLIC_URL}/images/google_logo.jpeg`}  w="60px"/>
+        </Button>
       )}
       onSuccess={onSuccess}
       onFailure={onFailure}
