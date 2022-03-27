@@ -18,43 +18,15 @@ import {
   Image,
   CloseButton
 } from "@chakra-ui/react";
-import styled from "styled-components";
-import GoogleLogin from "react-google-login";
-import { useEffect, useState } from "react";
 import { TriangleDownIcon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
+import GoogleLogin from "react-google-login";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
 import { setInfo, setLogout } from "../features/reducers/userReducer";
-import { app, database } from "../util/firebase";
+import { database } from "../util/firebase";
 import { set, ref } from "firebase/database";
-
-// const GoogleBtn = styled.button`
-//   width: 100%;
-//   height: 2.5em;
-//   color: #000000;
-//   background-color: #c7c7c7;
-//   border-radius: 5px;
-//   margin-bottom: 0.8em;
-
-//   &:hover {
-//     color: white;
-//     background-color: #9d9d9d;
-//   }
-// `;
-
-// const KakaoBtn = styled.button`
-//   width: 100%;
-//   height: 2.5em;
-//   color: black;
-//   background-color: #f2dc11;
-//   border-radius: 5px;
-
-//   &:hover {
-//     color: white;
-//     background-color: #b09971;
-//   }
-// `;
 
 function Appbar() {
   interface IUser {
@@ -141,7 +113,7 @@ function Appbar() {
           fontFamily="Courgette" 
           fontSize="3xl"
           letterSpacing="widest"
-          >CB</Heading>
+          ><Link to='/'>CB</Link></Heading>
         </Box>
         {login ? (
           <>
@@ -167,7 +139,7 @@ function Appbar() {
                 </MenuButton>
                 <MenuList minWidth="150px" px={3}>
                   <MenuItem borderRadius="lg">
-                    <Link to="wishlist">
+                    <Link to="/wishlist">
                       <Text w="100px">내 축제</Text>
                     </Link>
                   </MenuItem>
