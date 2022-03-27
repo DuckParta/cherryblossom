@@ -2,42 +2,21 @@ import { Items } from "./festivalDataInterface";
 
 import { Box, Flex, Text, Heading, Center, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setFestival } from "../features/reducers/contentReducer";
 
 export default function FestivalItem(props: { items: Items }) {
+  const dispatch = useDispatch();
   const {
     fstvlNm,
-    fstvlCo,
     opar,
     fstvlStartDate,
     fstvlEndDate,
     decimalDay,
-    phoneNumber,
-    rdnmadr,
-    latitude,
-    longitude,
-    homepageUrl,
   } = props.items;
 
-  const dispatch = useDispatch();
-
   function handleFestivalListClick() {
-    dispatch(
-      setFestival({
-        fstvlNm,
-        fstvlCo,
-        fstvlStartDate,
-        fstvlEndDate,
-        opar,
-        phoneNumber,
-        rdnmadr,
-        latitude,
-        longitude,
-        homepageUrl,
-      })
-    );
-    console.log(fstvlNm);
+    dispatch(setFestival(props.items));
   }
 
   function handleWishButtonClick() {
@@ -47,8 +26,13 @@ export default function FestivalItem(props: { items: Items }) {
   return (
     <Link to="festivalContent">
       <Flex flexFlow="column nowrap" h="100%">
-        <Box onClick={handleFestivalListClick} h="70%" cursor="pointer">
-          <Heading fontSize="lg" mt="50px" overflow="hidden">
+        <Box h="70%">
+          <Heading 
+          onClick={handleFestivalListClick}
+          mt="50px" 
+          fontSize="lg" 
+          overflow="hidden"
+          cursor="pointer">
             {fstvlNm}
           </Heading>
         </Box>
@@ -62,13 +46,7 @@ export default function FestivalItem(props: { items: Items }) {
           >
             {decimalDay}
           </Heading>
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/wish_icon.png`}
-            w="30px"
-            alt="wish"
-            onClick={handleWishButtonClick}
-            cursor="pointer"
-          />
+          <AddWishListButton onAdd={handleWishButtonClick}/>
         </Center>
         <Text my="5px">
           {fstvlStartDate} ~ {fstvlEndDate}
@@ -78,3 +56,14 @@ export default function FestivalItem(props: { items: Items }) {
     </Link>
   );
 }
+
+export const AddWishListButton = (props: {onAdd: React.MouseEventHandler<HTMLHeadingElement>}): JSX.Element => {
+  return (
+    <Image
+      src={`${process.env.PUBLIC_URL}/images/wish_icon.png`}
+      w="30px"
+      alt="wish"
+      onClick={props.onAdd}
+      cursor="pointer" />
+  )
+};

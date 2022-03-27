@@ -14,9 +14,7 @@ export default function FestivalsList() {
   const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { items } = useSelector(
-    (store: RootState) => store.festivalDataReducer
-  );
+  const { items } = useSelector((state: RootState) => state.festivalDataReducer);
 
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
@@ -83,7 +81,6 @@ export default function FestivalsList() {
     <Box id="scrollArea" width="70%">
       <Flex flexFlow="row wrap" justifyContent="space-around">
         {renderList}
-        {/* {loading && skeletonItemsList} */}
         <div ref={loader}></div>
       </Flex>
       {loading && <SkeletonFestivalItem />}
