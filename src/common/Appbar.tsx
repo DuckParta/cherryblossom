@@ -18,15 +18,14 @@ import {
   Image,
   CloseButton
 } from "@chakra-ui/react";
-import styled from "styled-components";
-import GoogleLogin from "react-google-login";
-import { useEffect, useState } from "react";
 import { TriangleDownIcon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
+import GoogleLogin from "react-google-login";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
 import { setInfo, setLogout } from "../features/reducers/userReducer";
-import { app, database } from "../util/firebase";
+import { database } from "../util/firebase";
 import { set, ref } from "firebase/database";
 
 function Appbar() {

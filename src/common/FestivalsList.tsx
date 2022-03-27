@@ -1,19 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Items } from './festivalDataInterface';
-import FestivalItem from './FestivalItem';
-import useIntersectionObserver from '../features/hooks/useIntersectionObserver';
-import { RootState } from '../features/reducers';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Items } from "./festivalDataInterface";
+import FestivalItem from "./FestivalItem";
+import useIntersectionObserver from "../features/hooks/useIntersectionObserver";
+import { RootState } from "../features/reducers";
 
 import { Box, Flex } from "@chakra-ui/react";
-import SkeletonFestivalItem from './SkeletonFestivalItem';
+import SkeletonFestivalItem from "./SkeletonFestivalItem";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
   const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { items } = useSelector((store: RootState) => store.festivalDataReducer);
+  const { items } = useSelector(
+    (store: RootState) => store.festivalDataReducer
+  );
 
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
@@ -26,46 +28,49 @@ export default function FestivalsList() {
     const option = {
       root: null,
       rootMargin: "20px",
-      threshold: 0
+      threshold: 0,
     };
     let observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) {
       observer = new IntersectionObserver(handleObserver, {
-        ...option
+        ...option,
       });
       observer.observe(loader.current);
     }
-    return () => observer && observer.disconnect();
-  },[handleObserver, loader]);
+    return () => {
+      setPage(0);
+      return observer && observer.disconnect()};
+  }, [handleObserver, loader]);
 
   const renderList = items.map((item: Items, index: number): JSX.Element => {
     const itemKey = item.fstvlNm + JSON.stringify(index);
     return (
-      <Box key={itemKey} 
-      margin="15px"
-      padding="30px"
-      w="300px"
-      h="300px" 
-      boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-      bg="white"
-      rounded="3xl"
-      textAlign="center"
+      <Box
+        key={itemKey}
+        margin="15px"
+        padding="30px"
+        w="300px"
+        h="300px"
+        boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
+        bg="white"
+        rounded="3xl"
+        textAlign="center"
       >
-        <FestivalItem items={item}/>
+        <FestivalItem items={item} />
       </Box>
-    )
+    );
   });
 
   const skeletonItemsList = [];
 
   for (let i = 0; i < 6; i++) {
-    const skeletonItem = <SkeletonFestivalItem key={JSON.stringify(i)}/>
+    const skeletonItem = <SkeletonFestivalItem key={JSON.stringify(i)} />;
     skeletonItemsList.push(skeletonItem);
   }
-  
+
   return (
     <Box id="scrollArea" width="70%">
-      <Flex flexFlow="row wrap" justifyContent="space-around" >
+      <Flex flexFlow="row wrap" justifyContent="space-around">
         {renderList}
         {loading && skeletonItemsList}
       </Flex>

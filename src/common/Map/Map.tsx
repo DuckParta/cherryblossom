@@ -10,10 +10,7 @@ declare global {
 
 const { kakao } = window;
 
-const Map = () => {
-  const latitude = 37.45706565;
-  const longitude = 126.8960369;
-
+const Map = ({ latitude, longitude }: any) => {
   useEffect(() => {
     // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
     let placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
@@ -49,6 +46,7 @@ const Map = () => {
     placeOverlay.setContent(contentNode);
     // 각 카테고리에 클릭 이벤트를 등록합니다
     addCategoryClickEvent();
+
     // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
     function addEventHandle(target: any, type: any, callback: any) {
       if (target.addEventListener) {
@@ -57,6 +55,7 @@ const Map = () => {
         target.attachEvent("on" + type, callback);
       }
     }
+
     // 카테고리 검색을 요청하는 함수입니다
     function searchPlaces() {
       if (!currCategory) {
@@ -68,6 +67,7 @@ const Map = () => {
       removeMarker();
       ps.categorySearch(currCategory, placesSearchCB, { useMapBounds: true });
     }
+
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
     function placesSearchCB(data: any, status: any, pagination: any) {
       if (status === kakao.maps.services.Status.OK) {
@@ -79,6 +79,7 @@ const Map = () => {
         // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
       }
     }
+
     // 지도에 마커를 표출하는 함수입니다
     function displayPlaces(places: any) {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
@@ -101,6 +102,7 @@ const Map = () => {
         })(marker, places[i]);
       }
     }
+
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position: any, order: any) {
       const imageSrc =
@@ -126,6 +128,7 @@ const Map = () => {
 
       return marker;
     }
+
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
     function removeMarker() {
       for (let i = 0; i < markers.length; i++) {
@@ -133,6 +136,7 @@ const Map = () => {
       }
       markers = [];
     }
+
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     function displayPlaceInfo(place: any) {
       let content =
@@ -177,17 +181,18 @@ const Map = () => {
       placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
       placeOverlay.setMap(map);
     }
+
     // 각 카테고리에 클릭 이벤트를 등록합니다
     function addCategoryClickEvent() {
       const category = document.getElementById("category"),
         children = category?.children;
-
       // @ts-ignore
       for (let i = 0; i < children.length; i++) {
         // @ts-ignore
         children[i].onclick = onClickCategory;
       }
     }
+
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     function onClickCategory(this: any) {
       var id = this.id,
@@ -206,23 +211,22 @@ const Map = () => {
         searchPlaces();
       }
     }
+
     // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
     function changeCategoryClass(el: any) {
       var category = document.getElementById("category"),
         children = category?.children,
         i;
-
       // @ts-ignore
       for (i = 0; i < children?.length; i++) {
         // @ts-ignore
         children[i].className = "";
       }
-
       if (el) {
         el.className = "on";
       }
     }
-  }, []);
+  }, [latitude]);
 
   return (
     <div className="map_wrap">
