@@ -5,11 +5,11 @@ import Appbar from "../common/Appbar";
 
 function App() {
   return (
-    <ChakraProvider>
-        <Appbar />
-        <MainHeader />
-        <Container />
-    </ChakraProvider>
+    <>
+      <Appbar />
+      <MainHeader />
+      <Container />
+    </>
   );
 }
 
