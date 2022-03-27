@@ -237,7 +237,10 @@ function Appbar() {
                       w="130px" h="130px"
                       bgColor="#FFE711"
                       borderRadius="xl"
-                      boxShadow="0 5px 25px rgb(0 0 0 / 15%)">
+                      boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
+                      _hover={{ bg: "#FFE711" }}
+                      _active = {{ bg: "#FFE711" }} 
+                      _focus={{ bg: "#FFE711" }}>
                       <Image src={`${process.env.PUBLIC_URL}/images/kakaotalk_logo.jpeg`}  w="60px"/>
                     </Button>
                     <Heading size="md" textAlign="center" textColor="GrayText">Kakao 로그인</Heading>
@@ -275,6 +278,9 @@ function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
           bgColor="white"
           borderRadius="xl"
           boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
+          _hover={{ bg: "white" }}
+          _active = {{ bg: "white" }} 
+          _focus={{ bg: "white" }}
         >
           <Image src={`${process.env.PUBLIC_URL}/images/google_logo.jpeg`}  w="60px"/>
         </Button>
