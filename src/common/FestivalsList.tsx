@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Items } from './festivalDataInterface';
 import FestivalItem from './FestivalItem';
 import useIntersectionObserver from '../features/hooks/useIntersectionObserver';
 import { RootState } from '../features/reducers';
-import { festivalDataReducer } from '../features/reducers/festivalDataReducer';
+
+import { Box, Flex } from "@chakra-ui/react";
+import SkeletonFestivalItem from './SkeletonFestivalItem';
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
@@ -39,19 +41,35 @@ export default function FestivalsList() {
   const renderList = items.map((item: Items, index: number): JSX.Element => {
     const itemKey = item.fstvlNm + JSON.stringify(index);
     return (
-      <div key={itemKey}>
+      <Box key={itemKey} 
+      margin="15px"
+      padding="30px"
+      w="300px"
+      h="300px" 
+      boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
+      bg="white"
+      rounded="3xl"
+      textAlign="center"
+      >
         <FestivalItem items={item}/>
-      </div>
+      </Box>
     )
   });
+
+  const skeletonItemsList = [];
+
+  for (let i = 0; i < 6; i++) {
+    const skeletonItem = <SkeletonFestivalItem />
+    skeletonItemsList.push(skeletonItem);
+  }
   
   return (
-    <>
-    <div id="scrollArea">
-      <div>{renderList}</div>
+    <Box id="scrollArea" width="70%">
+      <Flex flexFlow="row wrap" justifyContent="space-around" >
+        {renderList}
+        {loading && skeletonItemsList}
+      </Flex>
       <div ref={loader}></div>
-      {loading && <span><b>io loading...</b></span>}
-    </div>
-    </>
+    </Box>
   );
 }

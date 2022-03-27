@@ -6,11 +6,9 @@ import Appbar from "../common/Appbar";
 function App() {
   return (
     <ChakraProvider>
-      <div className="App">
         <Appbar />
         <MainHeader />
         <Container />
-      </div>
     </ChakraProvider>
   );
 }
