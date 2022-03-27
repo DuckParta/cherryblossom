@@ -8,10 +8,15 @@ import {
   Td,
   Text,
   Box,
-  Container
+  Container,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import { RootState } from "../features/reducers";
 
 function WishList() {
+  const user = useSelector((state: RootState) => state.userReducer);
+  console.log(user);
+
   const data = [
     {
       fName: "축제명1",
