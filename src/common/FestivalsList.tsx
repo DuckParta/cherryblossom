@@ -59,7 +59,7 @@ export default function FestivalsList() {
   const skeletonItemsList = [];
 
   for (let i = 0; i < 6; i++) {
-    const skeletonItem = <SkeletonFestivalItem />
+    const skeletonItem = <SkeletonFestivalItem key={JSON.stringify(i)}/>
     skeletonItemsList.push(skeletonItem);
   }
   
