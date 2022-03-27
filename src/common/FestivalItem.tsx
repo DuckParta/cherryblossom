@@ -70,7 +70,6 @@ export default function FestivalItem(props: { items: Items }) {
             cursor="pointer"
           />
         </Center>
-
         <Text my="5px">
           {fstvlStartDate} ~ {fstvlEndDate}
         </Text>

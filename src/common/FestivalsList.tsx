@@ -7,6 +7,7 @@ import { RootState } from "../features/reducers";
 
 import { Box, Flex } from "@chakra-ui/react";
 import SkeletonFestivalItem from "./SkeletonFestivalItem";
+import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
@@ -44,6 +45,23 @@ export default function FestivalsList() {
 
   const renderList = items.map((item: Items, index: number): JSX.Element => {
     const itemKey = item.fstvlNm + JSON.stringify(index);
+    if (item.isPassedDate) {
+      return (
+        <Box
+        key={itemKey}
+        margin="15px"
+        padding="30px"
+        w="300px"
+        h="300px"
+        boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
+        bg="gray.100"
+        rounded="3xl"
+        textAlign="center"
+      >
+        <OutOfDateFestivalItem items={item} />
+      </Box>
+      )
+    }
     return (
       <Box
         key={itemKey}
@@ -61,20 +79,14 @@ export default function FestivalsList() {
     );
   });
 
-  const skeletonItemsList = [];
-
-  for (let i = 0; i < 6; i++) {
-    const skeletonItem = <SkeletonFestivalItem key={JSON.stringify(i)} />;
-    skeletonItemsList.push(skeletonItem);
-  }
-
   return (
     <Box id="scrollArea" width="70%">
       <Flex flexFlow="row wrap" justifyContent="space-around">
         {renderList}
-        {loading && skeletonItemsList}
+        {/* {loading && skeletonItemsList} */}
+        <div ref={loader}></div>
       </Flex>
-      <div ref={loader}></div>
+      {loading && <SkeletonFestivalItem />}
     </Box>
   );
 }
