@@ -74,10 +74,12 @@ function Appbar() {
   useEffect(() => {
     setUserInfo(user);
 
-    set(ref(database, "users/"), {
-      userId: userInfo.userId,
-      name: userInfo.name,
-    });
+    // Firebase에 빈 배열을 저장하지 않고, 유저정보를 유지하기 위해
+    if (user.userId !== "" && user.userId !== undefined ) {
+      set(ref(database, `users/${user.userId}`), {
+        name: userInfo.name,
+      });
+    }
   }, [user]);
 
   useEffect(() => {
