@@ -35,7 +35,7 @@ function FestivalContents() {
   // console.log(status);
 
   useEffect(() => {
-    dispatch(fetchFestivalData({ param }));
+    // dispatch(fetchFestivalData({ param: param }));
   }, []);
 
   function handleWishButtonClick() {
@@ -102,7 +102,21 @@ function FestivalContents() {
           </Flex>
         </Box>
       </Flex>
-    </Container>
+      <Box mt="200px" position="fixed" right="10%">
+        <Flex
+          flexDirection="column"
+          w="100px"
+          h="100px"
+          bg="gray.100"
+          borderRadius="xl"
+          py="20px">
+          <Heading size="md" textAlign="center">{decimalDay}</Heading>
+          <Center m="10px">
+            <AddWishListButton onAdd={handleWishButtonClick}/>
+          </Center>
+        </Flex>
+      </Box>
+  </Container>
   );
 }
 

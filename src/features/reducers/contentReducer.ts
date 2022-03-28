@@ -26,6 +26,15 @@ export const contentReducer = createSlice({
   },
   reducers: {
     setFestival(state, { payload }: PayloadAction<Items>) {
+      // if (localStorage.getItem("contents") !== null && state.fstvlNm === "") {
+      //   // localStorage 에 다른 축제가 있거나 새로 고침 했을 때
+        const contents = JSON.parse(localStorage.getItem("contents") || "");
+        state = {...contents}
+      // } else {
+      //   // 축제 페이지에 들어갔을 때
+      //   state = {...payload}
+      //   localStorage.setItem("contents", JSON.stringify(payload));
+      // }
       state.contents = {...payload}
       console.log(state);
     },

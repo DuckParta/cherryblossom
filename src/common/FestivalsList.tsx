@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Items } from "./festivalDataInterface";
 import FestivalItem from "./FestivalItem";
@@ -8,7 +9,6 @@ import { RootState } from "../features/reducers";
 import { Box, Flex } from "@chakra-ui/react";
 import SkeletonFestivalItem from "./SkeletonFestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
-import { Link } from "react-router-dom";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
@@ -76,9 +76,7 @@ export default function FestivalsList() {
         rounded="3xl"
         textAlign="center"
       >
-        <Link to={`festivalContent/${item.fstvlNm}-${item.fstvlStartDate}`}>
-          <FestivalItem items={item} />
-        </Link>
+        <Link to={`festivalContent/${item.id}`}><FestivalItem items={item} /></Link>
       </Box>
     );
   });
