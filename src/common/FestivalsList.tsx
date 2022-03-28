@@ -8,14 +8,16 @@ import { RootState } from "../features/reducers";
 import { Box, Flex } from "@chakra-ui/react";
 import SkeletonFestivalItem from "./SkeletonFestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
   const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { items } = useSelector((state: RootState) => state.festivalDataReducer);
+  const { items } = useSelector(
+    (state: RootState) => state.festivalDataReducer
+  );
 
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
@@ -39,7 +41,8 @@ export default function FestivalsList() {
     }
     return () => {
       setPage(0);
-      return observer && observer.disconnect()};
+      return observer && observer.disconnect();
+    };
   }, [handleObserver, loader]);
 
   const renderList = items.map((item: Items, index: number): JSX.Element => {
@@ -47,19 +50,19 @@ export default function FestivalsList() {
     if (item.isPassedDate) {
       return (
         <Box
-        key={itemKey}
-        margin="15px"
-        padding="30px"
-        w="300px"
-        h="300px"
-        boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-        bg="gray.100"
-        rounded="3xl"
-        textAlign="center"
-      >
-        <OutOfDateFestivalItem items={item} />
-      </Box>
-      )
+          key={itemKey}
+          margin="15px"
+          padding="30px"
+          w="300px"
+          h="300px"
+          boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
+          bg="gray.100"
+          rounded="3xl"
+          textAlign="center"
+        >
+          <OutOfDateFestivalItem items={item} />
+        </Box>
+      );
     }
     return (
       <Box
@@ -73,7 +76,9 @@ export default function FestivalsList() {
         rounded="3xl"
         textAlign="center"
       >
-        <Link to={`festivalContent/${item.fstvlNm}`}><FestivalItem items={item} /></Link>
+        <Link to={`festivalContent/${item.fstvlNm}-${item.fstvlStartDate}`}>
+          <FestivalItem items={item} />
+        </Link>
       </Box>
     );
   });

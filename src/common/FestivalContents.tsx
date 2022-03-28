@@ -20,6 +20,8 @@ import { AddWishListButton } from "./FestivalItem";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
+import { ref, set } from "firebase/database";
+import { database } from "../util/firebase";
 
 function FestivalContents() {
   const param = useParams();
@@ -29,9 +31,8 @@ function FestivalContents() {
   );
   const decimalDay = getDecimalDay(content.fstvlStartDate);
 
-  console.log("param", param);
-  console.log("content", content);
-  console.log(status);
+  // console.log("content", content);
+  // console.log(status);
 
   useEffect(() => {
     dispatch(fetchFestivalData({ param }));
@@ -39,6 +40,9 @@ function FestivalContents() {
 
   function handleWishButtonClick() {
     console.log(" add wish list");
+    // set(ref(database, `users/${user.userId}/`), {
+    //   name: userInfo.name,
+    // });
   }
 
   return (
