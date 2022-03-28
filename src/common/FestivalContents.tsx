@@ -17,15 +17,10 @@ import {
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import getDecimalDay from "./getDecimalDay";
 import { AddWishListButton } from "./FestivalItem";
-import { useParams } from "react-router";
-import { useEffect } from "react";
-import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { ref, set } from "firebase/database";
 import { database } from "../util/firebase";
 
 function FestivalContents() {
-  const param = useParams();
-  const dispatch = useDispatch();
   const { content, status } = useSelector(
     (state: RootState) => state.fetchReducer
   );
@@ -33,10 +28,6 @@ function FestivalContents() {
 
   // console.log("content", content);
   // console.log(status);
-
-  useEffect(() => {
-    // dispatch(fetchFestivalData({ param: param }));
-  }, []);
 
   function handleWishButtonClick() {
     console.log(" add wish list");

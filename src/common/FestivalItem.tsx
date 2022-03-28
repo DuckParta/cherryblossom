@@ -1,9 +1,14 @@
 import { Items } from "./festivalDataInterface";
 
-import { Box, Flex, Text, Heading, Center, Image, useStyleConfig } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import {
+  Box,
+  Flex,
+  Text,
+  Heading,
+  Center,
+  Image,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFestival } from "../features/reducers/contentReducer";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { RootState } from "../features/reducers";
 import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
@@ -17,7 +22,7 @@ export default function FestivalItem(props: { items: Items }) {
 
   function handleFestivalListClick() {
     // dispatch(setFestival(props.items));
-    dispatch(fetchFestivalData({param: props.items}));
+    dispatch(fetchFestivalData({ param: props.items }));
   }
 
   function handleWishButtonClick() {
@@ -33,27 +38,28 @@ export default function FestivalItem(props: { items: Items }) {
           mt="50px"
           fontSize="lg"
           overflow="hidden"
-          cursor="pointer">
-            {fstvlNm}
-          </Heading>
-        </Box>
-        <Center h="20%">
-          <Heading
-            padding="5px 10px"
-            margin="10px"
-            borderRadius="lg"
-            bgColor="gray.100"
-            fontSize="lg"
-          >
-            {decimalDay}
-          </Heading>
-          <AddWishListButton onAdd={handleWishButtonClick}/>
-        </Center>
-        <Text my="5px">
-          {fstvlStartDate} ~ {fstvlEndDate}
-        </Text>
-        <Text>{opar}</Text>
-      </Flex>
+          cursor="pointer"
+        >
+          {fstvlNm}
+        </Heading>
+      </Box>
+      <Center h="20%">
+        <Heading
+          padding="5px 10px"
+          margin="10px"
+          borderRadius="lg"
+          bgColor="gray.100"
+          fontSize="lg"
+        >
+          {decimalDay}
+        </Heading>
+        <AddWishListButton onAdd={handleWishButtonClick} />
+      </Center>
+      <Text my="5px">
+        {fstvlStartDate} ~ {fstvlEndDate}
+      </Text>
+      <Text>{opar}</Text>
+    </Flex>
   );
 }
 
