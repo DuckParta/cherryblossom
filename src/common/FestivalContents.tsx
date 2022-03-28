@@ -13,21 +13,31 @@ import {
   Link,
   ListItem,
   UnorderedList,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import getDecimalDay from "./getDecimalDay";
 import { AddWishListButton } from "./FestivalItem";
 import { ref, set } from "firebase/database";
 import { database } from "../util/firebase";
+import { useParams } from "react-router";
+import { useEffect } from "react";
+import { fetchFestivalData } from "../features/async/fetchFestivalData";
 
 function FestivalContents() {
+  const param = useParams();
   const { content, status } = useSelector(
     (state: RootState) => state.fetchReducer
   );
   const decimalDay = getDecimalDay(content.fstvlStartDate);
 
-  // console.log("content", content);
+  console.log(param.festivalName);
+  console.log("content", content);
   // console.log(status);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchFestivalData({ param }));
+  }, []);
 
   function handleWishButtonClick() {
     console.log(" add wish list");
@@ -100,14 +110,17 @@ function FestivalContents() {
           h="100px"
           bg="gray.100"
           borderRadius="xl"
-          py="20px">
-          <Heading size="md" textAlign="center">{decimalDay}</Heading>
+          py="20px"
+        >
+          <Heading size="md" textAlign="center">
+            {decimalDay}
+          </Heading>
           <Center m="10px">
-            <AddWishListButton onAdd={handleWishButtonClick}/>
+            <AddWishListButton onAdd={handleWishButtonClick} />
           </Center>
         </Flex>
       </Box>
-  </Container>
+    </Container>
   );
 }
 

@@ -22,7 +22,7 @@ export default function FestivalItem(props: { items: Items }) {
 
   function handleFestivalListClick() {
     // dispatch(setFestival(props.items));
-    dispatch(fetchFestivalData({ param: props.items }));
+    // dispatch(fetchFestivalData({ param: props.items }));
   }
 
   function handleWishButtonClick() {
