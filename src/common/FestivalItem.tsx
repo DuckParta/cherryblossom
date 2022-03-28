@@ -11,17 +11,12 @@ export default function FestivalItem(props: { items: Items }) {
   const { currentFestival, status } = useSelector((state: RootState) => state.festivalDataReducer);
   
   const dispatch = useDispatch();
-  const {
-    fstvlNm,
-    opar,
-    fstvlStartDate,
-    fstvlEndDate,
-    decimalDay,
-  } = props.items;
+  const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay } =
+    props.items;
 
   function handleFestivalListClick() {
     dispatch(setFestival(props.items));
-    dispatch(fetchFestivalData({item: props.items}));
+    dispatch(fetchFestivalData({param: props.items}));
   }
 
   function handleWishButtonClick() {
@@ -33,8 +28,8 @@ export default function FestivalItem(props: { items: Items }) {
         <Box h="70%">
           <Heading 
           onClick={handleFestivalListClick}
-          mt="50px" 
-          fontSize="lg" 
+          mt="50px"
+          fontSize="lg"
           overflow="hidden"
           cursor="pointer">
             {fstvlNm}
@@ -60,13 +55,16 @@ export default function FestivalItem(props: { items: Items }) {
   );
 }
 
-export const AddWishListButton = (props: {onAdd: React.MouseEventHandler<HTMLHeadingElement>}): JSX.Element => {
+export const AddWishListButton = (props: {
+  onAdd: React.MouseEventHandler<HTMLHeadingElement>;
+}): JSX.Element => {
   return (
     <Image
       src={`${process.env.PUBLIC_URL}/images/wish_icon.png`}
       w="30px"
       alt="wish"
       onClick={props.onAdd}
-      cursor="pointer" />
-  )
+      cursor="pointer"
+    />
+  );
 };
