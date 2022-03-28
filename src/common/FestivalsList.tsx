@@ -76,7 +76,9 @@ export default function FestivalsList() {
         rounded="3xl"
         textAlign="center"
       >
-        <Link to={`festivalContent/${item.id}`}><FestivalItem items={item} /></Link>
+        <Link to={`festivalContent/${item.id}`}>
+          <FestivalItem items={item} />
+        </Link>
       </Box>
     );
   });
