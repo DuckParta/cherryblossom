@@ -16,10 +16,6 @@ export const fetchFestivalData = createAsyncThunk(
   }
 );
 
-const initialState = {
-  content: {}
-}
-
 const fetchSlice = createSlice({
   name: "contents",
   initialState: { content: {
@@ -57,4 +53,4 @@ const fetchSlice = createSlice({
 });
 
 export default fetchSlice;
-export const { setContents } = fetchSlice.actions;
+// export const { setContents } = fetchSlice.actions;

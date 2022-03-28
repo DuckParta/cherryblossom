@@ -18,46 +18,28 @@ import { ExternalLinkIcon } from "@chakra-ui/icons";
 import getDecimalDay from "./getDecimalDay";
 import { AddWishListButton } from "./FestivalItem";
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
-import {
-  fetchFestivalData,
-  setContents,
-} from "../features/async/fetchFestivalData";
-import { setFestival } from "../features/reducers/contentReducer";
-import {Items} from "./festivalDataInterface";
+import { useEffect } from "react";
+import { fetchFestivalData } from "../features/async/fetchFestivalData";
 
 function FestivalContents() {
-  const { contents } = useSelector((state: RootState) => state.contentReducer);
-  const decimalDay = getDecimalDay(contents.fstvlStartDate);
-
-  function handleWishButtonClick() {
-    console.log(" add wish list");
-  }
-
   const param = useParams();
-  console.log("param", param);
-
   const dispatch = useDispatch();
   const { content, status } = useSelector(
     (state: RootState) => state.fetchReducer
   );
+  const decimalDay = getDecimalDay(content.fstvlStartDate);
 
+  console.log("param", param);
   console.log("content", content);
-  const [loading, setLoading] = useState("");
-  const [fetchContent, setFetChContent] = useState({});
+  console.log(status);
 
   useEffect(() => {
     dispatch(fetchFestivalData({ param }));
   }, []);
 
-  useEffect(() => {
-    if (status === "success") {
-      setLoading(status);
-      // dispatch(setContents());
-      // dispatch(setFestival(content));
-      // setFetChContent(content);
-    }
-  }, [status, content]);
+  function handleWishButtonClick() {
+    console.log(" add wish list");
+  }
 
   return (
     <Container maxW="container.xl" mt="2em">
@@ -78,7 +60,7 @@ function FestivalContents() {
               fontWeight="semibold"
             >
               <ListItem>
-                기간 : {contents.fstvlStartDate} ~ {content.fstvlEndDate}
+                기간 : {content.fstvlStartDate} ~ {content.fstvlEndDate}
               </ListItem>
               <ListItem>장소 : {content.opar}</ListItem>
               <ListItem>주소 : {content.rdnmadr}</ListItem>
