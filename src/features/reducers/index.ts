@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { festivalDataReducer } from "./festivalDataReducer";
 import { userReducer } from "./userReducer";
-import fetchContents from '../async/fetchFestivalData'
+import fetchContents from "../async/fetchFestivalData";
 
 const rootReducer = combineReducers({
   festivalDataReducer: festivalDataReducer.reducer,
