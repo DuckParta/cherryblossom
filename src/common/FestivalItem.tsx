@@ -15,7 +15,7 @@ export default function FestivalItem(props: { items: Items }) {
     props.items;
 
   function handleFestivalListClick() {
-    dispatch(setFestival(props.items));
+    // dispatch(setFestival(props.items));
     dispatch(fetchFestivalData({param: props.items}));
   }
 

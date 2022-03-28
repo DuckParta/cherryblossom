@@ -37,7 +37,7 @@ export const festivalDataReducer = createSlice({
     builder.addCase(fetchFestivalData.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(fetchFestivalData.fulfilled, (state,{ payload }: PayloadAction<Items>) => {
+    builder.addCase(fetchFestivalData.fulfilled, (state, { payload }: PayloadAction<Items>) => {
       state.status = "success";
       state.currentFestival = payload;
 

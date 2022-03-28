@@ -18,10 +18,6 @@ ReactDOM.render(
             path="/festivalContent/:festivalName"
             element={<FestivalContents />}
           />
-          <Route
-            path="/festivalContent/:festivalName"
-            element={<FestivalContents />}
-          />
         </Routes>
       </BrowserRouter>
     </Provider>
