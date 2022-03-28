@@ -24,7 +24,7 @@ export default function FestivalItem(props: { items: Items }) {
   }
 
   return (
-    <Link to="festivalContent">
+    // <Link to={`/festivalContent`}>
       <Flex flexFlow="column nowrap" h="100%">
         <Box h="70%">
           <Heading 
@@ -53,7 +53,7 @@ export default function FestivalItem(props: { items: Items }) {
         </Text>
         <Text>{opar}</Text>
       </Flex>
-    </Link>
+    // </Link>
   );
 }
 
