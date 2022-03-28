@@ -6,7 +6,8 @@ import { fetchFestivalData } from '../async/fetchFestivalData';
 const initialState = {
   items: [],
   status: "",
-  currentFestival: {}
+  currentFestival: {},
+  selectedCategories: []
 }
 
 export const festivalDataReducer = createSlice({
@@ -20,18 +21,27 @@ export const festivalDataReducer = createSlice({
         item.isPassedDate = today > formattedFestivalEndDate;
         item.decimalDay = getDecimalDay(item.fstvlStartDate);
         item.location = item.rdnmadr.substring(0,2);
+        console.log(item.rdnmadr);
         item.id = item.fstvlNm + item.fstvlStartDate;
         return item;
       });
       state.items.push(...addItems);
     }),
-    filterLocation: ((state, { payload }: PayloadAction<string>) => {
+    addSelectedCategories: ((state, { payload }: PayloadAction<string>) => {
       const location = payload.split("/");
-      if (payload === "기타") {
-        state.items = state.items.filter((item) => item.location === " ");
-      }
-      state.items = state.items.filter((item) => location.includes(item.location!));
+      state.selectedCategories!.push(...location);
     }),
+    deleteSelectedCategories: ((state, { payload }: PayloadAction<string>) => {
+      const location = payload.split("/");
+      state.selectedCategories = state.selectedCategories!.filter((category) => !location.includes(category))
+    }),
+    filterLocation: ((state) => {
+      state.items = state.items.filter((item) => {
+      if(item.location === "") {
+        state.selectedCategories!.includes("기타")
+      }
+      state.selectedCategories!.includes(item.location!)});
+    })
   },
   extraReducers: (builder) => {
     builder.addCase(fetchFestivalData.pending, (state) => {

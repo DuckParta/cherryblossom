@@ -1,33 +1,15 @@
 import { useDispatch } from "react-redux";
 import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
 
-import { Flex, Center, Button } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { Flex, Center, Checkbox, CheckboxGroup } from "@chakra-ui/react";
+import { useState } from "react";
 
 export default function CategoryBar() {
-  const dispatch = useDispatch();
   const LOCATION_LIST = ["서울", "경기/인천", "충청/대전", "전라/광주", "경북/대구", "경남/부산/울산", "강원", "제주", "기타"];
-
-  useEffect(() => {
-
-  });
-
-  function handleLocationButtonClick(e: any) {
-    const target = e.target.value;
-    dispatch(festivalDataReducer.actions.filterLocation(target));
-  }
 
   const locationButtonsList = LOCATION_LIST.map((location) => {
     return (
-      <Button key={location} 
-      value={location}
-      onClick={handleLocationButtonClick}
-      margin="10px"
-      padding="10px"
-      bgColor="transparent"
-      fontSize="lg"
-      >{location}
-      </Button>
+      <LocationCheckbox key={location} location={location} />
     )
   });
 
@@ -37,11 +19,43 @@ export default function CategoryBar() {
       boxShadow="0 0 15px rgb(0 0 0 / 15%)">
       <Flex flexFlow="row wrap" 
       justifyContent="space-around"
-      width="70%"
+      width="80%"
       paddingY="20px"
-      >{locationButtonsList}
+      ><CheckboxGroup>
+        {locationButtonsList}
+      </CheckboxGroup>
       </Flex>
     </Center>
     </>
+  )
+}
+
+export const LocationCheckbox = (props: {location: string}) => {
+  const location = props.location;
+  const dispatch = useDispatch();
+  const [ isChecked, setIsChecked ] = useState(false);
+
+  function handleLocationButtonClick(e: any) {
+    const target = e.target.value;
+    setIsChecked(!isChecked);
+    if (isChecked) {
+      dispatch(festivalDataReducer.actions.deleteSelectedCategories(target));
+    } else {
+      dispatch(festivalDataReducer.actions.addSelectedCategories(target));
+    }
+    dispatch(festivalDataReducer.actions.filterLocation());
+  }
+
+  return (
+    <Checkbox
+      value={location}
+      onChange={handleLocationButtonClick}
+      isChecked={isChecked}
+      margin="10px"
+      padding="10px"
+      bgColor="transparent"
+      fontSize="lg">
+        {location}
+      </Checkbox>
   )
 }

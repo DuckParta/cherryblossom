@@ -8,10 +8,12 @@ export default function OutOfDateFestivalItem(props: { items: Items }) {
     fstvlStartDate,
     fstvlEndDate,
     decimalDay,
+    location
   } = props.items;
 
   return (
     <Flex flexFlow="column nowrap" h="100%" cursor="default">
+      <Heading>{location}</Heading>
         <Box h="70%">
           <Heading mt="50px" overflow="hidden" fontSize="lg" textColor="gray.500">
             {fstvlNm}

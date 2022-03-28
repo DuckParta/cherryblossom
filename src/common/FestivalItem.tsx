@@ -11,14 +11,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { RootState } from "../features/reducers";
+import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
+import { useEffect } from "react";
 
 export default function FestivalItem(props: { items: Items }) {
-  const { currentFestival, status } = useSelector(
-    (state: RootState) => state.festivalDataReducer
-  );
-
+  const { items } = useSelector((state: RootState) => state.festivalDataReducer);
   const dispatch = useDispatch();
-  const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay } =
+  const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
     props.items;
 
   function handleFestivalListClick() {
@@ -31,9 +30,10 @@ export default function FestivalItem(props: { items: Items }) {
   }
 
   return (
-    <Flex flexFlow="column nowrap" h="100%">
-      <Box h="70%">
-        <Heading
+      <Flex flexFlow="column nowrap" h="100%">
+        <Heading>{location}</Heading>
+        <Box h="70%">
+          <Heading 
           onClick={handleFestivalListClick}
           mt="50px"
           fontSize="lg"

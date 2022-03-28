@@ -2,6 +2,7 @@ export interface InitialFestivalData {
   items: Items[];
   status: string;
   currentFestival: any;
+  selectedCategories?: string[];
 }
 
 export interface HeaderData {
