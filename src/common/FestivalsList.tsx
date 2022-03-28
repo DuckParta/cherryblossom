@@ -8,6 +8,7 @@ import { RootState } from "../features/reducers";
 import { Box, Flex } from "@chakra-ui/react";
 import SkeletonFestivalItem from "./SkeletonFestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
+import {Link} from "react-router-dom";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
@@ -72,7 +73,7 @@ export default function FestivalsList() {
         rounded="3xl"
         textAlign="center"
       >
-        <FestivalItem items={item} />
+        <Link to={`festivalContent/${item.fstvlNm}`}><FestivalItem items={item} /></Link>
       </Box>
     );
   });
