@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Items } from "./festivalDataInterface";
 import FestivalItem from "./FestivalItem";
@@ -72,7 +73,7 @@ export default function FestivalsList() {
         rounded="3xl"
         textAlign="center"
       >
-        <FestivalItem items={item} />
+        <Link to={`festivalContent/${item.id}`}><FestivalItem items={item} /></Link>
       </Box>
     );
   });

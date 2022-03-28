@@ -1,5 +1,7 @@
 export interface InitialFestivalData {
   items: Items[];
+  status: string;
+  currentFestival: any;
 }
 
 export interface HeaderData {

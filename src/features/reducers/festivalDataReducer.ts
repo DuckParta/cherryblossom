@@ -1,9 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { InitialFestivalData, Items } from '../../common/festivalDataInterface';
 import getDecimalDay from '../../common/getDecimalDay';
+import { fetchFestivalData } from '../async/fetchFestivalData';
 
 const initialState = {
-  items: []
+  items: [],
+  status: "",
+  currentFestival: {}
 }
 
 export const festivalDataReducer = createSlice({
@@ -24,7 +27,23 @@ export const festivalDataReducer = createSlice({
     }),
     filterLocation: ((state, { payload }: PayloadAction<string>) => {
       const location = payload.split("/");
+      if (payload === "기타") {
+        state.items = state.items.filter((item) => item.location === " ");
+      }
       state.items = state.items.filter((item) => location.includes(item.location!));
     }),
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchFestivalData.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(fetchFestivalData.fulfilled, (state,{ payload }: PayloadAction<Items>) => {
+      state.status = "success";
+      state.currentFestival = payload;
+
+    });
+    builder.addCase(fetchFestivalData.rejected, (state) => {
+      state.status = "failed";
+    });
   },
 });

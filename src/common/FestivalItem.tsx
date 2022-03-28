@@ -1,11 +1,15 @@
 import { Items } from "./festivalDataInterface";
 
-import { Box, Flex, Text, Heading, Center, Image } from "@chakra-ui/react";
+import { Box, Flex, Text, Heading, Center, Image, useStyleConfig } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFestival } from "../features/reducers/contentReducer";
+import { fetchFestivalData } from "../features/async/fetchFestivalData";
+import { RootState } from "../features/reducers";
 
 export default function FestivalItem(props: { items: Items }) {
+  const { currentFestival, status } = useSelector((state: RootState) => state.festivalDataReducer);
+  
   const dispatch = useDispatch();
   const {
     fstvlNm,
@@ -17,6 +21,7 @@ export default function FestivalItem(props: { items: Items }) {
 
   function handleFestivalListClick() {
     dispatch(setFestival(props.items));
+    dispatch(fetchFestivalData({item: props.items}));
   }
 
   function handleWishButtonClick() {
@@ -24,7 +29,6 @@ export default function FestivalItem(props: { items: Items }) {
   }
 
   return (
-    <Link to="festivalContent">
       <Flex flexFlow="column nowrap" h="100%">
         <Box h="70%">
           <Heading 
@@ -53,7 +57,6 @@ export default function FestivalItem(props: { items: Items }) {
         </Text>
         <Text>{opar}</Text>
       </Flex>
-    </Link>
   );
 }
 

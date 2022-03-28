@@ -19,12 +19,8 @@ ReactDOM.render(
             element={<FestivalContents />}
           />
           <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
+            path="/festivalContent/:festivalName"
+            element={<FestivalContents />}
           />
         </Routes>
       </BrowserRouter>
