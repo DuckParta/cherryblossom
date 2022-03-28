@@ -22,7 +22,7 @@ export const festivalDataReducer = createSlice({
         item.decimalDay = getDecimalDay(item.fstvlStartDate);
         item.location = item.rdnmadr.substring(0,2);
         console.log(item.rdnmadr);
-        item.id = item.fstvlNm + item.fstvlStartDate;
+        item.id = `${item.fstvlNm}-${item.fstvlStartDate}`;
         return item;
       });
       state.items.push(...addItems);
