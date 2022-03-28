@@ -24,6 +24,7 @@ import {
   setContents,
 } from "../features/async/fetchFestivalData";
 import { setFestival } from "../features/reducers/contentReducer";
+import {Items} from "./festivalDataInterface";
 
 function FestivalContents() {
   const { contents } = useSelector((state: RootState) => state.contentReducer);
@@ -34,26 +35,26 @@ function FestivalContents() {
   }
 
   const param = useParams();
-  console.log("params", param);
+  console.log("param", param);
 
   const dispatch = useDispatch();
   const { content, status } = useSelector(
     (state: RootState) => state.fetchReducer
   );
 
-  console.log("content", content.fstvlNm);
+  console.log("content", content);
   const [loading, setLoading] = useState("");
-  const [fetcContent, setFetChContent] = useState({});
+  const [fetchContent, setFetChContent] = useState({});
 
   useEffect(() => {
-    dispatch(fetchFestivalData(param));
+    dispatch(fetchFestivalData({ param }));
   }, []);
 
   useEffect(() => {
     if (status === "success") {
       setLoading(status);
-      dispatch(setContents({ param, content }));
-      dispatch(setFestival(content));
+      // dispatch(setContents());
+      // dispatch(setFestival(content));
       // setFetChContent(content);
     }
   }, [status, content]);
@@ -65,7 +66,7 @@ function FestivalContents() {
         <Flex w="60%" flexDirection="column" mx="2em">
           <Text>뒤로가기</Text>
           <Center my="50px">
-            <Heading size="2xl">{contents.fstvlNm}</Heading>
+            <Heading size="2xl">{content.fstvlNm}</Heading>
           </Center>
           <Divider />
           <Box my="30px">
@@ -77,24 +78,24 @@ function FestivalContents() {
               fontWeight="semibold"
             >
               <ListItem>
-                기간 : {contents.fstvlStartDate} ~ {contents.fstvlEndDate}
+                기간 : {contents.fstvlStartDate} ~ {content.fstvlEndDate}
               </ListItem>
-              <ListItem>장소 : {contents.opar}</ListItem>
-              <ListItem>주소 : {contents.rdnmadr}</ListItem>
-              <ListItem>주최기관 : {contents.auspcInstt}</ListItem>
-              <ListItem>문의 전화 : {contents.phoneNumber}</ListItem>
+              <ListItem>장소 : {content.opar}</ListItem>
+              <ListItem>주소 : {content.rdnmadr}</ListItem>
+              <ListItem>주최기관 : {content.auspcInstt}</ListItem>
+              <ListItem>문의 전화 : {content.phoneNumber}</ListItem>
               <ListItem>
                 공식 사이트 :{" "}
-                <Link href={contents.homepageUrl}>
-                  {contents.homepageUrl}
+                <Link href={content.homepageUrl}>
+                  {content.homepageUrl}
                   <ExternalLinkIcon mx="3px" />
                 </Link>
               </ListItem>
             </UnorderedList>
             <Heading my="100px" textAlign="center" size="lg">
-              {contents.fstvlCo}
+              {content.fstvlCo}
             </Heading>
-            <Map latitude={contents.latitude} longitude={contents.longitude} />
+            <Map latitude={content.latitude} longitude={content.longitude} />
           </Box>
         </Flex>
         <Box mt="200px" position="fixed" right="10%">
