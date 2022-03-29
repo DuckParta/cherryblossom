@@ -25,8 +25,6 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
 import { setInfo, setLogout } from "../features/reducers/userReducer";
-import { database } from "../util/firebase";
-import { set, ref } from "firebase/database";
 
 function Appbar() {
   interface IUser {
@@ -45,12 +43,6 @@ function Appbar() {
 
   useEffect(() => {
     setUserInfo(user);
-
-    if (user.userId !== "" && user.userId !== undefined) {
-      set(ref(database, `users/${user.userId}`), {
-        name: userInfo.name,
-      });
-    }
   }, [user]);
 
   useEffect(() => {
