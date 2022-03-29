@@ -142,9 +142,7 @@ function FestivalContents() {
               <ListItem>주최기관 : {content.auspcInstt}</ListItem>
               <ListItem>문의 전화 : {content.phoneNumber}</ListItem>
               <ListItem>
-                공식 사이트 :{" "}
-                <Link href={content.homepageUrl}>
-                  {content.homepageUrl}
+                공식 사이트 : <Link href={content.homepageUrl}>{content.homepageUrl}
                   <ExternalLinkIcon mx="3px" />
                 </Link>
               </ListItem>
