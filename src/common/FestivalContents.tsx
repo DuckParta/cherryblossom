@@ -16,15 +16,16 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import getDecimalDay from "./getDecimalDay";
-import { AddWishListButton } from "./FestivalItem";
 import { ref, set, push, onValue } from "firebase/database";
 import { database } from "../util/firebase";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
+import {AddWishListButton} from "./AddWishListButton";
 
 function FestivalContents() {
   const [login, setLogin] = useState(false);
+  const [isWish, setIsWish] = useState(false);
   const param = useParams();
   const dispatch = useDispatch();
 
@@ -42,15 +43,20 @@ function FestivalContents() {
   useEffect(() => {
     if (user.userId === "" || user.userId === undefined) {
       setLogin(false);
+      setIsWish(false);
     } else {
       setLogin(true);
+      getFestival();
     }
-  }, [user]);
+  }, [user, login]);
 
   function handleWishButtonClick() {
     console.log("add wish list");
+    isLoginForFirebase(login);
+  }
+
+  function isLoginForFirebase(login: boolean) {
     if (login) {
-      // Firebase에서 userId 확인
       const userRef = ref(database, `${user.userId}`);
       onValue(userRef, (snapshot) => {
         // 사용자가 있다면
@@ -65,10 +71,12 @@ function FestivalContents() {
               set(newPostRef, {
                 festival: param.festivalName,
               });
+            } else {
+              console.log("already");
             }
           });
         } else {
-          // 사용자 정보가 등록되어 있지 않다면 중복체크 할 필요없이 축제 등록
+          // 사용자 정보가 등록되어 있지 않다면 중복체크 할 필요없이 축제 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
             festival: param.festivalName,
@@ -77,6 +85,26 @@ function FestivalContents() {
       });
     } else {
       console.log("not login");
+    }
+  }
+
+  function getFestival() {
+    if (login) {
+      const userRef = ref(database, `${user.userId}`);
+      onValue(userRef, (snapshot) => {
+        if (snapshot.exists()) {
+          // 중복체크
+          onValue(userRef, (snapshot) => {
+            const data = snapshot.val();
+            const fstList: any = Object.values(data);
+            if (checkFestival(fstList)) {
+              setIsWish(true);
+            } else {
+              setIsWish(false);
+            }
+          });
+        }
+      });
     }
   }
 
@@ -140,7 +168,10 @@ function FestivalContents() {
               {decimalDay}
             </Heading>
             <Center m="10px">
-              <AddWishListButton onAdd={handleWishButtonClick} />
+              <AddWishListButton
+                onAdd={handleWishButtonClick}
+                isWish={isWish}
+              />
             </Center>
           </Flex>
         </Box>

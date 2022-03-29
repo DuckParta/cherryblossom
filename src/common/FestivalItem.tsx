@@ -1,21 +1,16 @@
 import { Items } from "./festivalDataInterface";
 
-import {
-  Box,
-  Flex,
-  Text,
-  Heading,
-  Center,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Heading, Center, Image } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { RootState } from "../features/reducers";
 import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 
 export default function FestivalItem(props: { items: Items }) {
-  const { items } = useSelector((state: RootState) => state.festivalDataReducer);
+  const { items } = useSelector(
+    (state: RootState) => state.festivalDataReducer
+  );
   const dispatch = useDispatch();
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
     props.items;
@@ -30,10 +25,10 @@ export default function FestivalItem(props: { items: Items }) {
   }
 
   return (
-      <Flex flexFlow="column nowrap" h="100%">
-        <Heading>{location}</Heading>
-        <Box h="70%">
-          <Heading 
+    <Flex flexFlow="column nowrap" h="100%">
+      <Heading>{location}</Heading>
+      <Box h="70%">
+        <Heading
           onClick={handleFestivalListClick}
           mt="50px"
           fontSize="lg"
@@ -53,7 +48,6 @@ export default function FestivalItem(props: { items: Items }) {
         >
           {decimalDay}
         </Heading>
-        <AddWishListButton onAdd={handleWishButtonClick} />
       </Center>
       <Text my="5px">
         {fstvlStartDate} ~ {fstvlEndDate}
@@ -62,17 +56,3 @@ export default function FestivalItem(props: { items: Items }) {
     </Flex>
   );
 }
-
-export const AddWishListButton = (props: {
-  onAdd: React.MouseEventHandler<HTMLHeadingElement>;
-}): JSX.Element => {
-  return (
-    <Image
-      src={`${process.env.PUBLIC_URL}/images/wish_icon.png`}
-      w="30px"
-      alt="wish"
-      onClick={props.onAdd}
-      cursor="pointer"
-    />
-  );
-};
