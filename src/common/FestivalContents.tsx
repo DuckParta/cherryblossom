@@ -13,37 +13,79 @@ import {
   Link,
   ListItem,
   UnorderedList,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import getDecimalDay from "./getDecimalDay";
 import { AddWishListButton } from "./FestivalItem";
-import { ref, set } from "firebase/database";
+import { ref, set, push, onValue } from "firebase/database";
 import { database } from "../util/firebase";
 import { useParams } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
 
 function FestivalContents() {
+  const [login, setLogin] = useState(false);
+  const [wish, setWish] = useState(false);
   const param = useParams();
+  const dispatch = useDispatch();
+
   const { content, status } = useSelector(
     (state: RootState) => state.fetchReducer
   );
   const decimalDay = getDecimalDay(content.fstvlStartDate);
-
-  console.log(param.festivalName);
-  console.log("content", content);
+  const user = useSelector((state: RootState) => state.userReducer);
   // console.log(status);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchFestivalData({ param }));
-  }, []);
+    console.log("userId", user.userId);
+    console.log('login', login);
+    if (user.userId === "" || user.userId === undefined) {
+      setLogin(false);
+    } else {
+      setLogin(true);
+    }
+  }, [user, login]);
 
   function handleWishButtonClick() {
-    console.log(" add wish list");
-    // set(ref(database, `users/${user.userId}/`), {
-    //   name: userInfo.name,
-    // });
+    console.log("add wish list");
+    if (login) {
+      // Firebase에서 userId 확인
+      const userRef = ref(database, `${user.userId}`);
+      onValue(userRef, (snapshot) => {
+        // 사용자가 있다면
+        if (snapshot.exists()) {
+          // 중복체크
+          onValue(userRef, (snapshot) => {
+            const data = snapshot.val();
+            const fstList: any = Object.values(data);
+            if (!checkFestival(fstList)) {
+              // 축제가 없다면 축제 저장
+              const newPostRef = push(userRef);
+              set(newPostRef, {
+                festival: param.festivalName,
+              });
+            }
+          });
+        } else {
+          // 사용자 정보가 등록되어 있지 않다면 중복체크 할 필요없이 축제 등록
+          const newPostRef = push(userRef);
+          set(newPostRef, {
+            festival: param.festivalName,
+          });
+        }
+      });
+    } else {
+      console.log("not login");
+    }
+  }
+
+  function checkFestival(fstList: any) {
+    for (let i = 0; i < fstList.length; i++) {
+      if (param.festivalName === fstList[i].festival) {
+        return true;
+      }
+    }
   }
 
   return (
