@@ -25,7 +25,6 @@ import { fetchFestivalData } from "../features/async/fetchFestivalData";
 
 function FestivalContents() {
   const [login, setLogin] = useState(false);
-  const [wish, setWish] = useState(false);
   const param = useParams();
   const dispatch = useDispatch();
 
@@ -38,14 +37,15 @@ function FestivalContents() {
 
   useEffect(() => {
     dispatch(fetchFestivalData({ param }));
-    console.log("userId", user.userId);
-    console.log('login', login);
+  }, []);
+
+  useEffect(() => {
     if (user.userId === "" || user.userId === undefined) {
       setLogin(false);
     } else {
       setLogin(true);
     }
-  }, [user, login]);
+  }, [user]);
 
   function handleWishButtonClick() {
     console.log("add wish list");
