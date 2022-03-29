@@ -15,12 +15,11 @@ export const userReducer = createSlice({
   reducers: {
     setInfo(state, {payload}: PayloadAction<IUser>) {
       if (payload.userId !== "") {
-        state = {...payload};
-
+        state.userId = payload.userId;
+        state.name =payload.name;
         localStorage.setItem("userInfo", JSON.stringify(payload));
       } else if (localStorage.getItem("userInfo") !== null) {
         const user = JSON.parse(localStorage.getItem("userInfo") || "");
-
         state.userId = user.userId;
         state.name = user.name;
       } else {
