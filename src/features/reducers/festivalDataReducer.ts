@@ -36,12 +36,8 @@ export const festivalDataReducer = createSlice({
       state.selectedCategories = state.selectedCategories!.filter((category) => !location.includes(category))
     }),
     filterLocation: ((state) => {
-      state.items = state.items.filter((item) => {
-      if(item.location === "") {
-        state.selectedCategories!.includes("기타")
-      }
-      state.selectedCategories!.includes(item.location!)});
-    })
+      state.items = state.items.filter((item) => state.selectedCategories!.includes(item.location!))
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(fetchFestivalData.pending, (state) => {
