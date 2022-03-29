@@ -26,6 +26,11 @@ export const festivalDataReducer = createSlice({
         return item;
       });
       state.items.push(...addItems);
+      state.items.sort(function(a,b) {
+        const prevDate = Number(new Date(a.fstvlStartDate));
+        const followDate = Number(new Date(b.fstvlStartDate));
+        return followDate - prevDate;
+      })
     }),
     addSelectedCategories: ((state, { payload }: PayloadAction<string>) => {
       const location = payload.split("/");
@@ -36,7 +41,7 @@ export const festivalDataReducer = createSlice({
       state.selectedCategories = state.selectedCategories!.filter((category) => !location.includes(category))
     }),
     filterLocation: ((state) => {
-      state.items = state.items.filter((item) => state.selectedCategories!.includes(item.location!))
+      state.items = state.items.filter((item) => state.selectedCategories!.includes(item.location!));
     }),
   },
   extraReducers: (builder) => {
