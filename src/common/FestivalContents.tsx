@@ -16,25 +16,36 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import getDecimalDay from "./getDecimalDay";
-import { ref, set, push, onValue } from "firebase/database";
+import {
+  ref,
+  set,
+  push,
+  onValue,
+  get,
+  remove,
+  child,
+  getDatabase,
+} from "firebase/database";
 import { database } from "../util/firebase";
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
-import {AddWishListButton} from "./AddWishListButton";
+import { AddWishListButton } from "./AddWishListButton";
 
 function FestivalContents() {
   const [login, setLogin] = useState(false);
   const [isWish, setIsWish] = useState(false);
+  const [curFstKey, setCurFstKey] = useState(0);
+
   const param = useParams();
   const dispatch = useDispatch();
-
   const { content, status } = useSelector(
     (state: RootState) => state.fetchReducer
   );
-  const decimalDay = getDecimalDay(content.fstvlStartDate);
-  const user = useSelector((state: RootState) => state.userReducer);
   // console.log(status);
+  const user = useSelector((state: RootState) => state.userReducer);
+
+  const decimalDay = getDecimalDay(content.fstvlStartDate);
 
   useEffect(() => {
     dispatch(fetchFestivalData({ param }));
@@ -52,65 +63,64 @@ function FestivalContents() {
 
   function handleWishButtonClick() {
     console.log("add wish list");
-    isLoginForFirebase(login);
+    if (login) {
+      setFirebaseDB();
+    } else {
+      console.log("note login");
+    }
   }
 
-  function isLoginForFirebase(login: boolean) {
-    if (login) {
-      const userRef = ref(database, `${user.userId}`);
-      onValue(userRef, (snapshot) => {
-        // 사용자가 있다면
-        if (snapshot.exists()) {
-          // 중복체크
-          onValue(userRef, (snapshot) => {
-            const data = snapshot.val();
-            const fstList: any = Object.values(data);
-            if (!checkFestival(fstList)) {
-              // 축제가 없다면 축제 저장
-              const newPostRef = push(userRef);
-              set(newPostRef, {
-                festival: param.festivalName,
-              });
-            } else {
-              console.log("already");
-            }
-          });
-        } else {
-          // 사용자 정보가 등록되어 있지 않다면 중복체크 할 필요없이 축제 저장
+  function setFirebaseDB() {
+    const userRef = ref(database, `${user.userId}`);
+
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, `${user.userId}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        // 축제 전체 데이터
+        const data = snapshot.val();
+        const fstList: any = Object.values(data);
+        // 축제 검색
+        if (!checkFestival(fstList)) {
+          // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
             festival: param.festivalName,
           });
+        } else {
+          // 축제가 있다면 삭제
+          const fstKeys = Object.keys(data);
+          remove(ref(database, `${user.userId}/${fstKeys[curFstKey]}`));
         }
-      });
-    } else {
-      console.log("not login");
-    }
+      } else {
+        // 사용자 정보가 등록되어 있지 않다면 축제 저장
+        const newPostRef = push(userRef);
+        set(newPostRef, {
+          festival: param.festivalName,
+        });
+      }
+    });
   }
 
   function getFestival() {
-    if (login) {
-      const userRef = ref(database, `${user.userId}`);
-      onValue(userRef, (snapshot) => {
-        if (snapshot.exists()) {
-          // 중복체크
-          onValue(userRef, (snapshot) => {
-            const data = snapshot.val();
-            const fstList: any = Object.values(data);
-            if (checkFestival(fstList)) {
-              setIsWish(true);
-            } else {
-              setIsWish(false);
-            }
-          });
+    const userRef = ref(database, `${user.userId}`);
+    onValue(userRef, (snapshot) => {
+      if (snapshot.exists()) {
+        // 중복체크
+        const data = snapshot.val();
+        const fstList: any = Object.values(data);
+        if (checkFestival(fstList)) {
+          setIsWish(true);
+        } else {
+          setIsWish(false);
         }
-      });
-    }
+      }
+    });
   }
 
   function checkFestival(fstList: any) {
     for (let i = 0; i < fstList.length; i++) {
       if (param.festivalName === fstList[i].festival) {
+        setCurFstKey(i);
         return true;
       }
     }
@@ -142,7 +152,9 @@ function FestivalContents() {
               <ListItem>주최기관 : {content.auspcInstt}</ListItem>
               <ListItem>문의 전화 : {content.phoneNumber}</ListItem>
               <ListItem>
-                공식 사이트 : <Link href={content.homepageUrl}>{content.homepageUrl}
+                공식 사이트 :{" "}
+                <Link href={content.homepageUrl}>
+                  {content.homepageUrl}
                   <ExternalLinkIcon mx="3px" />
                 </Link>
               </ListItem>
