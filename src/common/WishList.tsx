@@ -9,34 +9,53 @@ import {
   Text,
   Box,
   Container,
+  Button,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
-import { child, get, getDatabase, ref } from "firebase/database";
+import {
+  onValue,
+  ref,
+  remove,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 import { Items } from "./festivalDataInterface";
+import { database } from "../util/firebase";
 
 function WishList() {
   const user = useSelector((state: RootState) => state.userReducer);
   const [fstList, setFstList] = useState<Items[]>([]);
+  const [deleteKeys, setDeleteKeys] = useState<String[]>([]);
 
   useEffect(() => {
     if (user.userId !== "") {
-      setFirebaseDB();
+      getFestival();
     }
   }, [user]);
 
   // console.log(user);
-  // console.log(fstList);
+  // console.log("fstList", fstList);
+  // console.log("deleteKeys", deleteKeys);
 
-  function setFirebaseDB() {
-    const dbRef = ref(getDatabase());
-    get(child(dbRef, `${user.userId}`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const fstList: any = Object.values(data);
-        setFstList(Object.values(fstList));
+  function onDelete(index: number) {
+    console.log("onDelete", index);
+    remove(ref(database, `${user.userId}/${deleteKeys[index]}`)).then((r) => {
+      console.log("removed successfully");
+    });
+  }
+
+  function getFestival() {
+    const userRef = ref(database, `${user.userId}`);
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+      let fstList: any;
+      if (data !== null) {
+        fstList = Object.values(data);
+        setDeleteKeys((cur) => Object.keys(data));
+      } else {
+        setDeleteKeys([]);
       }
+      setFstList(fstList);
     });
   }
 
@@ -55,7 +74,7 @@ function WishList() {
             </Tr>
           </Thead>
           <Tbody>
-            {fstList.length !== 0
+            {fstList !== undefined
               ? fstList.map((fItem, i) => {
                   return (
                     <Tr key={i}>
@@ -64,7 +83,12 @@ function WishList() {
                       </Td>
                       <Td>{fItem.opar}</Td>
                       <Td>{fItem.fstvlCo}</Td>
-                      <Td>{`${fItem.fstvlStartDate} ~ ${fItem.fstvlEndDate}`}</Td>
+                      <Td>
+                        {`${fItem.fstvlStartDate} ~ ${fItem.fstvlEndDate}`}
+                      </Td>
+                      <Td>
+                        <Button onClick={() => onDelete(i)}>삭제</Button>
+                      </Td>
                     </Tr>
                   );
                 })
