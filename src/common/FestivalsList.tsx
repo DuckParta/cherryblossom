@@ -15,7 +15,7 @@ export default function FestivalsList() {
   const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { items } = useSelector(
+  const { items, selectedCategories } = useSelector(
     (state: RootState) => state.festivalDataReducer
   );
 

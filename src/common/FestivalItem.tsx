@@ -6,8 +6,11 @@ import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { RootState } from "../features/reducers";
 import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
 import {useEffect, useState} from "react";
+import getFestivalData from "../service/getFestivalData";
 
 export default function FestivalItem(props: { items: Items }) {
+  getFestivalData();
+
   const { items } = useSelector(
     (state: RootState) => state.festivalDataReducer
   );
