@@ -19,6 +19,7 @@ export interface BodyData {
 }
 
 export interface Items {
+  fstvlId: string,
   auspcInstt: string;
   fstvlCo: string;
   fstvlEndDate: string;

@@ -14,42 +14,31 @@ import { useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
 import { child, get, getDatabase, ref } from "firebase/database";
 import { useEffect, useState } from "react";
+import { Items } from "./festivalDataInterface";
 
 function WishList() {
   const user = useSelector((state: RootState) => state.userReducer);
-  console.log(user);
-  const [fstList, setFstList] = useState({});
+  const [fstList, setFstList] = useState<Items[]>([]);
 
   useEffect(() => {
-    setFirebaseDB();
-  }, []);
-  console.log(fstList);
+    if (user.userId !== "") {
+      setFirebaseDB();
+    }
+  }, [user]);
+
+  // console.log(user);
+  // console.log(fstList);
 
   function setFirebaseDB() {
     const dbRef = ref(getDatabase());
-    get(child(dbRef, `${user.userId}/`)).then((snapshot) => {
+    get(child(dbRef, `${user.userId}`)).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
         const fstList: any = Object.values(data);
-        setFstList(fstList);
+        setFstList(Object.values(fstList));
       }
     });
   }
-
-  const data = [
-    {
-      fName: "축제명1",
-      fPlace: "축제장소1",
-      fContent: "축제내용1",
-      fDate: "축제날짜1",
-    },
-    {
-      fName: "축제명2",
-      fPlace: "축제장소2",
-      fContent: "축제내용2",
-      fDate: "축제날짜2",
-    },
-  ];
 
   return (
     <Container>
@@ -66,41 +55,20 @@ function WishList() {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((fItem, i) => {
-              return (
-                <Tr key={i}>
-                  <Td>{fItem.fName}</Td>
-                  <Td>{fItem.fPlace}</Td>
-                  <Td>{fItem.fContent}</Td>
-                  <Td>{fItem.fDate}</Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </Box>
-      <Box>
-        <Text>지난 축제</Text>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>축제명</Th>
-              <Th>축제 장소</Th>
-              <Th>축제 내용</Th>
-              <Th>축제 날짜</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.map((fItem, i) => {
-              return (
-                <Tr key={i}>
-                  <Td>{fItem.fName}</Td>
-                  <Td>{fItem.fPlace}</Td>
-                  <Td>{fItem.fContent}</Td>
-                  <Td>{fItem.fDate}</Td>
-                </Tr>
-              );
-            })}
+            {fstList.length !== 0
+              ? fstList.map((fItem, i) => {
+                  return (
+                    <Tr key={i}>
+                      <Td>
+                        {fItem.fstvlId.slice(0, fItem.fstvlId.indexOf("-"))}
+                      </Td>
+                      <Td>{fItem.opar}</Td>
+                      <Td>{fItem.fstvlCo}</Td>
+                      <Td>{`${fItem.fstvlStartDate} ~ ${fItem.fstvlEndDate}`}</Td>
+                    </Tr>
+                  );
+                })
+              : null}
           </Tbody>
         </Table>
       </Box>
