@@ -83,7 +83,7 @@ function FestivalContents() {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            fastival: param.festivalName,
+            fstvlId: param.festivalName,
             opar: content.opar,
             fstvlCo: content.fstvlCo,
             fstvlStartDate: content.fstvlStartDate,
@@ -99,7 +99,7 @@ function FestivalContents() {
         // 사용자 정보가 등록되어 있지 않다면 축제 저장
         const newPostRef = push(userRef);
         set(newPostRef, {
-          fastival: param.festivalName,
+          fstvlId: param.festivalName,
           opar: content.opar,
           fstvlCo: content.fstvlCo,
           fstvlStartDate: content.fstvlStartDate,
@@ -116,9 +116,7 @@ function FestivalContents() {
         // 중복체크
         const data = snapshot.val();
         const fstList: any = Object.values(data);
-        console.log(fstList);
         if (checkFestival(fstList)) {
-          console.log("a");
           setIsWish(true);
         }
       }
@@ -127,7 +125,7 @@ function FestivalContents() {
 
   function checkFestival(fstList: any) {
     for (let i = 0; i < fstList.length; i++) {
-      if (param.festivalName === fstList[i].fastival) {
+      if (param.festivalName === fstList[i].fstvlId) {
         setCurFstKey(i);
         return true;
       }
