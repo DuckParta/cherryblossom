@@ -62,17 +62,16 @@ function FestivalContents() {
   }, [user, login]);
 
   function handleWishButtonClick() {
-    console.log("add wish list");
     if (login) {
+      console.log("add wish list");
       setFirebaseDB();
     } else {
-      console.log("note login");
+      console.log("not login");
     }
   }
 
   function setFirebaseDB() {
     const userRef = ref(database, `${user.userId}`);
-
     const dbRef = ref(getDatabase());
     get(child(dbRef, `${user.userId}`)).then((snapshot) => {
       if (snapshot.exists()) {
@@ -84,18 +83,27 @@ function FestivalContents() {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            festival: param.festivalName,
+            fastival: param.festivalName,
+            opar: content.opar,
+            fstvlCo: content.fstvlCo,
+            fstvlStartDate: content.fstvlStartDate,
+            fstvlEndDate: content.fstvlEndDate,
           });
         } else {
           // 축제가 있다면 삭제
           const fstKeys = Object.keys(data);
           remove(ref(database, `${user.userId}/${fstKeys[curFstKey]}`));
+          setIsWish(false);
         }
       } else {
         // 사용자 정보가 등록되어 있지 않다면 축제 저장
         const newPostRef = push(userRef);
         set(newPostRef, {
-          festival: param.festivalName,
+          fastival: param.festivalName,
+          opar: content.opar,
+          fstvlCo: content.fstvlCo,
+          fstvlStartDate: content.fstvlStartDate,
+          fstvlEndDate: content.fstvlEndDate,
         });
       }
     });
@@ -108,10 +116,10 @@ function FestivalContents() {
         // 중복체크
         const data = snapshot.val();
         const fstList: any = Object.values(data);
+        console.log(fstList);
         if (checkFestival(fstList)) {
+          console.log("a");
           setIsWish(true);
-        } else {
-          setIsWish(false);
         }
       }
     });
@@ -119,7 +127,7 @@ function FestivalContents() {
 
   function checkFestival(fstList: any) {
     for (let i = 0; i < fstList.length; i++) {
-      if (param.festivalName === fstList[i].festival) {
+      if (param.festivalName === fstList[i].fastival) {
         setCurFstKey(i);
         return true;
       }
@@ -147,6 +155,7 @@ function FestivalContents() {
               <ListItem>
                 기간 : {content.fstvlStartDate} ~ {content.fstvlEndDate}
               </ListItem>
+              <ListItem>내용 : {content.fstvlCo}</ListItem>
               <ListItem>장소 : {content.opar}</ListItem>
               <ListItem>주소 : {content.rdnmadr}</ListItem>
               <ListItem>주최기관 : {content.auspcInstt}</ListItem>
