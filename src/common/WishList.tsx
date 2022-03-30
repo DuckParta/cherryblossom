@@ -12,10 +12,29 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { useEffect, useState } from "react";
 
 function WishList() {
   const user = useSelector((state: RootState) => state.userReducer);
   console.log(user);
+  const [fstList, setFstList] = useState({});
+
+  useEffect(() => {
+    setFirebaseDB();
+  }, []);
+  console.log(fstList);
+
+  function setFirebaseDB() {
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, `${user.userId}/`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const fstList: any = Object.values(data);
+        setFstList(fstList);
+      }
+    });
+  }
 
   const data = [
     {
@@ -43,7 +62,7 @@ function WishList() {
               <Th>축제명</Th>
               <Th>축제 장소</Th>
               <Th>축제 내용</Th>
-              <Th>축제 날짜</Th>
+              <Th>축제 기간</Th>
             </Tr>
           </Thead>
           <Tbody>
