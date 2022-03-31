@@ -17,6 +17,7 @@ import { onValue, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Items } from "./festivalDataInterface";
 import { database } from "../util/firebase";
+import { Link, useLocation } from "react-router-dom";
 
 function WishList() {
   const user = useSelector((state: RootState) => state.userReducer);
@@ -75,7 +76,9 @@ function WishList() {
                   return (
                     <Tr key={i}>
                       <Td>
-                        {fItem.fstvlId.slice(0, fItem.fstvlId.indexOf("-"))}
+                        <Link to={`/festivalContent/${fItem.fstvlId}`}>
+                          {fItem.fstvlId.slice(0, fItem.fstvlId.indexOf("-"))}
+                        </Link>
                       </Td>
                       <Td>{fItem.opar}</Td>
                       <Td>{fItem.fstvlCo}</Td>
