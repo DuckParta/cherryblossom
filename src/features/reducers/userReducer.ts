@@ -1,5 +1,5 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {initializeApp} from "firebase/app";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { initializeApp } from "firebase/app";
 
 interface IUser {
   userId: string;
@@ -13,10 +13,10 @@ export const userReducer = createSlice({
     name: "",
   },
   reducers: {
-    setInfo(state, {payload}: PayloadAction<IUser>) {
+    setInfo(state, { payload }: PayloadAction<IUser>) {
       if (payload.userId !== "") {
         state.userId = payload.userId;
-        state.name =payload.name;
+        state.name = payload.name;
         localStorage.setItem("userInfo", JSON.stringify(payload));
       } else if (localStorage.getItem("userInfo") !== null) {
         const user = JSON.parse(localStorage.getItem("userInfo") || "");
@@ -37,4 +37,4 @@ export const userReducer = createSlice({
   },
 });
 
-export const {setInfo, setLogout} = userReducer.actions;
+export const { setInfo, setLogout } = userReducer.actions;

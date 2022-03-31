@@ -1,5 +1,5 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Items} from "../../common/festivalDataInterface";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Items } from "../../common/festivalDataInterface";
 
 export const contentReducer = createSlice({
   name: "festContent",
@@ -22,10 +22,10 @@ export const contentReducer = createSlice({
       referenceDate: "",
       relateInfo: "",
       suprtInstt: "",
-    }
+    },
   },
   reducers: {
-    setFestival(state, {payload}: PayloadAction<Items>) {
+    setFestival(state, { payload }: PayloadAction<Items>) {
       // state.contents = {...payload}
       // console.log(state);
     },

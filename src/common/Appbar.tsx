@@ -26,12 +26,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
 import { setInfo, setLogout } from "../features/reducers/userReducer";
 
-function Appbar() {
-  interface IUser {
-    userId: string;
-    name: string;
-  }
+interface IUser {
+  userId: string;
+  name: string;
+}
 
+function Appbar() {
   const dispatch = useDispatch();
   const user = useSelector((store: RootState) => store.userReducer);
   const { isOpen, onOpen, onClose } = useDisclosure();
