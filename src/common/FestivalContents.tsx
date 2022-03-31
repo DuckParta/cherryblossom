@@ -31,6 +31,7 @@ import { useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { AddWishListButton } from "./AddWishListButton";
+import { Items } from "./festivalDataInterface";
 
 function FestivalContents() {
   const [login, setLogin] = useState(false);
@@ -124,11 +125,13 @@ function FestivalContents() {
   }
 
   function checkFestival(fstList: any) {
-    for (let i = 0; i < fstList.length; i++) {
-      if (param.festivalName === fstList[i].fstvlId) {
-        setCurFstKey(i);
-        return true;
-      }
+    const index = fstList.findIndex(
+      (fst: Items) => param.festivalName === fst.fstvlId
+    );
+
+    if (index !== -1) {
+      setCurFstKey(index);
+      return true;
     }
   }
 
