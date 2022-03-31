@@ -9,12 +9,9 @@ import {
   Divider,
   Flex,
   Heading,
-  Text,
   Link,
   ListItem,
   UnorderedList,
-  Icon,
-  IconButton,
   Button,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ExternalLinkIcon } from "@chakra-ui/icons";
@@ -31,7 +28,7 @@ import {
 } from "firebase/database";
 import { database } from "../util/firebase";
 import { useParams } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { AddWishListButton } from "./AddWishListButton";
 import { Items } from "./festivalDataInterface";
@@ -121,7 +118,11 @@ function FestivalContents() {
         const fstList: any = Object.values(data);
         if (checkFestival(fstList)) {
           setIsWish(true);
+        } else {
+          setIsWish(false);
         }
+      } else {
+        setIsWish(false);
       }
     });
   }
