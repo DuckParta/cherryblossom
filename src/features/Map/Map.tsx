@@ -1,14 +1,14 @@
-/* global kakao */
 import React, { useEffect } from "react";
 import "./Map.css";
 
 declare global {
+  // eslint-disable-next-line no-unused-vars
   interface Window {
     kakao: any;
   }
 }
 
-const { kakao } = window;
+const { kakao}: Window  = window;
 
 const Map = ({ latitude, longitude }: any) => {
   useEffect(() => {
@@ -69,7 +69,7 @@ const Map = ({ latitude, longitude }: any) => {
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-    function placesSearchCB(data: any, status: any, pagination: any) {
+    function placesSearchCB(data: any, status: any) {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
         displayPlaces(data);
@@ -194,6 +194,7 @@ const Map = ({ latitude, longitude }: any) => {
     }
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
+    // eslint-disable-next-line no-unused-vars
     function onClickCategory(this: any) {
       var id = this.id,
         className = this.className;

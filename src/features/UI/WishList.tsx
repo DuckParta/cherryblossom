@@ -1,4 +1,4 @@
-import Appbar from "./Appbar";
+import AppBar from "../Header/AppBar";
 import {
   Table,
   Thead,
@@ -12,12 +12,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { RootState } from "../features/reducers";
+import { RootState } from "../../common/reducers";
 import { onValue, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
-import { Items } from "./festivalDataInterface";
-import { database } from "../util/firebase";
-import { Link, useLocation } from "react-router-dom";
+import { Items } from "../../common/Interface/festivalDataInterface";
+import { database } from "../../common/util/firebase";
+import { Link } from "react-router-dom";
 
 function WishList() {
   const user = useSelector((state: RootState) => state.userReducer);
@@ -30,15 +30,8 @@ function WishList() {
     }
   }, [user]);
 
-  // console.log(user);
-  // console.log("fstList", fstList);
-  // console.log("deleteKeys", deleteKeys);
-
   function onDelete(index: number) {
-    console.log("onDelete", index);
-    remove(ref(database, `${user.userId}/${deleteKeys[index]}`)).then((r) => {
-      console.log("removed successfully");
-    });
+    remove(ref(database, `${user.userId}/${deleteKeys[index]}`));
   }
 
   function getFestival() {
@@ -46,9 +39,10 @@ function WishList() {
     onValue(userRef, (snapshot) => {
       const data = snapshot.val();
       let fstList: any;
+
       if (data !== null) {
         fstList = Object.values(data);
-        setDeleteKeys((cur) => Object.keys(data));
+        setDeleteKeys(() => Object.keys(data));
       } else {
         setDeleteKeys([]);
       }
@@ -58,7 +52,7 @@ function WishList() {
 
   return (
     <Container>
-      <Appbar />
+      <AppBar />
       <Text>내 축제</Text>
       <Box>
         <Table variant="simple">

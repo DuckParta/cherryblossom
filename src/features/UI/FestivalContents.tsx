@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/reducers";
-import Appbar from "./Appbar";
-import Map from "./Map/Map";
+import { RootState } from "../../common/reducers";
+import AppBar from "../Header/AppBar";
+import Map from "../Map/Map";
 import {
   Box,
   Center,
@@ -9,13 +9,13 @@ import {
   Divider,
   Flex,
   Heading,
-  Text,
   Link,
   ListItem,
   UnorderedList,
+  Button,
 } from "@chakra-ui/react";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
-import getDecimalDay from "./getDecimalDay";
+import { ArrowBackIcon, ExternalLinkIcon } from "@chakra-ui/icons";
+import getDecimalDay from "../Compute/getDecimalDay";
 import {
   ref,
   set,
@@ -26,11 +26,12 @@ import {
   child,
   getDatabase,
 } from "firebase/database";
-import { database } from "../util/firebase";
+import { database } from "../../common/util/firebase";
 import { useParams } from "react-router";
-import { useEffect, useRef, useState } from "react";
-import { fetchFestivalData } from "../features/async/fetchFestivalData";
+import { useEffect, useState } from "react";
+import { fetchFestivalData } from "../../common/async/fetchFestivalData";
 import { AddWishListButton } from "./AddWishListButton";
+import { Items } from "../../common/Interface/festivalDataInterface";
 
 function FestivalContents() {
   const [login, setLogin] = useState(false);
@@ -39,10 +40,7 @@ function FestivalContents() {
 
   const param = useParams();
   const dispatch = useDispatch();
-  const { content, status } = useSelector(
-    (state: RootState) => state.fetchReducer
-  );
-  // console.log(status);
+  const { content } = useSelector((state: RootState) => state.fetchReducer);
   const user = useSelector((state: RootState) => state.userReducer);
 
   const decimalDay = getDecimalDay(content.fstvlStartDate);
@@ -113,31 +111,42 @@ function FestivalContents() {
     const userRef = ref(database, `${user.userId}`);
     onValue(userRef, (snapshot) => {
       if (snapshot.exists()) {
-        // 중복체크
         const data = snapshot.val();
         const fstList: any = Object.values(data);
         if (checkFestival(fstList)) {
           setIsWish(true);
+        } else {
+          setIsWish(false);
         }
+      } else {
+        setIsWish(false);
       }
     });
   }
 
   function checkFestival(fstList: any) {
-    for (let i = 0; i < fstList.length; i++) {
-      if (param.festivalName === fstList[i].fstvlId) {
-        setCurFstKey(i);
-        return true;
-      }
+    const index = fstList.findIndex(
+      (fst: Items) => param.festivalName === fst.fstvlId
+    );
+
+    if (index !== -1) {
+      setCurFstKey(index);
+      return true;
     }
   }
 
   return (
     <Container maxW="container.xl" mt="2em">
-      <Appbar />
+      <AppBar />
       <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
-          <Text>뒤로가기</Text>
+          <Box>
+            <Link href="/">
+              <Button colorScheme={"whiteAlpha"}>
+                <ArrowBackIcon color={"black"} boxSize={7} />
+              </Button>
+            </Link>
+          </Box>
           <Center my="50px">
             <Heading size="2xl">{content.fstvlNm}</Heading>
           </Center>
@@ -193,23 +202,6 @@ function FestivalContents() {
           </Flex>
         </Box>
       </Flex>
-      <Box mt="200px" position="fixed" right="10%">
-        <Flex
-          flexDirection="column"
-          w="100px"
-          h="100px"
-          bg="gray.100"
-          borderRadius="xl"
-          py="20px"
-        >
-          <Heading size="md" textAlign="center">
-            {decimalDay}
-          </Heading>
-          <Center m="10px">
-            <AddWishListButton onAdd={handleWishButtonClick} />
-          </Center>
-        </Flex>
-      </Box>
     </Container>
   );
 }

@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Items } from "./festivalDataInterface";
+import { Items } from "../../common/Interface/festivalDataInterface";
 import FestivalItem from "./FestivalItem";
-import useIntersectionObserver from "../features/hooks/useIntersectionObserver";
-import { RootState } from "../features/reducers";
+import useIntersectionObserver from "../../common/hooks/useIntersectionObserver";
+import { RootState } from "../../common/reducers";
 
 import { Box, Flex } from "@chakra-ui/react";
-import SkeletonFestivalItem from "./SkeletonFestivalItem";
+import SkeletonFestivalItem from "../UI/SkeletonFestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
-  const { loading, list } = useIntersectionObserver(page);
+  const { loading } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { items, selectedCategories } = useSelector(
+  const { items } = useSelector(
     (state: RootState) => state.festivalDataReducer
   );
 
@@ -32,9 +32,9 @@ export default function FestivalsList() {
       rootMargin: "20px",
       threshold: 0,
     };
-    let observer = new IntersectionObserver(handleObserver, option);
+    let observer = new global.IntersectionObserver(handleObserver, option);
     if (loader.current) {
-      observer = new IntersectionObserver(handleObserver, {
+      observer = new global.IntersectionObserver(handleObserver, {
         ...option,
       });
       observer.observe(loader.current);

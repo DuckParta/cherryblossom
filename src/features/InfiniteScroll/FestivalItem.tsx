@@ -1,30 +1,13 @@
-import { Items } from "./festivalDataInterface";
-
-import { Box, Flex, Text, Heading, Center, Image } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFestivalData } from "../features/async/fetchFestivalData";
-import { RootState } from "../features/reducers";
-import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
-import {useEffect, useState} from "react";
-import getFestivalData from "../service/getFestivalData";
+import { Items } from "../../common/Interface/festivalDataInterface";
+import { Box, Flex, Text, Heading, Center } from "@chakra-ui/react";
 
 export default function FestivalItem(props: { items: Items }) {
-  getFestivalData();
-
-  const { items } = useSelector(
-    (state: RootState) => state.festivalDataReducer
-  );
-  const dispatch = useDispatch();
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
     props.items;
 
   function handleFestivalListClick() {
     // dispatch(setFestival(props.items));
     // dispatch(fetchFestivalData({ param: props.items }));
-  }
-
-  function handleWishButtonClick() {
-    console.log(fstvlNm + " add wish list");
   }
 
   return (

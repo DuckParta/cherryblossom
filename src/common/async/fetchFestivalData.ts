@@ -1,14 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Items } from "../../common/festivalDataInterface";
+import { Items } from "../Interface/festivalDataInterface";
 
 export const fetchFestivalData = createAsyncThunk(
   "fetchFestivalData",
   async ({ param }: any, thunkAPI) => {
-    const fstNm = param.festivalName.slice(
-      0,
-      param.festivalName.indexOf("-")
-    );
+    const fstNm = param.festivalName.slice(0, param.festivalName.indexOf("-"));
     // console.log(fstNm);
     const URL = `http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${fstNm}`;
     try {
@@ -25,7 +22,7 @@ const fetchSlice = createSlice({
   name: "contents",
   initialState: {
     content: {} as Items,
-    status: "",
+    status: ""
   },
   reducers: {
     // setContents() {},
@@ -41,10 +38,10 @@ const fetchSlice = createSlice({
         state.content = { ...payload };
       }
     );
-    builder.addCase(fetchFestivalData.rejected, (state, action) => {
+    builder.addCase(fetchFestivalData.rejected, (state) => {
       state.status = "failed";
     });
-  },
+  }
 });
 
 export default fetchSlice;

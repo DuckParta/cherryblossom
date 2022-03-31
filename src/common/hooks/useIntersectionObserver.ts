@@ -1,14 +1,13 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
-import { Items } from "../../common/festivalDataInterface";
+import { Items } from "../Interface/festivalDataInterface";
 import { festivalDataReducer } from "../reducers/festivalDataReducer";
 
 export default function useIntersectionObserver(page: number) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(false);
   const [list, setList] = useState<Items[]>([]);
 
   const sendQuery = useCallback(async () => {
@@ -24,8 +23,8 @@ export default function useIntersectionObserver(page: number) {
       }
       await setList((prev: Items[]) => [...new Set([...prev, ...items])]); // 주석처리
       await dispatch(festivalDataReducer.actions.getFestivalData(items));
-    } catch(error) {
-      setError(error);
+    } catch (error) {
+      console.log(error);
     }
   }, [page]);
 
