@@ -13,11 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../features/reducers";
-import {
-  onValue,
-  ref,
-  remove,
-} from "firebase/database";
+import { onValue, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Items } from "./festivalDataInterface";
 import { database } from "../util/firebase";

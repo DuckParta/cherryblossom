@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchFestivalData } from "../features/async/fetchFestivalData";
 import { RootState } from "../features/reducers";
 import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export default function FestivalItem(props: { items: Items }) {
   const { items } = useSelector(
