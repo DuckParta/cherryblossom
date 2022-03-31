@@ -13,8 +13,11 @@ import {
   Link,
   ListItem,
   UnorderedList,
+  Icon,
+  IconButton,
+  Button,
 } from "@chakra-ui/react";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import getDecimalDay from "./getDecimalDay";
 import {
   ref,
@@ -114,7 +117,6 @@ function FestivalContents() {
     const userRef = ref(database, `${user.userId}`);
     onValue(userRef, (snapshot) => {
       if (snapshot.exists()) {
-        // 중복체크
         const data = snapshot.val();
         const fstList: any = Object.values(data);
         if (checkFestival(fstList)) {
@@ -140,7 +142,13 @@ function FestivalContents() {
       <Appbar />
       <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
-          <Text>뒤로가기</Text>
+          <Box>
+            <Link href="/">
+              <Button colorScheme={"whiteAlpha"}>
+                <ArrowBackIcon color={"black"} boxSize={7} />
+              </Button>
+            </Link>
+          </Box>
           <Center my="50px">
             <Heading size="2xl">{content.fstvlNm}</Heading>
           </Center>
