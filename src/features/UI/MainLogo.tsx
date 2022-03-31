@@ -1,6 +1,6 @@
-import { Center, Flex, Box, Text, Heading } from "@chakra-ui/react";
+import { Center, Box, Text, Heading } from "@chakra-ui/react";
 
-function MainHeader() {
+function MainLogo() {
   return (
     <Box marginY="100px" justifyContent="center">
       <Center>
@@ -15,4 +15,4 @@ function MainHeader() {
   );
 }
 
-export default MainHeader;
+export default MainLogo;

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/reducers";
-import Appbar from "./Appbar";
-import Map from "./Map/Map";
+import { RootState } from "../../common/reducers";
+import AppBar from "../Header/AppBar";
+import Map from "../Map/Map";
 import {
   Box,
   Center,
@@ -15,7 +15,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import getDecimalDay from "./getDecimalDay";
+import getDecimalDay from "../Compute/getDecimalDay";
 import {
   ref,
   set,
@@ -26,12 +26,12 @@ import {
   child,
   getDatabase,
 } from "firebase/database";
-import { database } from "../util/firebase";
+import { database } from "../../common/util/firebase";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { fetchFestivalData } from "../features/async/fetchFestivalData";
+import { fetchFestivalData } from "../../common/async/fetchFestivalData";
 import { AddWishListButton } from "./AddWishListButton";
-import { Items } from "./festivalDataInterface";
+import { Items } from "../../common/Interface/festivalDataInterface";
 
 function FestivalContents() {
   const [login, setLogin] = useState(false);
@@ -40,10 +40,7 @@ function FestivalContents() {
 
   const param = useParams();
   const dispatch = useDispatch();
-  const { content, status } = useSelector(
-    (state: RootState) => state.fetchReducer
-  );
-  // console.log(status);
+  const { content } = useSelector((state: RootState) => state.fetchReducer);
   const user = useSelector((state: RootState) => state.userReducer);
 
   const decimalDay = getDecimalDay(content.fstvlStartDate);
@@ -140,7 +137,7 @@ function FestivalContents() {
 
   return (
     <Container maxW="container.xl" mt="2em">
-      <Appbar />
+      <AppBar />
       <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
           <Box>
@@ -205,23 +202,6 @@ function FestivalContents() {
           </Flex>
         </Box>
       </Flex>
-      <Box mt="200px" position="fixed" right="10%">
-        <Flex
-          flexDirection="column"
-          w="100px"
-          h="100px"
-          bg="gray.100"
-          borderRadius="xl"
-          py="20px"
-        >
-          <Heading size="md" textAlign="center">
-            {decimalDay}
-          </Heading>
-          <Center m="10px">
-            <AddWishListButton onAdd={handleWishButtonClick} />
-          </Center>
-        </Flex>
-      </Box>
     </Container>
   );
 }

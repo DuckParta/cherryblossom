@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitialFestivalData, Items } from "../../common/festivalDataInterface";
-import getDecimalDay from "../../common/getDecimalDay";
+import { InitialFestivalData, Items } from "../Interface/festivalDataInterface";
+import getDecimalDay from "../../features/Compute/getDecimalDay";
 import { fetchFestivalData } from "../async/fetchFestivalData";
 
 const initialState = {

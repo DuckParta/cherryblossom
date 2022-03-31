@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { festivalDataReducer } from "../features/reducers/festivalDataReducer";
+import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
 
 import { Checkbox } from "@chakra-ui/react";
 import { useState } from "react";

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { initializeApp } from "firebase/app";
 
 interface IUser {
   userId: string;

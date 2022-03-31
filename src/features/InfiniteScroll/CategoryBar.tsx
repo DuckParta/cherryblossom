@@ -1,19 +1,19 @@
 import { Flex, Center, CheckboxGroup } from "@chakra-ui/react";
 import { LocationCheckbox } from "./LocationCheckbox";
 
-export default function CategoryBar() {
-  const LOCATION_LIST = [
-    "서울",
-    "경기/인천",
-    "충청/대전",
-    "전라/광주",
-    "경북/대구",
-    "경남/부산/울산",
-    "강원",
-    "제주",
-    "기타",
-  ];
+const LOCATION_LIST = [
+  "서울",
+  "경기/인천",
+  "충청/대전",
+  "전라/광주",
+  "경북/대구",
+  "경남/부산/울산",
+  "강원",
+  "제주",
+  "기타",
+];
 
+export default function CategoryBar() {
   const locationButtonsList = LOCATION_LIST.map((location) => {
     return <LocationCheckbox key={location} location={location} />;
   });

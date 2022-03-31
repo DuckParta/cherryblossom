@@ -23,15 +23,15 @@ import { useEffect, useState } from "react";
 import GoogleLogin from "react-google-login";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/reducers";
-import { setInfo, setLogout } from "../features/reducers/userReducer";
+import { RootState } from "../../common/reducers";
+import { setInfo, setLogout } from "../../common/reducers/userReducer";
 
 interface IUser {
   userId: string;
   name: string;
 }
 
-function Appbar() {
+function AppBar() {
   const dispatch = useDispatch();
   const user = useSelector((store: RootState) => store.userReducer);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -65,7 +65,7 @@ function Appbar() {
 
   const onKakaoLogin = () => {
     Kakao.Auth.login({
-      success: (authObj: any) => {
+      success: () => {
         Kakao.API.request({
           url: "/v2/user/me",
           success: (res: any) => {
@@ -280,4 +280,4 @@ function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
   );
 }
 
-export default Appbar;
+export default AppBar;
