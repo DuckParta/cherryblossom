@@ -81,11 +81,21 @@ function FestivalContents() {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            fstvlId: param.festivalName,
+            fstvlId: param.festivalName+content.fstvlStartDate,
+            fstvlNm: param.festivalName,
             opar: content.opar,
             fstvlCo: content.fstvlCo,
             fstvlStartDate: content.fstvlStartDate,
             fstvlEndDate: content.fstvlEndDate,
+            homepageUrl: content.homepageUrl,
+            latitude: content.latitude,
+            longitude: content.longitude,
+            mnst: content.mnnst,
+            phoneNumber: content.phoneNumber,
+            rdnmadr: content.rdnmadr,
+            referenceData: content.referenceDate,
+            relateInfo: content.relateInfo,
+            suprtInstt: content.suprtInstt
           });
         } else {
           // 축제가 있다면 삭제
@@ -97,14 +107,25 @@ function FestivalContents() {
         // 사용자 정보가 등록되어 있지 않다면 축제 저장
         const newPostRef = push(userRef);
         set(newPostRef, {
-          fstvlId: param.festivalName,
+          fstvlId: param.festivalName+content.fstvlStartDate,
+          fstvlNm: param.festivalName,
           opar: content.opar,
           fstvlCo: content.fstvlCo,
           fstvlStartDate: content.fstvlStartDate,
           fstvlEndDate: content.fstvlEndDate,
+          homepageUrl: content.homepageUrl,
+          latitude: content.latitude,
+          longitude: content.longitude,
+          mnst: content.mnnst,
+          phoneNumber: content.phoneNumber,
+          rdnmadr: content.rdnmadr,
+          referenceData: content.referenceDate,
+          relateInfo: content.relateInfo,
+          suprtInstt: content.suprtInstt
         });
       }
     });
+    
   }
 
   function getFestival() {
@@ -136,7 +157,7 @@ function FestivalContents() {
   }
 
   return (
-    <Container maxW="container.xl" mt="2em">
+    <Container maxW="container.xl" mt="2em" pb="100px">
       <AppBar />
       <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
@@ -181,7 +202,7 @@ function FestivalContents() {
             <Map latitude={content.latitude} longitude={content.longitude} />
           </Box>
         </Flex>
-        <Box mt="200px" position="fixed" right="10%">
+        <Box mt="200px" position="fixed" right="5%">
           <Flex
             flexDirection="column"
             w="100px"

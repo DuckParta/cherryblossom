@@ -2,9 +2,9 @@ import { Center, Box, Text, Heading } from "@chakra-ui/react";
 
 function MainLogo() {
   return (
-    <Box marginY="100px" justifyContent="center">
+    <Box marginY="10%" justifyContent="center">
       <Center>
-        <Heading fontSize="7xl" fontFamily="Courgette" mb="50px">
+        <Heading mb="5%" textAlign="center" fontSize="7xl" fontFamily="Courgette">
           Cherry Blossom
         </Heading>
       </Center>

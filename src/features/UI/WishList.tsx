@@ -41,9 +41,11 @@ function WishList() {
     });
   }
 
-  const DeleteWishItemButton = (onDelete: any) => {
+  const DeleteWishItemButton = (props: {onDelete: any, index: number}) => {
+    const {onDelete, index} = props;
+
     return (
-      <Button onClick={() => onDelete}>삭제</Button>
+      <Button onClick={onDelete(index)}>삭제</Button>
     )
   } 
 
@@ -58,14 +60,14 @@ function WishList() {
           <Box width="70%">
             <Flex flexFlow="column wrap" justifyContent="space-around">
               <Flex flexFlow="row wrap" justifyContent="space-around">
-              {festivalList.map((item: Items): JSX.Element => {
+              {festivalList.map((item: Items, index: number): JSX.Element => {
                 const itemKey = item.id;
                 if (item.isPassedDate) {
                   return (
                     <Box key={itemKey}>
                       <OutOfDateFestivalItem items={item} />
                       <Center>
-                        <DeleteWishItemButton onDelete={onDelete}/>
+                        <DeleteWishItemButton onDelete={onDelete} index={index}/>
                       </Center>
                     </Box>
                   );
@@ -76,7 +78,7 @@ function WishList() {
                       <FestivalItem items={item} />
                     </Link>
                     <Center>
-                      <DeleteWishItemButton onDelete={onDelete}/>
+                      <DeleteWishItemButton onDelete={onDelete} index={index}/>
                     </Center>
                   </Box>
                 );

@@ -23,7 +23,7 @@ export default function CategoryBar() {
       <Center marginTop="30px" boxShadow="0 0 15px rgb(0 0 0 / 15%)">
         <Flex
           flexFlow="row wrap"
-          justifyContent="space-around"
+          justifyContent="space-between"
           width="80%"
           paddingY="20px"
         >

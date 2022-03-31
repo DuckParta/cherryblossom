@@ -7,8 +7,8 @@ import useIntersectionObserver from "../../common/hooks/useIntersectionObserver"
 import { RootState } from "../../common/reducers";
 
 import { Box, Flex } from "@chakra-ui/react";
-import SkeletonFestivalItem from "../UI/SkeletonFestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
+import CreateSkeletonItems from "./CreateSkeletonItems";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
@@ -65,7 +65,7 @@ export default function FestivalsList() {
         {renderList}
         <div ref={loader}></div>
       </Flex>
-      {loading && <SkeletonFestivalItem />}
+      {loading && <CreateSkeletonItems/>}
     </Box>
   );
 }
