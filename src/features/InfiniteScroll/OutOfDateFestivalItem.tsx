@@ -1,5 +1,5 @@
-import { Box, Flex, Text, Heading, Center, Image } from "@chakra-ui/react";
-import { Items } from "./festivalDataInterface";
+import { Box, Flex, Text, Heading, Center } from "@chakra-ui/react";
+import { Items } from "../../common/Interface/festivalDataInterface";
 
 export default function OutOfDateFestivalItem(props: { items: Items }) {
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =

@@ -3,7 +3,7 @@ import FestivalsList from "./FestivalsList";
 
 import { Center, Box } from "@chakra-ui/react";
 
-export default function Container() {
+export default function FestivalsWrapper() {
   return (
     <Box>
       <CategoryBar />

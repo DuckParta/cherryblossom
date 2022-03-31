@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Items } from "../../common/festivalDataInterface";
+import { Items } from "../Interface/festivalDataInterface";
 
 export const contentReducer = createSlice({
   name: "festContent",

@@ -1,4 +1,4 @@
-import Appbar from "./Appbar";
+import AppBar from "../Header/AppBar";
 import {
   Table,
   Thead,
@@ -12,11 +12,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { RootState } from "../features/reducers";
+import { RootState } from "../../common/reducers";
 import { onValue, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
-import { Items } from "./festivalDataInterface";
-import { database } from "../util/firebase";
+import { Items } from "../../common/Interface/festivalDataInterface";
+import { database } from "../../common/util/firebase";
 import { Link } from "react-router-dom";
 
 function WishList() {
@@ -52,7 +52,7 @@ function WishList() {
 
   return (
     <Container>
-      <Appbar />
+      <AppBar />
       <Text>내 축제</Text>
       <Box>
         <Table variant="simple">

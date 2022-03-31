@@ -1,7 +1,7 @@
-import { Skeleton, Flex, Center, Box, Heading } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, Skeleton } from "@chakra-ui/react";
 
 export default function SkeletonFestivalItem() {
-  const skeletonItem = (
+  return (
     <Box
       margin="15px"
       padding="30px"
@@ -31,16 +31,5 @@ export default function SkeletonFestivalItem() {
         <Skeleton h="30px" />
       </Flex>
     </Box>
-  );
-
-  const skeletonItemsList = [];
-  for (let i = 0; i < 12; i++) {
-    const keyOfItem = <Box key={JSON.stringify(i)}>{skeletonItem}</Box>;
-    skeletonItemsList.push(keyOfItem);
-  }
-  return (
-    <Flex flexFlow="row wrap" justifyContent="space-around">
-      {skeletonItemsList}
-    </Flex>
   );
 }

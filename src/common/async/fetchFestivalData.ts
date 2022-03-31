@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Items } from "../../common/festivalDataInterface";
+import { Items } from "../Interface/festivalDataInterface";
 
 export const fetchFestivalData = createAsyncThunk(
   "fetchFestivalData",
@@ -22,7 +22,7 @@ const fetchSlice = createSlice({
   name: "contents",
   initialState: {
     content: {} as Items,
-    status: "",
+    status: ""
   },
   reducers: {
     // setContents() {},
@@ -38,10 +38,10 @@ const fetchSlice = createSlice({
         state.content = { ...payload };
       }
     );
-    builder.addCase(fetchFestivalData.rejected, (state, action) => {
+    builder.addCase(fetchFestivalData.rejected, (state) => {
       state.status = "failed";
     });
-  },
+  }
 });
 
 export default fetchSlice;

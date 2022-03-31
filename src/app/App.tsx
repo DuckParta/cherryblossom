@@ -1,14 +1,13 @@
-import Container from "../common/Container";
-import { ChakraProvider } from "@chakra-ui/react";
-import MainHeader from "../common/MainHeader";
-import Appbar from "../common/Appbar";
+import FestivalsWrapper from "../features/InfiniteScroll/FestivalsWrapper";
+import MainLogo from "../features/UI/MainLogo";
+import AppBar from "../features/Header/AppBar";
 
 function App() {
   return (
     <>
-      <Appbar />
-      <MainHeader />
-      <Container />
+      <AppBar />
+      <MainLogo />
+      <FestivalsWrapper />
     </>
   );
 }
