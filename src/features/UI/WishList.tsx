@@ -1,27 +1,18 @@
 import AppBar from "../Header/AppBar";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Text,
-  Box,
-  Container,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../common/reducers";
 import { onValue, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Items } from "../../common/Interface/festivalDataInterface";
 import { database } from "../../common/util/firebase";
+import FestivalItem from "../InfiniteScroll/FestivalItem";
+import OutOfDateFestivalItem from "../InfiniteScroll/OutOfDateFestivalItem";
 import { Link } from "react-router-dom";
 
 function WishList() {
   const user = useSelector((state: RootState) => state.userReducer);
-  const [fstList, setFstList] = useState<Items[]>([]);
+  const [festivalList, setFestivalList] = useState<Items[]>([]);
   const [deleteKeys, setDeleteKeys] = useState<String[]>([]);
 
   useEffect(() => {
@@ -46,50 +37,56 @@ function WishList() {
       } else {
         setDeleteKeys([]);
       }
-      setFstList(fstList);
+      setFestivalList(fstList);
     });
   }
 
+  const DeleteWishItemButton = (onDelete: any) => {
+    return (
+      <Button onClick={() => onDelete}>삭제</Button>
+    )
+  } 
+
   return (
-    <Container>
+    <Box>
       <AppBar />
-      <Text>내 축제</Text>
-      <Box>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>축제명</Th>
-              <Th>축제 장소</Th>
-              <Th>축제 내용</Th>
-              <Th>축제 기간</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {fstList !== undefined
-              ? fstList.map((fItem, i) => {
+        <Box bgColor="gray.50" pb="100px">
+        <Center py="100px">
+          <Heading>내 축제 리스트</Heading>
+        </Center>
+        <Center>
+          <Box width="70%">
+            <Flex flexFlow="column wrap" justifyContent="space-around">
+              <Flex flexFlow="row wrap" justifyContent="space-around">
+              {festivalList.map((item: Items): JSX.Element => {
+                const itemKey = item.id;
+                if (item.isPassedDate) {
                   return (
-                    <Tr key={i}>
-                      <Td>
-                        <Link to={`/festivalContent/${fItem.fstvlId}`}>
-                          {fItem.fstvlId.slice(0, fItem.fstvlId.indexOf("-"))}
-                        </Link>
-                      </Td>
-                      <Td>{fItem.opar}</Td>
-                      <Td>{fItem.fstvlCo}</Td>
-                      <Td>
-                        {`${fItem.fstvlStartDate} ~ ${fItem.fstvlEndDate}`}
-                      </Td>
-                      <Td>
-                        <Button onClick={() => onDelete(i)}>삭제</Button>
-                      </Td>
-                    </Tr>
+                    <Box key={itemKey}>
+                      <OutOfDateFestivalItem items={item} />
+                      <Center>
+                        <DeleteWishItemButton onDelete={onDelete}/>
+                      </Center>
+                    </Box>
                   );
-                })
-              : null}
-          </Tbody>
-        </Table>
+                }
+                return (
+                  <Box key={itemKey}>
+                    <Link to={`festivalContent/${item.id}`} key={itemKey}>
+                      <FestivalItem items={item} />
+                    </Link>
+                    <Center>
+                      <DeleteWishItemButton onDelete={onDelete}/>
+                    </Center>
+                  </Box>
+                );
+              })}
+              </Flex>
+            </Flex>
+          </Box>
+        </Center>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

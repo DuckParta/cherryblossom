@@ -45,41 +45,17 @@ export default function FestivalsList() {
     };
   }, [handleObserver, loader]);
 
-  const renderList = items.map((item: Items, index: number): JSX.Element => {
-    const itemKey = item.fstvlNm + JSON.stringify(index);
+  const renderList = items.map((item: Items): JSX.Element => {
+    const itemKey = item.id;
     if (item.isPassedDate) {
       return (
-        <Box
-          key={itemKey}
-          margin="15px"
-          padding="30px"
-          w="300px"
-          h="300px"
-          boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-          bg="gray.100"
-          rounded="3xl"
-          textAlign="center"
-        >
-          <OutOfDateFestivalItem items={item} />
-        </Box>
+        <OutOfDateFestivalItem key={itemKey} items={item} />
       );
     }
     return (
-      <Box
-        key={itemKey}
-        margin="15px"
-        padding="30px"
-        w="300px"
-        h="300px"
-        boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-        bg="white"
-        rounded="3xl"
-        textAlign="center"
-      >
-        <Link to={`festivalContent/${item.id}`}>
-          <FestivalItem items={item} />
-        </Link>
-      </Box>
+      <Link to={`festivalContent/${item.id}`} key={itemKey}>
+        <FestivalItem items={item} />
+      </Link>
     );
   });
 
