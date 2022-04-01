@@ -7,8 +7,8 @@ import useIntersectionObserver from "../../common/hooks/useIntersectionObserver"
 import { RootState } from "../../common/reducers";
 
 import { Box, Flex } from "@chakra-ui/react";
-import SkeletonFestivalItem from "../UI/SkeletonFestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
+import CreateSkeletonItems from "./CreateSkeletonItems";
 
 export default function FestivalsList() {
   const [page, setPage] = useState(1);
@@ -49,37 +49,13 @@ export default function FestivalsList() {
     const itemKey = item.fstvlNm + JSON.stringify(index);
     if (item.isPassedDate) {
       return (
-        <Box
-          key={itemKey}
-          margin="15px"
-          padding="30px"
-          w="300px"
-          h="300px"
-          boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-          bg="gray.100"
-          rounded="3xl"
-          textAlign="center"
-        >
-          <OutOfDateFestivalItem items={item} />
-        </Box>
+        <OutOfDateFestivalItem key={itemKey} items={item}/>
       );
     }
     return (
-      <Box
-        key={itemKey}
-        margin="15px"
-        padding="30px"
-        w="300px"
-        h="300px"
-        boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-        bg="white"
-        rounded="3xl"
-        textAlign="center"
-      >
-        <Link to={`festivalContent/${item.id}`}>
-          <FestivalItem items={item} />
-        </Link>
-      </Box>
+      <Link to={`festivalContent/${item.id}`} key={itemKey}>
+        <FestivalItem items={item} />
+      </Link>
     );
   });
 
@@ -89,7 +65,7 @@ export default function FestivalsList() {
         {renderList}
         <div ref={loader}></div>
       </Flex>
-      {loading && <SkeletonFestivalItem />}
+      {loading && <CreateSkeletonItems />}
     </Box>
   );
 }
