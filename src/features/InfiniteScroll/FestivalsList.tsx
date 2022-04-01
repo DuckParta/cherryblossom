@@ -1,21 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Items } from "../../common/Interface/festivalDataInterface";
 import FestivalItem from "./FestivalItem";
 import useIntersectionObserver from "../../common/hooks/useIntersectionObserver";
 import { RootState } from "../../common/reducers";
+import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
 
 import { Box, Flex } from "@chakra-ui/react";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
 import CreateSkeletonItems from "./CreateSkeletonItems";
 
 export default function FestivalsList() {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const { loading } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { items } = useSelector(
+  const { items, selectedCategories } = useSelector(
     (state: RootState) => state.festivalDataReducer
   );
 
@@ -45,8 +47,12 @@ export default function FestivalsList() {
     };
   }, [handleObserver, loader]);
 
-  const renderList = items.map((item: Items, index: number): JSX.Element => {
-    const itemKey = item.fstvlNm + JSON.stringify(index);
+  useEffect(() => {
+    dispatch(festivalDataReducer.actions.filterLocation());
+  },[selectedCategories])
+
+  const renderList = items.map((item: Items): JSX.Element => {
+    const itemKey = item.id;
     if (item.isPassedDate) {
       return (
         <OutOfDateFestivalItem key={itemKey} items={item}/>
