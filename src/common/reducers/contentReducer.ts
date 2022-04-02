@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Items } from "../Interface/festivalDataInterface";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const contentReducer = createSlice({
   name: "festContent",
@@ -25,12 +23,5 @@ export const contentReducer = createSlice({
       suprtInstt: "",
     },
   },
-  reducers: {
-    setFestival(state, { payload }: PayloadAction<Items>) {
-      // state.contents = {...payload}
-      // console.log(state);
-    },
-  },
+  reducers: {},
 });
-
-// export const { setFestival } = contentReducer.actions;

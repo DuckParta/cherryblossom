@@ -26,7 +26,7 @@ import {
   child,
   getDatabase,
 } from "firebase/database";
-import { database } from "../../common/util/firebase";
+import { database } from "../../common/service/firebase";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { fetchFestivalData } from "../../common/async/fetchFestivalData";
@@ -81,29 +81,20 @@ function FestivalContents() {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            // fstvlId: param.festivalName,
-            // opar: content.opar,
-            // fstvlCo: content.fstvlCo,
-            // fstvlStartDate: content.fstvlStartDate,
-            // fstvlEndDate: content.fstvlEndDate,
-            auspcInstt: content.auspcInstt,
+            fstvlId: param.festivalName+content.fstvlStartDate,
+            fstvlNm: param.festivalName,
+            opar: content.opar,
             fstvlCo: content.fstvlCo,
             fstvlEndDate: content.fstvlEndDate,
-            fstvlNm: content.fstvlNm,
-            fstvlStartDate: content.fstvlStartDate,
             homepageUrl: content.homepageUrl,
-            insttCode: content.insttCode,
             latitude: content.latitude,
-            lnmadr: content.lnmadr,
             longitude: content.longitude,
-            mnnst: content.mnnst,
-            opar: content.opar,
+            mnst: content.mnnst,
             phoneNumber: content.phoneNumber,
-            rdnmadr:content.rdnmadr,
-            referenceDate: content.referenceDate,
+            rdnmadr: content.rdnmadr,
+            referenceData: content.referenceDate,
             relateInfo: content.relateInfo,
             suprtInstt: content.suprtInstt
-
           });
         } else {
           // 축제가 있다면 삭제
@@ -115,31 +106,24 @@ function FestivalContents() {
         // 사용자 정보가 등록되어 있지 않다면 축제 저장
         const newPostRef = push(userRef);
         set(newPostRef, {
-          // fstvlId: param.festivalName,
-          // opar: content.opar,
-          // fstvlCo: content.fstvlCo,
-          // fstvlStartDate: content.fstvlStartDate,
-          // fstvlEndDate: content.fstvlEndDate,
-          auspcInstt: content.auspcInstt,
+          fstvlId: param.festivalName+content.fstvlStartDate,
+          fstvlNm: param.festivalName,
+          opar: content.opar,
           fstvlCo: content.fstvlCo,
           fstvlEndDate: content.fstvlEndDate,
-          fstvlNm: content.fstvlNm,
-          fstvlStartDate: content.fstvlStartDate,
           homepageUrl: content.homepageUrl,
-          insttCode: content.insttCode,
           latitude: content.latitude,
-          lnmadr: content.lnmadr,
           longitude: content.longitude,
-          mnnst: content.mnnst,
-          opar: content.opar,
+          mnst: content.mnnst,
           phoneNumber: content.phoneNumber,
-          rdnmadr:content.rdnmadr,
-          referenceDate: content.referenceDate,
+          rdnmadr: content.rdnmadr,
+          referenceData: content.referenceDate,
           relateInfo: content.relateInfo,
           suprtInstt: content.suprtInstt
         });
       }
     });
+    
   }
 
   function getFestival() {
@@ -171,7 +155,7 @@ function FestivalContents() {
   }
 
   return (
-    <Container maxW="container.xl" mt="2em">
+    <Container maxW="container.xl" mt="2em" pb="100px">
       <AppBar />
       {isWish && <Heading>"loading.."</Heading>}
       <Flex mt="2em" justifyContent="center">
@@ -204,7 +188,7 @@ function FestivalContents() {
               <ListItem>주최기관 : {content.auspcInstt}</ListItem>
               <ListItem>문의 전화 : {content.phoneNumber}</ListItem>
               <ListItem>
-                공식 사이트 :{" "}
+                공식 사이트 :{content.homepageUrl}
                 <Link href={content.homepageUrl}>
                   {content.homepageUrl}
                   <ExternalLinkIcon mx="3px" />
@@ -217,7 +201,7 @@ function FestivalContents() {
             <Map latitude={content.latitude} longitude={content.longitude} />
           </Box>
         </Flex>
-        <Box mt="200px" position="fixed" right="10%">
+        <Box mt="200px" position="fixed" right="5%">
           <Flex
             flexDirection="column"
             w="100px"

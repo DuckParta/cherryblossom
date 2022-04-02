@@ -1,5 +1,4 @@
 import { Items } from "../../common/Interface/festivalDataInterface";
-
 import { Box, Flex, Text, Heading, Center } from "@chakra-ui/react";
 
 export default function FestivalItem(props: { items: Items }) {
@@ -21,7 +20,7 @@ export default function FestivalItem(props: { items: Items }) {
       bg="white"
       rounded="3xl"
       textAlign="center"
-    >
+      >
       <Flex flexFlow="column nowrap" h="100%">
         <Heading size="lg">{location}</Heading>
         <Box h="70%">
