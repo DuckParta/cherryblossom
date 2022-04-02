@@ -81,11 +81,29 @@ function FestivalContents() {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            fstvlId: param.festivalName,
-            opar: content.opar,
+            // fstvlId: param.festivalName,
+            // opar: content.opar,
+            // fstvlCo: content.fstvlCo,
+            // fstvlStartDate: content.fstvlStartDate,
+            // fstvlEndDate: content.fstvlEndDate,
+            auspcInstt: content.auspcInstt,
             fstvlCo: content.fstvlCo,
-            fstvlStartDate: content.fstvlStartDate,
             fstvlEndDate: content.fstvlEndDate,
+            fstvlNm: content.fstvlNm,
+            fstvlStartDate: content.fstvlStartDate,
+            homepageUrl: content.homepageUrl,
+            insttCode: content.insttCode,
+            latitude: content.latitude,
+            lnmadr: content.lnmadr,
+            longitude: content.longitude,
+            mnnst: content.mnnst,
+            opar: content.opar,
+            phoneNumber: content.phoneNumber,
+            rdnmadr:content.rdnmadr,
+            referenceDate: content.referenceDate,
+            relateInfo: content.relateInfo,
+            suprtInstt: content.suprtInstt
+
           });
         } else {
           // 축제가 있다면 삭제
@@ -97,11 +115,28 @@ function FestivalContents() {
         // 사용자 정보가 등록되어 있지 않다면 축제 저장
         const newPostRef = push(userRef);
         set(newPostRef, {
-          fstvlId: param.festivalName,
-          opar: content.opar,
+          // fstvlId: param.festivalName,
+          // opar: content.opar,
+          // fstvlCo: content.fstvlCo,
+          // fstvlStartDate: content.fstvlStartDate,
+          // fstvlEndDate: content.fstvlEndDate,
+          auspcInstt: content.auspcInstt,
           fstvlCo: content.fstvlCo,
-          fstvlStartDate: content.fstvlStartDate,
           fstvlEndDate: content.fstvlEndDate,
+          fstvlNm: content.fstvlNm,
+          fstvlStartDate: content.fstvlStartDate,
+          homepageUrl: content.homepageUrl,
+          insttCode: content.insttCode,
+          latitude: content.latitude,
+          lnmadr: content.lnmadr,
+          longitude: content.longitude,
+          mnnst: content.mnnst,
+          opar: content.opar,
+          phoneNumber: content.phoneNumber,
+          rdnmadr:content.rdnmadr,
+          referenceDate: content.referenceDate,
+          relateInfo: content.relateInfo,
+          suprtInstt: content.suprtInstt
         });
       }
     });
@@ -138,6 +173,7 @@ function FestivalContents() {
   return (
     <Container maxW="container.xl" mt="2em">
       <AppBar />
+      {isWish && <Heading>"loading.."</Heading>}
       <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
           <Box>
