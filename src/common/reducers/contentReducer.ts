@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { Items } from "../Interface/festivalDataInterface";
 
 export const contentReducer = createSlice({
   name: "festContent",

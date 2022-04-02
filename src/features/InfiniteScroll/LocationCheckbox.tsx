@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
 
-import { Checkbox } from "@chakra-ui/react";
+import { Checkbox, Heading } from "@chakra-ui/react";
 import { useState } from "react";
 
 export const LocationCheckbox = (props: { location: string }) => {
@@ -30,7 +30,7 @@ export const LocationCheckbox = (props: { location: string }) => {
       bgColor="transparent"
       fontSize="lg"
     >
-      {location}
+      <Heading size="sm" fontWeight="semibold">{location}</Heading>
     </Checkbox>
   );
 };
