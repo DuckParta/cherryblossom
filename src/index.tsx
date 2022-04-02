@@ -24,7 +24,6 @@ ReactDOM.render(
         </Routes>
       </BrowserRouter>
     </Provider>
-    ,
   </ChakraProvider>,
   document.getElementById("root")
 );

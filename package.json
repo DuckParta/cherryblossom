@@ -2,6 +2,7 @@
   "name": "cherryblossom",
   "version": "0.1.0",
   "private": true,
+  "main": "functions/src/index.js",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.6",
@@ -21,6 +22,7 @@
     "@types/styled-components": "^5.1.24",
     "axios": "^0.26.1",
     "firebase": "^9.6.10",
+    "firebase-admin": "^10.0.2",
     "framer-motion": "^6.2.8",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
