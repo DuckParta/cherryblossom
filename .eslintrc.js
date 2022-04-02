@@ -26,4 +26,5 @@ module.exports = {
     sourceType: "module",
   },
   rules: {},
+  ignorePatterns: ["service-worker.ts", "serviceWorkerRegistration.ts"],
 };

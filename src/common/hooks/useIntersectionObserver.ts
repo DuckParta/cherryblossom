@@ -2,13 +2,11 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { Items } from "../Interface/festivalDataInterface";
 import { festivalDataReducer } from "../reducers/festivalDataReducer";
 
 export default function useIntersectionObserver(page: number) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [list, setList] = useState<Items[]>([]);
 
   const sendQuery = useCallback(async () => {
     const URL = `http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=${page}&numOfRows=30&type=json`;
@@ -21,7 +19,6 @@ export default function useIntersectionObserver(page: number) {
         // 에러 처리
         return;
       }
-      await setList((prev: Items[]) => [...new Set([...prev, ...items])]); // 주석처리
       await dispatch(festivalDataReducer.actions.getFestivalData(items));
     } catch (error) {
       console.log(error);
@@ -32,5 +29,5 @@ export default function useIntersectionObserver(page: number) {
     sendQuery();
   }, [sendQuery, page]);
 
-  return { loading, list };
+  return { loading };
 }

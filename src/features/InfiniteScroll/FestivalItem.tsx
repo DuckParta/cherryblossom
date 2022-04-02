@@ -22,7 +22,7 @@ export default function FestivalItem(props: { items: Items }) {
       textAlign="center"
       >
       <Flex flexFlow="column nowrap" h="100%">
-        <Heading>{location}</Heading>
+        <Heading size="lg">{location}</Heading>
         <Box h="70%">
           <Heading
             onClick={handleFestivalListClick}

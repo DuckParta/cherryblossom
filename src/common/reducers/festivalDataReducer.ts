@@ -21,6 +21,9 @@ export const festivalDataReducer = createSlice({
         item.isPassedDate = today > formattedFestivalEndDate;
         item.decimalDay = getDecimalDay(item.fstvlStartDate);
         item.location = item.rdnmadr.substring(0, 2);
+        if(item.location.length === 0) {
+          item.location = item.lnmadr.substring(0, 2);
+        }
         item.id = `${item.fstvlNm}-${item.fstvlStartDate}`;
         return item;
       });
