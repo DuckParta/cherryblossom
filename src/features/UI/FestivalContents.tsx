@@ -156,8 +156,9 @@ function FestivalContents() {
   }
 
   return (
-    <Container maxW="container.xl" mt="2em" pb="100px">
+    <Box>
       <AppBar />
+      <Container maxW="container.2xl" pb="100px">
       {content.fstvlNm === param.fstvlNm 
         ? <SkeletonFestivalContents />
         : <Flex mt="2em" justifyContent="center">
@@ -226,6 +227,7 @@ function FestivalContents() {
       </Flex>
       }
     </Container>
+    </Box>
   );
 }
 
