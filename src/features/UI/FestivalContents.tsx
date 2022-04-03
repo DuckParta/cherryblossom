@@ -32,6 +32,7 @@ import { useEffect, useState } from "react";
 import { fetchFestivalData } from "../../common/async/fetchFestivalData";
 import { AddWishListButton } from "./AddWishListButton";
 import { Items } from "../../common/Interface/festivalDataInterface";
+import SkeletonFestivalContents from "./SkeletonFestivalContents";
 
 function FestivalContents() {
   const [login, setLogin] = useState(false);
@@ -155,10 +156,12 @@ function FestivalContents() {
   }
 
   return (
-    <Container maxW="container.xl" mt="2em" pb="100px">
+    <Box>
       <AppBar />
-      {isWish && <Heading>"loading.."</Heading>}
-      <Flex mt="2em" justifyContent="center">
+      <Container maxW="container.2xl" pb="100px">
+      {content.fstvlNm === param.fstvlNm 
+        ? <SkeletonFestivalContents />
+        : <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
           <Box>
             <Link href="/">
@@ -222,7 +225,9 @@ function FestivalContents() {
           </Flex>
         </Box>
       </Flex>
+      }
     </Container>
+    </Box>
   );
 }
 
