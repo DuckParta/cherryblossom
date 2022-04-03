@@ -12,7 +12,7 @@ import { getDatabase } from "firebase/database";
 //   appId: "1:799184670217:web:f85ab3a88074d8f6f972d8",
 //   measurementId: "G-4R4V04S7D0"
 // }
-// Initialize Firebase
+// // Initialize Firebase
 
 // export const app = initializeApp(firebaseConfig);
 // export const database = getDatabase(app);

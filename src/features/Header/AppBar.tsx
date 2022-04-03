@@ -1,13 +1,6 @@
 import {
   Box,
-  Button,
   Center,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
   Flex,
   Text,
   Menu,
@@ -16,20 +9,23 @@ import {
   MenuItem,
   Heading,
   Image,
+  Button,
   CloseButton,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { TriangleDownIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import GoogleLogin from "react-google-login";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../common/reducers";
 import { setInfo, setLogout } from "../../common/reducers/userReducer";
-
-interface IUser {
-  userId: string;
-  name: string;
-}
+import GoogleLoginBtn from "../UI/GoogleLoginBtn";
+import { IUser } from "../../common/reducers/userReducer";
 
 function AppBar() {
   const dispatch = useDispatch();
@@ -39,6 +35,7 @@ function AppBar() {
   const [userInfo, setUserInfo] = useState<IUser>({
     userId: user.userId,
     name: user.name,
+    isLogin: user.isLogin
   });
 
   useEffect(() => {
@@ -56,9 +53,9 @@ function AppBar() {
 
   const clientId = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
 
-  const setLoginInfo = (userId: string, name: string) => {
+  const setLoginInfo = (userId: string, name: string, isLogin: boolean) => {
     onClose();
-    setUserInfo({ userId, name });
+    setUserInfo({ userId, name, isLogin });
   };
 
   const { Kakao }: any = window;
@@ -73,7 +70,7 @@ function AppBar() {
               id,
               properties: { nickname },
             } = res;
-            setLoginInfo(id, nickname);
+            setLoginInfo(id, nickname, true);
           },
           fail: (error: any) => console.error(error),
         });
@@ -236,47 +233,6 @@ function AppBar() {
         </ModalOverlay>
       </Modal>
     </>
-  );
-}
-
-function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
-  const onSuccess = async (response: any) => {
-    const {
-      profileObj: { googleId: userId, name },
-    } = response;
-    await onGoogleLogin(userId, name);
-  };
-
-  const onFailure = (error: any) => {
-    console.log(error);
-  };
-
-  return (
-    <GoogleLogin
-      clientId={clientId}
-      responseType={"id_token"}
-      render={(renderProps) => (
-        <Button
-          onClick={renderProps.onClick}
-          disabled={renderProps.disabled}
-          w="130px"
-          h="130px"
-          bgColor="white"
-          borderRadius="xl"
-          boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-          _hover={{ bg: "white" }}
-          _active={{ bg: "white" }}
-          _focus={{ bg: "white" }}
-        >
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/google_logo.jpeg`}
-            w="60px"
-          />
-        </Button>
-      )}
-      onSuccess={onSuccess}
-      onFailure={onFailure}
-    />
   );
 }
 

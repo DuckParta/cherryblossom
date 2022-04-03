@@ -1,5 +1,5 @@
 import AppBar from "../Header/AppBar";
-import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../common/reducers";
 import { onValue, ref, remove } from "firebase/database";
@@ -9,13 +9,13 @@ import { database } from "../../common/service/firebase";
 import FestivalItem from "../InfiniteScroll/FestivalItem";
 import OutOfDateFestivalItem from "../InfiniteScroll/OutOfDateFestivalItem";
 import { Link } from "react-router-dom";
+import DeleteWishItemButton from "./DeleteWishItemButton";
 
 function WishList() {
   const user = useSelector((state: RootState) => state.userReducer);
   const [festivalList, setFestivalList] = useState<Items[]>([]);
   const [deleteKeys, setDeleteKeys] = useState<String[]>([]);
 
-  console.log(festivalList);
   useEffect(() => {
     if (user.userId !== "") {
       getFestival();
@@ -42,13 +42,29 @@ function WishList() {
     });
   }
 
-  const DeleteWishItemButton = (props: {onDelete: any, index: number}) => {
-    const {onDelete, index} = props;
-
+  const renderFestivalList = festivalList.map((item: Items, index: number): JSX.Element => {
+    const itemKey = item.fstvlId;
+    if (item.isPassedDate) {
+      return (
+        <Box key={itemKey}>
+          <OutOfDateFestivalItem items={item} />
+          <Center>
+            <DeleteWishItemButton onDelete={onDelete} index={index}/>
+          </Center>
+        </Box>
+      );
+    }
     return (
-      <Button onClick={onDelete(index)}>삭제</Button>
-    )
-  } 
+      <Box key={itemKey}>
+        <Link to={`festivalContent/${item.id}`} key={itemKey}>
+          <FestivalItem items={item} />
+        </Link>
+        <Center>
+          <DeleteWishItemButton onDelete={onDelete} index={index}/>
+        </Center>
+      </Box>
+    );
+  });
 
   return (
     <Box>
@@ -61,29 +77,7 @@ function WishList() {
           <Box width="70%">
             <Flex flexFlow="column wrap" justifyContent="space-around">
               <Flex flexFlow="row wrap" justifyContent="space-around">
-              {festivalList.map((item: Items, index: number): JSX.Element => {
-                const itemKey = item.id;
-                if (item.isPassedDate) {
-                  return (
-                    <Box key={itemKey}>
-                      <OutOfDateFestivalItem items={item} />
-                      <Center>
-                        <DeleteWishItemButton onDelete={onDelete} index={index}/>
-                      </Center>
-                    </Box>
-                  );
-                }
-                return (
-                  <Box key={itemKey}>
-                    <Link to={`festivalContent/${item.id}`} key={itemKey}>
-                      <FestivalItem items={item} />
-                    </Link>
-                    <Center>
-                      <DeleteWishItemButton onDelete={onDelete} index={index}/>
-                    </Center>
-                  </Box>
-                );
-              })}
+                {festivalList.length === 0 ? "~~insert image~~" : renderFestivalList}
               </Flex>
             </Flex>
           </Box>

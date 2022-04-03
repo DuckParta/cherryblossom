@@ -62,7 +62,6 @@ function FestivalContents() {
 
   function handleWishButtonClick() {
     if (login) {
-      console.log("add wish list");
       setFirebaseDB();
     } else {
       console.log("not login");
@@ -82,7 +81,7 @@ function FestivalContents() {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            fstvlId: param.festivalName+content.fstvlStartDate,
+            fstvlId: param.festivalName + content.fstvlStartDate,
             fstvlNm: param.festivalName,
             opar: content.opar,
             fstvlCo: content.fstvlCo,
@@ -107,7 +106,7 @@ function FestivalContents() {
         // 사용자 정보가 등록되어 있지 않다면 축제 저장
         const newPostRef = push(userRef);
         set(newPostRef, {
-          fstvlId: param.festivalName+content.fstvlStartDate,
+          fstvlId: param.festivalName + content.fstvlStartDate,
           fstvlNm: param.festivalName,
           opar: content.opar,
           fstvlCo: content.fstvlCo,
