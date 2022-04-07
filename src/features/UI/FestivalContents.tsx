@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../common/reducers";
 import AppBar from "../Header/AppBar";
 import Map from "../Map/Map";
@@ -31,13 +31,15 @@ import { useEffect, useState } from "react";
 import { AddWishListButton } from "./AddWishListButton";
 import { Items } from "../../common/Interface/festivalDataInterface";
 import SkeletonFestivalContents from "./SkeletonFestivalContents";
+import { fetchFestivalData } from "../../common/async/fetchFestivalData";
 
 function FestivalContents() {
   const param = useParams();
+  const dispatch = useDispatch();
   const [login, setLogin] = useState(false);
   const [isWish, setIsWish] = useState(false);
-  const [curFstKey, setCurFstKey] = useState(0);
-  const { clickedFestival } = useSelector((state: RootState) => state.festivalDataReducer);
+  const [currentFstvlKey, setCurrentFstvlKey] = useState(0);
+  const { contents } = useSelector((state: RootState) => state.fetchReducer);
   const user = useSelector((state: RootState) => state.userReducer);
 
   useEffect(() => {
@@ -49,6 +51,10 @@ function FestivalContents() {
       getFestival();
     }
   }, [user, login]);
+
+  useEffect(() => {
+    dispatch(fetchFestivalData({ fstvlId: param.fstvlId! }));
+  }, []);
 
   function handleWishButtonClick() {
     if (login) {
@@ -64,26 +70,26 @@ function FestivalContents() {
       if (snapshot.exists()) {
         // 축제 전체 데이터
         const data = snapshot.val();
-        const fstList: any = Object.values(data);
+        const fstvlList: Items[] = Object.values(data);
         // 축제 검색
-        if (!checkFestival(fstList)) {
+        if (!checkFestival(fstvlList)) {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            ...clickedFestival
+            ...contents
           });
           return;
         } 
         // 축제가 있다면 삭제
-        const fstKeys = Object.keys(data);
-        remove(ref(database, `${user.userId}/${fstKeys[curFstKey]}`));
+        const fstvlKeys = Object.keys(data);
+        remove(ref(database, `${user.userId}/${fstvlKeys[currentFstvlKey]}`));
         setIsWish(false);
         return;
       } 
       // 사용자 정보가 등록되어 있지 않다면 축제 저장
       const newPostRef = push(userRef);
       set(newPostRef, {
-        ...clickedFestival
+        ...contents
       });
     });
   }
@@ -93,8 +99,8 @@ function FestivalContents() {
     onValue(userRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        const fstList: any = Object.values(data);
-        if (checkFestival(fstList)) {
+        const fstvlList: Items[] = Object.values(data);
+        if (checkFestival(fstvlList)) {
           setIsWish(true);
           return;
         } 
@@ -105,13 +111,13 @@ function FestivalContents() {
     });
   }
 
-  function checkFestival(fstList: any) {
-    const index = fstList.findIndex(
-      (fst: Items) => param.festivalName === fst.id
+  function checkFestival(fstvlList: Items[]) {
+    const index = fstvlList.findIndex(
+      (fstvl: Items) => param.fstvlId === fstvl.fstvlId
     );
 
     if (index !== -1) {
-      setCurFstKey(index);
+      setCurrentFstvlKey(index);
       return true;
     }
   }
@@ -120,19 +126,19 @@ function FestivalContents() {
     <Box>
       <AppBar />
       <Container maxW="container.2xl" pb="100px">
-      { !clickedFestival.fstvlNm
+        {!contents.fstvlId
         ? <SkeletonFestivalContents />
         : <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
           <Box>
-            <Link href="/cherryblossom">
+            <Link href="/">
               <Button colorScheme={"whiteAlpha"}>
                 <ArrowBackIcon color={"black"} boxSize={7} />
               </Button>
             </Link>
           </Box>
           <Center my="50px">
-            <Heading size="2xl">{clickedFestival.fstvlNm}</Heading>
+            <Heading size="2xl">{contents.fstvlNm}</Heading>
           </Center>
           <Divider />
           <Box my="30px">
@@ -145,16 +151,16 @@ function FestivalContents() {
                 fontWeight="semibold"
               >
                 <ListItem>
-                  기간 : {clickedFestival.fstvlStartDate} ~ {clickedFestival.fstvlEndDate}
+                  기간 : {contents.fstvlStartDate} ~ {contents.fstvlEndDate}
                 </ListItem>
-                <ListItem>장소 : {clickedFestival.opar}</ListItem>
-                <ListItem>주소 : {clickedFestival.rdnmadr}</ListItem>
-                <ListItem>주최기관 : {clickedFestival.auspcInstt}</ListItem>
-                <ListItem>문의 전화 : {clickedFestival.phoneNumber}</ListItem>
+                <ListItem>장소 : {contents.opar}</ListItem>
+                <ListItem>주소 : {contents.rdnmadr}</ListItem>
+                <ListItem>주최기관 : {contents.auspcInstt}</ListItem>
+                <ListItem>문의 전화 : {contents.phoneNumber}</ListItem>
                 <ListItem>
                   <Flex flexFlow="row wrap"><Box>공식 사이트 : </Box>
-                  <Box isTruncated>{clickedFestival.homepageUrl}</Box>
-                    <Link href={clickedFestival.homepageUrl} isExternal>
+                  <Box w="300px" isTruncated>{contents.homepageUrl}</Box>
+                    <Link href={contents.homepageUrl} isExternal>
                       <ExternalLinkIcon mx="3px" />
                     </Link>
                   </Flex>
@@ -162,10 +168,10 @@ function FestivalContents() {
               </UnorderedList>
             </Center>
             <Heading my="100px" textAlign="center" size="md">
-              {clickedFestival.fstvlCo}
+              {contents.fstvlCo}
             </Heading>
             <Center>
-              <Map latitude={clickedFestival.latitude} longitude={clickedFestival.longitude} />
+              <Map latitude={contents.latitude} longitude={contents.longitude} />
             </Center>
           </Box>
         </Flex>
@@ -179,7 +185,7 @@ function FestivalContents() {
             py="20px"
           >
             <Heading size="md" textAlign="center">
-              {clickedFestival.decimalDay}
+              {contents.decimalDay}
             </Heading>
             <Center m="10px">
               <AddWishListButton

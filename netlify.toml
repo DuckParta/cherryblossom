@@ -1,0 +1,14 @@
+[[redirects]]
+  from = "festivalContent/api/*"
+  to = "http://api.data.go.kr/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://api.data.go.kr/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200

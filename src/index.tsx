@@ -18,7 +18,7 @@ ReactDOM.render(
           <Route path="/" element={<App />} />
           <Route path="/wishlist" element={<WishList />} />
           <Route
-            path="/:festivalName"
+            path="/:fstvlId"
             element={<FestivalContents />}
           />
         </Routes>

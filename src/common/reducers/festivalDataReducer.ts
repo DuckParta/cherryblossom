@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitialFestivalData, Items } from "../Interface/festivalDataInterface";
 import getDecimalDay from "../../features/Compute/getDecimalDay";
+import getIsPassedDate from "../../features/Compute/getIsPassedDate";
 
 const initialState = {
   items: [],
@@ -14,19 +15,6 @@ export const festivalDataReducer = createSlice({
   name: "festivalDataReducer",
   initialState: initialState as InitialFestivalData,
   reducers: {
-    getClickedFestival: (state, { payload }: PayloadAction<string>) => {
-      const targetId = payload
-      const [targetName, targetStartDate] = targetId!.split("--");
-      // firestore에서 id와 일치하는 축제 찾아오기
-      
-      state.clickedFestival = state.items.filter((item: Items) => {
-        if (item.fstvlNm === targetName) {
-          if (item.fstvlStartDate === targetStartDate) {
-            return true;
-          }
-        }
-      })[0];
-    },
     addSelectedCategories: (state, { payload }: PayloadAction<string>) => {
       const location = payload.split("/");
       state.selectedCategories!.push(...location);
@@ -43,10 +31,8 @@ export const festivalDataReducer = createSlice({
       );
     },
     storeFestivalData: (state, { payload }: PayloadAction<Items[]>) => {
-      const today = new Date();
       const addItems = payload.map((item) => {
-        const formattedFestivalEndDate = new Date(item.fstvlEndDate);
-        item.isPassedDate = today > formattedFestivalEndDate;
+        item.isPassedDate = getIsPassedDate(item.fstvlEndDate);
         item.decimalDay = getDecimalDay(item.fstvlStartDate);
         return item;
       });
