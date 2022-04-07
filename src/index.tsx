@@ -13,7 +13,7 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <ChakraProvider>
     <Provider store={store}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/wishlist" element={<WishList />} />
