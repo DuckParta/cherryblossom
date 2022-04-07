@@ -9,7 +9,7 @@ export default function useIntersectionObserver(page: number) {
   const [loading, setLoading] = useState(true);
 
   const sendQuery = useCallback(async () => {
-    const URL = `http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=${page}&numOfRows=30&type=json`;
+    const URL = `api/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&type=json&numOfRows=30&pageNo=${page}`;
     try {
       setLoading(true);
       const response = await axios.get(URL);

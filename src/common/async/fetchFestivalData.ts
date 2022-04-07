@@ -6,7 +6,7 @@ export const fetchFestivalData = createAsyncThunk(
   "fetchFestivalData",
   async ({ param }: any, thunkAPI) => {
     const fstNm = param.festivalName.slice(0, param.festivalName.indexOf("-"));
-    const URL = `http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${fstNm}`;
+    const URL = `api/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${fstNm}`;
     try {
       const response = await axios.get(URL);
       return response.data.response.body.items[0];

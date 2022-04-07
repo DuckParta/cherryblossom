@@ -1,5 +1,0 @@
-[[redirects]]
-from = "/proxy/*"
-  to = "http://api.data.go.kr/:splat"
-  status = 200
-  force = true
