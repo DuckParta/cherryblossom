@@ -1,3 +1,4 @@
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
   Center,
@@ -5,7 +6,9 @@ import {
   Flex,
   ListItem,
   UnorderedList,
-  Skeleton
+  Skeleton,
+  Button,
+  Link
 } from "@chakra-ui/react";
 
 export default function SkeletonFestivalContents() {
@@ -13,6 +16,11 @@ export default function SkeletonFestivalContents() {
     <Flex mt="2em" justifyContent="center">
         <Flex w="60%" flexDirection="column" mx="2em">
           <Box>
+            <Link href="/cherryblossom">
+              <Button colorScheme={"whiteAlpha"}>
+                <ArrowBackIcon color={"black"} boxSize={7} />
+              </Button>
+            </Link>
           </Box>
           <Center my="50px">
             <Skeleton w="50%" h="45px" />

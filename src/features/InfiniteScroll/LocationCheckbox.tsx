@@ -11,12 +11,11 @@ export const LocationCheckbox = (props: { location: string }) => {
 
   function handleLocationButtonClick(e: React.ChangeEvent<HTMLInputElement>) {
     const target = e.target.value;
-    if (isChecked) {
+    if (!isChecked) {
       dispatch(festivalDataReducer.actions.addSelectedCategories(target));
     } else {
       dispatch(festivalDataReducer.actions.deleteSelectedCategories(target));
     }
-    dispatch(festivalDataReducer.actions.filterLocation());
     setIsChecked(!isChecked);
   }
 

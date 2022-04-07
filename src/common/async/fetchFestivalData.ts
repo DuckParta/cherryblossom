@@ -19,7 +19,26 @@ export const fetchFestivalData = createAsyncThunk(
 const fetchSlice = createSlice({
   name: "contents",
   initialState: {
-    content: {} as Items,
+    content: {
+      fstvlId:"",
+      auspcInstt: "",
+      fstvlCo: "",
+      fstvlEndDate: "",
+      fstvlNm: "",
+      fstvlStartDate: "",
+      homepageUrl: "",
+      insttCode: "",
+      latitude: "",
+      lnmadr: "",
+      longitude: "",
+      mnnst: "",
+      opar: "",
+      phoneNumber: "",
+      rdnmadr: "",
+      referenceDate: "",
+      relateInfo: "",
+      suprtInstt: "",
+    } as Items,
     status: ""
   },
   reducers: {
@@ -32,6 +51,7 @@ const fetchSlice = createSlice({
       fetchFestivalData.fulfilled,
       (state, { payload }: PayloadAction<Items>) => {
         state.status = "success";
+        payload = {...payload, fstvlId: payload.fstvlNm + payload.fstvlStartDate}
         state.content = { ...payload };
       }
     );

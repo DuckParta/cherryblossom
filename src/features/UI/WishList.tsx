@@ -16,6 +16,7 @@ function WishList() {
   const [festivalList, setFestivalList] = useState<Items[]>([]);
   const [deleteKeys, setDeleteKeys] = useState<String[]>([]);
 
+  console.log("festivalList",festivalList);
   useEffect(() => {
     if (user.userId !== "") {
       getFestival();
@@ -43,24 +44,24 @@ function WishList() {
   }
 
   const renderFestivalList = festivalList.map((item: Items, index: number): JSX.Element => {
-    const itemKey = item.fstvlId;
+    const itemKey = item.id;
     if (item.isPassedDate) {
       return (
         <Box key={itemKey}>
           <OutOfDateFestivalItem items={item} />
           <Center>
-            <DeleteWishItemButton onDelete={onDelete} index={index}/>
+            <DeleteWishItemButton onDelete={onDelete} index={index} />
           </Center>
         </Box>
       );
     }
     return (
       <Box key={itemKey}>
-        <Link to={`festivalContent/${item.id}`} key={itemKey}>
+        <Link to={`/${item.id}`} key={itemKey}>
           <FestivalItem items={item} />
         </Link>
         <Center>
-          <DeleteWishItemButton onDelete={onDelete} index={index}/>
+          <DeleteWishItemButton onDelete={onDelete} index={index} />
         </Center>
       </Box>
     );
@@ -77,7 +78,7 @@ function WishList() {
           <Box width="70%">
             <Flex flexFlow="column wrap" justifyContent="space-around">
               <Flex flexFlow="row wrap" justifyContent="space-around">
-                {festivalList.length === 0 ? "~~insert image~~" : renderFestivalList}
+                {!festivalList || festivalList.length === 0 ? "~~insert image~~" : renderFestivalList}
               </Flex>
             </Flex>
           </Box>

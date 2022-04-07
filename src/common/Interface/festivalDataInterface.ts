@@ -1,8 +1,9 @@
 export interface InitialFestivalData {
   items: Items[];
   status: string;
-  currentFestival: any;
+  clickedFestival: any;
   selectedCategories?: string[];
+  selectedItems: Items[];
 }
 
 export interface HeaderData {

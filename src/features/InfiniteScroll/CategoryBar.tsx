@@ -10,7 +10,6 @@ const LOCATION_LIST = [
   "경남/부산/울산",
   "강원",
   "제주",
-  "기타",
 ];
 
 export default function CategoryBar() {
@@ -24,7 +23,7 @@ export default function CategoryBar() {
         <Flex
           flexFlow="row wrap"
           justifyContent="space-between"
-          width="80%"
+          width="75%"
           paddingY="20px"
         >
           <CheckboxGroup>{locationButtonsList}</CheckboxGroup>

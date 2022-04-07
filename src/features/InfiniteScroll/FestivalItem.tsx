@@ -1,17 +1,20 @@
 import { Items } from "../../common/Interface/festivalDataInterface";
 import { Box, Flex, Text, Heading, Center } from "@chakra-ui/react";
+import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
+import { useDispatch } from "react-redux";
 
 export default function FestivalItem(props: { items: Items }) {
-  const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
+  const dispatch = useDispatch();
+  const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location, id } =
     props.items;
 
   function handleFestivalListClick() {
-    // dispatch(setFestival(props.items));
-    // dispatch(fetchFestivalData({ param: props.items }));
+    dispatch(festivalDataReducer.actions.getClickedFestival(id!));
   }
 
   return (
     <Box
+      onClick={handleFestivalListClick}
       margin="15px"
       padding="30px"
       w="300px"
@@ -25,7 +28,6 @@ export default function FestivalItem(props: { items: Items }) {
         <Heading size="lg">{location}</Heading>
         <Box h="70%">
           <Heading
-            onClick={handleFestivalListClick}
             mt="50px"
             fontSize="lg"
             overflow="hidden"

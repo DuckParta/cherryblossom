@@ -21,7 +21,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.24",
     "axios": "^0.26.1",
-    "firebase": "^9.6.10",
+    "firebase": "^9.4.1",
     "firebase-admin": "^10.0.2",
     "framer-motion": "3.10.6",
     "gh-pages": "^3.2.3",

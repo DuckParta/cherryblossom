@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,24 +8,24 @@ import useIntersectionObserver from "../../common/hooks/useIntersectionObserver"
 import { RootState } from "../../common/reducers";
 import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
 
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Divider, Flex } from "@chakra-ui/react";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
 import CreateSkeletonItems from "./CreateSkeletonItems";
 
 export default function FestivalsList() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const { loading } = useIntersectionObserver(page);
+  const [page, setPage] = useState(0);
+  const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { items, selectedCategories } = useSelector(
+  const { selectedCategories, selectedItems } = useSelector(
     (state: RootState) => state.festivalDataReducer
   );
 
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
     if (target.isIntersecting) {
-      setPage((prev) => prev + 1);
+      setPage((prev) => prev + 29);
     }
   }, []);
 
@@ -42,7 +43,7 @@ export default function FestivalsList() {
       observer.observe(loader.current);
     }
     return () => {
-      setPage(0);
+      setPage(page + 29);
       return observer && observer.disconnect();
     };
   }, [handleObserver, loader]);
@@ -51,27 +52,33 @@ export default function FestivalsList() {
     dispatch(festivalDataReducer.actions.filterLocation());
   },[selectedCategories])
 
-  const renderList = items.map((item: Items): JSX.Element => {
-    const itemKey = item.id;
-    if (item.isPassedDate) {
+  const renderList = (list: Items[]) => {
+    return list.map((item: Items): JSX.Element => {
+      const itemKey = item.id;
+      if (item.isPassedDate) {
+        return (
+          <OutOfDateFestivalItem key={itemKey} items={item}/>
+        );
+      }
       return (
-        <OutOfDateFestivalItem key={itemKey} items={item}/>
+        <Link to={`/${item.id}`} key={itemKey}>
+          <FestivalItem items={item} />
+        </Link>
       );
-    }
-    return (
-      <Link to={`festivalContent/${item.id}`} key={itemKey}>
-        <FestivalItem items={item} />
-      </Link>
-    );
-  });
+    })
+  };
 
   return (
     <Box id="scrollArea" width="70%">
-      <Flex flexFlow="row wrap" justifyContent="space-around">
-        {renderList}
+      <Flex flexFlow="row wrap" justifyContent="space-around" pb="100px">
+        {selectedCategories!.length === 0
+        ? renderList(list) 
+        : renderList(selectedItems)
+        }
         <div ref={loader}></div>
       </Flex>
       {loading && <CreateSkeletonItems />}
+      <Divider />
     </Box>
   );
 }

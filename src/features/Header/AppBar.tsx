@@ -35,7 +35,6 @@ function AppBar() {
   const [userInfo, setUserInfo] = useState<IUser>({
     userId: user.userId,
     name: user.name,
-    isLogin: user.isLogin
   });
 
   useEffect(() => {
@@ -53,9 +52,9 @@ function AppBar() {
 
   const clientId = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
 
-  const setLoginInfo = (userId: string, name: string, isLogin: boolean) => {
+  const setLoginInfo = (userId: string, name: string) => {
     onClose();
-    setUserInfo({ userId, name, isLogin });
+    setUserInfo({ userId, name });
   };
 
   const { Kakao }: any = window;
@@ -70,7 +69,7 @@ function AppBar() {
               id,
               properties: { nickname },
             } = res;
-            setLoginInfo(id, nickname, true);
+            setLoginInfo(id, nickname);
           },
           fail: (error: any) => console.error(error),
         });
