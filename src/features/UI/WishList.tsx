@@ -49,7 +49,7 @@ function WishList() {
           <Heading mb="5%" textAlign="center" fontSize="5xl" fontFamily="Courgette" textColor="GrayText">
             Cherry Blossom
           </Heading>
-          <Heading size="md" textColor="GrayText" fontWeight="semibold">아직 축제가 없습니다.</Heading>
+          <Heading size="md" textColor="GrayText" fontWeight="semibold">아직 찜한 축제가 없습니다.</Heading>
         </Box>
       )
     }
