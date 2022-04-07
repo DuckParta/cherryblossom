@@ -10,9 +10,12 @@ import {
   Flex,
   Heading,
   Link,
-  ListItem,
-  UnorderedList,
   Button,
+  Table,
+  Tbody,
+  Tr,
+  Td,
+  TableContainer,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import {
@@ -129,43 +132,77 @@ function FestivalContents() {
         {!contents.fstvlId
         ? <SkeletonFestivalContents />
         : <Flex mt="2em" justifyContent="center">
-        <Flex w="60%" flexDirection="column" mx="2em">
-          <Box>
+        <Flex w="80%" flexFlow="column nowrap" mx="2em">
+          <Box w="30%">
+            <Center>
             <Link href="/">
               <Button colorScheme={"whiteAlpha"}>
                 <ArrowBackIcon color={"black"} boxSize={7} />
               </Button>
             </Link>
+            </Center>
           </Box>
           <Center my="50px">
-            <Heading size="2xl">{contents.fstvlNm}</Heading>
+            <Heading size="2xl" textAlign="center">{contents.fstvlNm}</Heading>
           </Center>
+          <Center mb="30px">
+          <Flex
+            flexDirection="row"
+            bg="gray.100"
+            borderRadius="xl"
+            px="20px"
+          >
+            <Heading size="md" textAlign="center" py="20px">
+              {contents.decimalDay}
+            </Heading>
+            <Center ml="10px">
+              <AddWishListButton
+                onAdd={handleWishButtonClick}
+                isWish={isWish}
+              />
+            </Center>
+          </Flex>
+        </Center>
           <Divider />
           <Box my="30px">
             <Center>
-              <UnorderedList
-                spacing={3}
-                p="10px"
-                listStyleType="none"
-                fontSize="lg"
-                fontWeight="semibold"
-              >
-                <ListItem>
-                  기간 : {contents.fstvlStartDate} ~ {contents.fstvlEndDate}
-                </ListItem>
-                <ListItem>장소 : {contents.opar}</ListItem>
-                <ListItem>주소 : {contents.rdnmadr}</ListItem>
-                <ListItem>주최기관 : {contents.auspcInstt}</ListItem>
-                <ListItem>문의 전화 : {contents.phoneNumber}</ListItem>
-                <ListItem>
-                  <Flex flexFlow="row wrap"><Box>공식 사이트 : </Box>
-                  <Box w="300px" isTruncated>{contents.homepageUrl}</Box>
-                    <Link href={contents.homepageUrl} isExternal>
-                      <ExternalLinkIcon mx="3px" />
-                    </Link>
-                  </Flex>
-                </ListItem>
-              </UnorderedList>
+              <TableContainer>
+                <Table variant="striped" fontWeight="semibold">
+                  <Tbody>
+                    <Tr>
+                      <Td>기간</Td>
+                      <Td>{contents.fstvlStartDate} ~ {contents.fstvlEndDate}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>장소</Td>
+                      <Td>{contents.opar}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>주소</Td>
+                      <Td>{contents.rdnmadr || contents.lnmadr}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>주최기관</Td>
+                      <Td>{contents.auspcInstt}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>문의 전화</Td>
+                      <Td>{contents.phoneNumber}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>공식 사이트</Td>
+                      <Td>
+                        <Box w="70%"isTruncated>
+                        {contents.homepageUrl}
+                        </Box>
+                        <Link href={contents.homepageUrl} isExternal>
+                          <ExternalLinkIcon mx="3px" />
+                        </Link>
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </TableContainer>
             </Center>
             <Heading my="100px" textAlign="center" size="md">
               {contents.fstvlCo}
@@ -175,26 +212,6 @@ function FestivalContents() {
             </Center>
           </Box>
         </Flex>
-        <Box mt="200px" position="fixed" right="5%">
-          <Flex
-            flexDirection="column"
-            w="100px"
-            h="100px"
-            bg="gray.100"
-            borderRadius="xl"
-            py="20px"
-          >
-            <Heading size="md" textAlign="center">
-              {contents.decimalDay}
-            </Heading>
-            <Center m="10px">
-              <AddWishListButton
-                onAdd={handleWishButtonClick}
-                isWish={isWish}
-              />
-            </Center>
-          </Flex>
-        </Box>
       </Flex>
       }
     </Container>
