@@ -10,12 +10,14 @@ import {
   Flex,
   Heading,
   Link,
-  ListItem,
-  UnorderedList,
   Button,
+  Table,
+  Tbody,
+  Tr,
+  Td,
+  TableContainer,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import getDecimalDay from "../Compute/getDecimalDay";
 import {
   ref,
   set,
@@ -29,26 +31,19 @@ import {
 import { database } from "../../common/service/firebase";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { fetchFestivalData } from "../../common/async/fetchFestivalData";
 import { AddWishListButton } from "./AddWishListButton";
 import { Items } from "../../common/Interface/festivalDataInterface";
 import SkeletonFestivalContents from "./SkeletonFestivalContents";
+import { fetchFestivalData } from "../../common/async/fetchFestivalData";
 
 function FestivalContents() {
-  const [login, setLogin] = useState(false);
-  const [isWish, setIsWish] = useState(false);
-  const [curFstKey, setCurFstKey] = useState(0);
-
   const param = useParams();
   const dispatch = useDispatch();
-  const { content } = useSelector((state: RootState) => state.fetchReducer);
+  const [login, setLogin] = useState(false);
+  const [isWish, setIsWish] = useState(false);
+  const [currentFstvlKey, setCurrentFstvlKey] = useState(0);
+  const { contents } = useSelector((state: RootState) => state.fetchReducer);
   const user = useSelector((state: RootState) => state.userReducer);
-
-  const decimalDay = getDecimalDay(content.fstvlStartDate);
-
-  useEffect(() => {
-    dispatch(fetchFestivalData({ param }));
-  }, []);
 
   useEffect(() => {
     if (user.userId === "" || user.userId === undefined) {
@@ -60,13 +55,15 @@ function FestivalContents() {
     }
   }, [user, login]);
 
+  useEffect(() => {
+    dispatch(fetchFestivalData({ fstvlId: param.fstvlId! }));
+  }, []);
+
   function handleWishButtonClick() {
     if (login) {
-      console.log("add wish list");
       setFirebaseDB();
-    } else {
-      console.log("not login");
-    }
+      return;
+    } 
   }
 
   function setFirebaseDB() {
@@ -76,55 +73,28 @@ function FestivalContents() {
       if (snapshot.exists()) {
         // 축제 전체 데이터
         const data = snapshot.val();
-        const fstList: any = Object.values(data);
+        const fstvlList: Items[] = Object.values(data);
         // 축제 검색
-        if (!checkFestival(fstList)) {
+        if (!checkFestival(fstvlList)) {
           // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            fstvlId: param.festivalName+content.fstvlStartDate,
-            fstvlNm: param.festivalName,
-            opar: content.opar,
-            fstvlCo: content.fstvlCo,
-            fstvlEndDate: content.fstvlEndDate,
-            homepageUrl: content.homepageUrl,
-            latitude: content.latitude,
-            longitude: content.longitude,
-            mnst: content.mnnst,
-            phoneNumber: content.phoneNumber,
-            rdnmadr: content.rdnmadr,
-            referenceData: content.referenceDate,
-            relateInfo: content.relateInfo,
-            suprtInstt: content.suprtInstt
+            ...contents
           });
-        } else {
-          // 축제가 있다면 삭제
-          const fstKeys = Object.keys(data);
-          remove(ref(database, `${user.userId}/${fstKeys[curFstKey]}`));
-          setIsWish(false);
-        }
-      } else {
-        // 사용자 정보가 등록되어 있지 않다면 축제 저장
-        const newPostRef = push(userRef);
-        set(newPostRef, {
-          fstvlId: param.festivalName+content.fstvlStartDate,
-          fstvlNm: param.festivalName,
-          opar: content.opar,
-          fstvlCo: content.fstvlCo,
-          fstvlEndDate: content.fstvlEndDate,
-          homepageUrl: content.homepageUrl,
-          latitude: content.latitude,
-          longitude: content.longitude,
-          mnst: content.mnnst,
-          phoneNumber: content.phoneNumber,
-          rdnmadr: content.rdnmadr,
-          referenceData: content.referenceDate,
-          relateInfo: content.relateInfo,
-          suprtInstt: content.suprtInstt
-        });
-      }
+          return;
+        } 
+        // 축제가 있다면 삭제
+        const fstvlKeys = Object.keys(data);
+        remove(ref(database, `${user.userId}/${fstvlKeys[currentFstvlKey]}`));
+        setIsWish(false);
+        return;
+      } 
+      // 사용자 정보가 등록되어 있지 않다면 축제 저장
+      const newPostRef = push(userRef);
+      set(newPostRef, {
+        ...contents
+      });
     });
-    
   }
 
   function getFestival() {
@@ -132,25 +102,25 @@ function FestivalContents() {
     onValue(userRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        const fstList: any = Object.values(data);
-        if (checkFestival(fstList)) {
+        const fstvlList: Items[] = Object.values(data);
+        if (checkFestival(fstvlList)) {
           setIsWish(true);
-        } else {
-          setIsWish(false);
-        }
-      } else {
+          return;
+        } 
         setIsWish(false);
-      }
+        return;
+      } 
+      setIsWish(false);
     });
   }
 
-  function checkFestival(fstList: any) {
-    const index = fstList.findIndex(
-      (fst: Items) => param.festivalName === fst.fstvlId
+  function checkFestival(fstvlList: Items[]) {
+    const index = fstvlList.findIndex(
+      (fstvl: Items) => param.fstvlId === fstvl.fstvlId
     );
 
     if (index !== -1) {
-      setCurFstKey(index);
+      setCurrentFstvlKey(index);
       return true;
     }
   }
@@ -159,71 +129,89 @@ function FestivalContents() {
     <Box>
       <AppBar />
       <Container maxW="container.2xl" pb="100px">
-      {content.fstvlNm === param.fstvlNm 
+        {!contents.fstvlId
         ? <SkeletonFestivalContents />
         : <Flex mt="2em" justifyContent="center">
-        <Flex w="60%" flexDirection="column" mx="2em">
-          <Box>
+        <Flex w="80%" flexFlow="column nowrap" mx="2em">
+          <Box w="30%">
+            <Center>
             <Link href="/">
               <Button colorScheme={"whiteAlpha"}>
                 <ArrowBackIcon color={"black"} boxSize={7} />
               </Button>
             </Link>
+            </Center>
           </Box>
           <Center my="50px">
-            <Heading size="2xl">{content.fstvlNm}</Heading>
+            <Heading size="2xl" textAlign="center">{contents.fstvlNm}</Heading>
           </Center>
-          <Divider />
-          <Box my="30px">
-            <UnorderedList
-              spacing={3}
-              p="10px"
-              listStyleType="none"
-              fontSize="lg"
-              fontWeight="semibold"
-            >
-              <ListItem>
-                기간 : {content.fstvlStartDate} ~ {content.fstvlEndDate}
-              </ListItem>
-              <ListItem>내용 : {content.fstvlCo}</ListItem>
-              <ListItem>장소 : {content.opar}</ListItem>
-              <ListItem>주소 : {content.rdnmadr}</ListItem>
-              <ListItem>주최기관 : {content.auspcInstt}</ListItem>
-              <ListItem>문의 전화 : {content.phoneNumber}</ListItem>
-              <ListItem>
-                공식 사이트 :{content.homepageUrl}
-                <Link href={content.homepageUrl}>
-                  {content.homepageUrl}
-                  <ExternalLinkIcon mx="3px" />
-                </Link>
-              </ListItem>
-            </UnorderedList>
-            <Heading my="100px" textAlign="center" size="lg">
-              {content.fstvlCo}
-            </Heading>
-            <Map latitude={content.latitude} longitude={content.longitude} />
-          </Box>
-        </Flex>
-        <Box mt="200px" position="fixed" right="5%">
+          <Center mb="30px">
           <Flex
-            flexDirection="column"
-            w="100px"
-            h="100px"
+            flexDirection="row"
             bg="gray.100"
             borderRadius="xl"
-            py="20px"
+            px="20px"
           >
-            <Heading size="md" textAlign="center">
-              {decimalDay}
+            <Heading size="md" textAlign="center" py="20px">
+              {contents.decimalDay}
             </Heading>
-            <Center m="10px">
+            <Center ml="10px">
               <AddWishListButton
                 onAdd={handleWishButtonClick}
                 isWish={isWish}
               />
             </Center>
           </Flex>
-        </Box>
+        </Center>
+          <Divider />
+          <Box my="30px">
+            <Center>
+              <TableContainer>
+                <Table variant="striped" fontWeight="semibold">
+                  <Tbody>
+                    <Tr>
+                      <Td>기간</Td>
+                      <Td>{contents.fstvlStartDate} ~ {contents.fstvlEndDate}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>장소</Td>
+                      <Td>{contents.opar}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>주소</Td>
+                      <Td>{contents.rdnmadr || contents.lnmadr}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>주최기관</Td>
+                      <Td>{contents.auspcInstt}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>문의 전화</Td>
+                      <Td>{contents.phoneNumber}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>공식 사이트</Td>
+                      <Td>
+                        <Box w="70%"isTruncated>
+                        {contents.homepageUrl}
+                        </Box>
+                        <Link href={contents.homepageUrl} isExternal>
+                          <ExternalLinkIcon mx="3px" />
+                        </Link>
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            </Center>
+            <Heading my="100px" textAlign="center" size="md">
+              {contents.fstvlCo}
+            </Heading>
+            <Center>
+              <Map latitude={contents.latitude} longitude={contents.longitude} />
+            </Center>
+          </Box>
+        </Flex>
       </Flex>
       }
     </Container>

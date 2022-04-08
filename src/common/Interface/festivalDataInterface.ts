@@ -1,8 +1,9 @@
 export interface InitialFestivalData {
   items: Items[];
   status: string;
-  currentFestival: any;
+  clickedFestival: any;
   selectedCategories?: string[];
+  selectedItems: Items[];
 }
 
 export interface HeaderData {
@@ -39,6 +40,6 @@ export interface Items {
   suprtInstt: string;
   isPassedDate?: boolean;
   decimalDay?: string;
-  location?: string;
-  id?: string;
+  location: string;
+  id: string;
 }

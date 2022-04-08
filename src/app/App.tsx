@@ -5,7 +5,7 @@ import { Box } from "@chakra-ui/react";
 
 function App() {
   return (
-    <Box width="100%">
+    <Box>
       <AppBar />
       <MainLogo />
       <FestivalsWrapper />

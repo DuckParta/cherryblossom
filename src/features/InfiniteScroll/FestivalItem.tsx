@@ -5,11 +5,6 @@ export default function FestivalItem(props: { items: Items }) {
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
     props.items;
 
-  function handleFestivalListClick() {
-    // dispatch(setFestival(props.items));
-    // dispatch(fetchFestivalData({ param: props.items }));
-  }
-
   return (
     <Box
       margin="15px"
@@ -25,7 +20,6 @@ export default function FestivalItem(props: { items: Items }) {
         <Heading size="lg">{location}</Heading>
         <Box h="70%">
           <Heading
-            onClick={handleFestivalListClick}
             mt="50px"
             fontSize="lg"
             overflow="hidden"

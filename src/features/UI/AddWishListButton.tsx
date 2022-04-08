@@ -2,7 +2,7 @@ import { Image } from "@chakra-ui/react";
 
 export const AddWishListButton = ({ isWish, onAdd }: any) => {
   return (
-    <div>
+    <>
       {isWish ? (
         <Image
           src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
@@ -20,6 +20,6 @@ export const AddWishListButton = ({ isWish, onAdd }: any) => {
           cursor="pointer"
         />
       )}
-    </div>
+    </>
   );
 };

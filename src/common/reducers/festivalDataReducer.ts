@@ -1,39 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitialFestivalData, Items } from "../Interface/festivalDataInterface";
 import getDecimalDay from "../../features/Compute/getDecimalDay";
-import { fetchFestivalData } from "../async/fetchFestivalData";
+import getIsPassedDate from "../../features/Compute/getIsPassedDate";
 
 const initialState = {
   items: [],
   status: "",
-  currentFestival: {},
+  clickedFestival: {},
   selectedCategories: [],
+  selectedItems: []
 };
 
 export const festivalDataReducer = createSlice({
   name: "festivalDataReducer",
   initialState: initialState as InitialFestivalData,
   reducers: {
-    getFestivalData: (state, { payload }: PayloadAction<Items[]>) => {
-      const today = new Date();
-      const addItems = payload.map((item) => {
-        const formattedFestivalEndDate = new Date(item.fstvlEndDate);
-        item.isPassedDate = today > formattedFestivalEndDate;
-        item.decimalDay = getDecimalDay(item.fstvlStartDate);
-        item.location = item.rdnmadr.substring(0, 2);
-        if(item.location.length === 0) {
-          item.location = item.lnmadr.substring(0, 2);
-        }
-        item.id = `${item.fstvlNm}-${item.fstvlStartDate}`;
-        return item;
-      });
-      state.items.push(...addItems);
-      state.items.sort(function (a, b) {
-        const prevDate = Number(new Date(a.fstvlStartDate));
-        const followDate = Number(new Date(b.fstvlStartDate));
-        return followDate - prevDate;
-      });
-    },
     addSelectedCategories: (state, { payload }: PayloadAction<string>) => {
       const location = payload.split("/");
       state.selectedCategories!.push(...location);
@@ -45,24 +26,22 @@ export const festivalDataReducer = createSlice({
       );
     },
     filterLocation: (state) => {
-      state.items = state.items.filter((item) =>
+      state.selectedItems = state.items.filter((item: Items) =>
         state.selectedCategories!.includes(item.location!)
       );
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(fetchFestivalData.pending, (state) => {
-      state.status = "loading";
-    });
-    builder.addCase(
-      fetchFestivalData.fulfilled,
-      (state, { payload }: PayloadAction<Items>) => {
-        state.status = "success";
-        state.currentFestival = payload;
-      }
-    );
-    builder.addCase(fetchFestivalData.rejected, (state) => {
-      state.status = "failed";
-    });
+    storeFestivalData: (state, { payload }: PayloadAction<Items[]>) => {
+      const addItems = payload.map((item) => {
+        item.isPassedDate = getIsPassedDate(item.fstvlEndDate);
+        item.decimalDay = getDecimalDay(item.fstvlStartDate);
+        return item;
+      });
+      const sortedItems = addItems.sort(function (a, b) {
+        const prevDate = Number(new Date(a.fstvlStartDate));
+        const followDate = Number(new Date(b.fstvlStartDate));
+        return followDate - prevDate;
+      });
+      state.items = sortedItems;
+    },
   },
 });

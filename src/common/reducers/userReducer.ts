@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface IUser {
+export interface IUser {
   userId: string;
   name: string;
 }
@@ -30,7 +30,6 @@ export const userReducer = createSlice({
     setLogout(state) {
       state.userId = "";
       state.name = "";
-
       localStorage.setItem("userInfo", JSON.stringify(""));
     },
   },

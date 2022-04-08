@@ -1,13 +1,6 @@
 import {
   Box,
-  Button,
   Center,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
   Flex,
   Text,
   Menu,
@@ -16,20 +9,23 @@ import {
   MenuItem,
   Heading,
   Image,
+  Button,
   CloseButton,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { TriangleDownIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import GoogleLogin from "react-google-login";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../common/reducers";
 import { setInfo, setLogout } from "../../common/reducers/userReducer";
-
-interface IUser {
-  userId: string;
-  name: string;
-}
+import GoogleLoginBtn from "../UI/GoogleLoginBtn";
+import { IUser } from "../../common/reducers/userReducer";
 
 function AppBar() {
   const dispatch = useDispatch();
@@ -98,7 +94,7 @@ function AppBar() {
 
   return (
     <>
-      <Flex justifyContent="center" marginY="20px">
+      <Flex justifyContent="center" marginY="20px" bgColor="white">
         <Box w="50em" maxWidth="50em">
           <Heading
             mx="15px"
@@ -236,47 +232,6 @@ function AppBar() {
         </ModalOverlay>
       </Modal>
     </>
-  );
-}
-
-function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
-  const onSuccess = async (response: any) => {
-    const {
-      profileObj: { googleId: userId, name },
-    } = response;
-    await onGoogleLogin(userId, name);
-  };
-
-  const onFailure = (error: any) => {
-    console.log(error);
-  };
-
-  return (
-    <GoogleLogin
-      clientId={clientId}
-      responseType={"id_token"}
-      render={(renderProps) => (
-        <Button
-          onClick={renderProps.onClick}
-          disabled={renderProps.disabled}
-          w="130px"
-          h="130px"
-          bgColor="white"
-          borderRadius="xl"
-          boxShadow="0 5px 25px rgb(0 0 0 / 15%)"
-          _hover={{ bg: "white" }}
-          _active={{ bg: "white" }}
-          _focus={{ bg: "white" }}
-        >
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/google_logo.jpeg`}
-            w="60px"
-          />
-        </Button>
-      )}
-      onSuccess={onSuccess}
-      onFailure={onFailure}
-    />
   );
 }
 
