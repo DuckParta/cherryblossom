@@ -18,17 +18,15 @@ export default function CategoryBar() {
   });
 
   return (
-    <>
-      <Center marginTop="30px" boxShadow="0 0 15px rgb(0 0 0 / 15%)">
-        <Flex
-          flexFlow="row wrap"
-          justifyContent="space-between"
-          width="75%"
-          paddingY="20px"
-        >
-          <CheckboxGroup>{locationButtonsList}</CheckboxGroup>
-        </Flex>
-      </Center>
-    </>
+    <Center marginTop="30px" boxShadow="0 0 15px rgb(0 0 0 / 15%)" bgColor="white">
+      <Flex
+        flexFlow="row wrap"
+        justifyContent="space-between"
+        width="75%"
+        paddingY="20px"
+      >
+        <CheckboxGroup>{locationButtonsList}</CheckboxGroup>
+      </Flex>
+    </Center>
   );
 }

@@ -45,7 +45,7 @@ function WishList() {
   const renderFestivalList = (list: any) => {
     if(!list) {
       return (
-        <Box textAlign="center" my="10%">
+        <Box h="container.lg" textAlign="center" my="10%">
           <Heading mb="5%" textAlign="center" fontSize="5xl" fontFamily="Courgette" textColor="GrayText">
             Cherry Blossom
           </Heading>
@@ -85,7 +85,7 @@ function WishList() {
   return (
     <Box>
       <AppBar />
-        <Box h="900px" pb="20%" bgColor="gray.50" >
+        <Box pb="20%" bgColor="gray.50">
         <Center py="10%">
           <Image 
           src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`} 

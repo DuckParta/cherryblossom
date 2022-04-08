@@ -94,7 +94,7 @@ function AppBar() {
 
   return (
     <>
-      <Flex justifyContent="center" marginY="20px">
+      <Flex justifyContent="center" marginY="20px" bgColor="white">
         <Box w="50em" maxWidth="50em">
           <Heading
             mx="15px"
