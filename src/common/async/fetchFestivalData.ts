@@ -9,7 +9,7 @@ export const fetchFestivalData = createAsyncThunk(
   "fetchFestivalData",
   async (param: { fstvlId: string }, thunkAPI) => {
     const [targetName, targetStartDate] = param.fstvlId.split("--");
-    const URL = `http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${targetName}&fstvlStartDate=${targetStartDate}`;
+    const URL = `api/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${targetName}&fstvlStartDate=${targetStartDate}`;
     try {
       const response = await axios.get(URL);
       const item = response.data.response.body.items[0];
