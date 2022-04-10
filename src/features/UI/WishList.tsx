@@ -69,7 +69,7 @@ function WishList() {
           }
           return (
             <Box key={itemKey}>
-              <Link to={`/${item.id}`} key={itemKey}>
+              <Link to={`/${item.fstvlId}`} key={itemKey}>
                 <FestivalItem items={item} />
               </Link>
               <Center>
