@@ -4,9 +4,9 @@ import { userReducer } from "./userReducer";
 import fetchContents from "../async/fetchFestivalData";
 
 const rootReducer = combineReducers({
-  festivalDataReducer: festivalDataReducer.reducer,
-  userReducer: userReducer.reducer,
-  fetchReducer: fetchContents.reducer,
+  festivalData: festivalDataReducer.reducer,
+  user: userReducer.reducer,
+  fetchContents: fetchContents.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

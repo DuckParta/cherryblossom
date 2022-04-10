@@ -1,4 +1,6 @@
 import { Flex, Center, CheckboxGroup } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../common/reducers";
 import { LocationCheckbox } from "./LocationCheckbox";
 
 const LOCATION_LIST = [
@@ -13,8 +15,14 @@ const LOCATION_LIST = [
 ];
 
 export default function CategoryBar() {
+  const { selectedCategories } = useSelector(
+    (state: RootState) => state.festivalData
+  );
+  
   const locationButtonsList = LOCATION_LIST.map((location) => {
-    return <LocationCheckbox key={location} location={location} />;
+    const locationArray = location.split("/");
+    const isChecked = selectedCategories!.some((c) => locationArray.includes(c));
+    return <LocationCheckbox key={location} location={location} isChecked={isChecked}/>;
   });
 
   return (

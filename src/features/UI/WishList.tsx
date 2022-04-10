@@ -11,7 +11,7 @@ import OutOfDateFestivalItem from "../InfiniteScroll/OutOfDateFestivalItem";
 import { Link } from "react-router-dom";
 
 function WishList() {
-  const user = useSelector((state: RootState) => state.userReducer);
+  const user = useSelector((state: RootState) => state.user);
   const [festivalList, setFestivalList] = useState<Items[]>([]);
   const [deleteKeys, setDeleteKeys] = useState<String[]>([]);
 

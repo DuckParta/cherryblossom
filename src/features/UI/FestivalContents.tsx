@@ -42,8 +42,8 @@ function FestivalContents() {
   const [login, setLogin] = useState(false);
   const [isWish, setIsWish] = useState(false);
   const [currentFstvlKey, setCurrentFstvlKey] = useState(0);
-  const { contents } = useSelector((state: RootState) => state.fetchReducer);
-  const user = useSelector((state: RootState) => state.userReducer);
+  const { contents } = useSelector((state: RootState) => state.fetchContents);
+  const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     if (user.userId === "" || user.userId === undefined) {

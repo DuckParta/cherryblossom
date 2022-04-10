@@ -8,7 +8,7 @@ import { firestore, db } from "../service/firebase";
 
 export const useFireStore = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector((state: RootState) => state.festivalDataReducer);
+  const { items } = useSelector((state: RootState) => state.festivalData);
 
   const [loading, setLoading] = useState(false);
   const getData = async () => {

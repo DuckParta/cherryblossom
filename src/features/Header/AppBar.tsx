@@ -29,7 +29,7 @@ import { IUser } from "../../common/reducers/userReducer";
 
 function AppBar() {
   const dispatch = useDispatch();
-  const user = useSelector((store: RootState) => store.userReducer);
+  const user = useSelector((store: RootState) => store.user);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [login, setLogin] = useState(false);
   const [userInfo, setUserInfo] = useState<IUser>({

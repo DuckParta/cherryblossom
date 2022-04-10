@@ -1,25 +1,27 @@
-/* eslint-disable no-unused-vars */
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Items } from "../../common/Interface/festivalDataInterface";
-import FestivalItem from "./FestivalItem";
-import useIntersectionObserver from "../../common/hooks/useIntersectionObserver";
-import { RootState } from "../../common/reducers";
-import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
-
 import { Box, Divider, Flex } from "@chakra-ui/react";
-import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import useIntersectionObserver from "../../common/hooks/useFetchFestivalData";
+import { Items } from "../../common/Interface/festivalDataInterface";
+import { RootState } from "../../common/reducers";
+import { getSelectedList } from "../../common/reducers/festivalDataReducer";
 import CreateSkeletonItems from "./CreateSkeletonItems";
+import FestivalItem from "./FestivalItem";
+import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
+
 
 export default function FestivalsList() {
-  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
 
-  const { selectedCategories, selectedItems } = useSelector(
-    (state: RootState) => state.festivalDataReducer
+  const { selectedCategories } = useSelector(
+    (state: RootState) => state.festivalData
+  );
+
+  const selectedItems = useSelector((state: RootState) => 
+    getSelectedList(state.festivalData)
   );
 
   const handleObserver = useCallback((entries) => {
@@ -48,13 +50,9 @@ export default function FestivalsList() {
     };
   }, [handleObserver, loader]);
 
-  useEffect(() => {
-    dispatch(festivalDataReducer.actions.filterLocation());
-  },[selectedCategories])
-
   const renderList = (list: Items[]) => {
-    return list.map((item: Items): JSX.Element => {
-      const itemKey = item.id;
+    return list.map((item: Items, index: number): JSX.Element => {
+      const itemKey = item.id + JSON.stringify(index);
       if (item.isPassedDate) {
         return (
           <OutOfDateFestivalItem key={itemKey} items={item}/>

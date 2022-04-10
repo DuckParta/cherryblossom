@@ -2,12 +2,10 @@ import { useDispatch } from "react-redux";
 import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
 
 import { Checkbox, Heading } from "@chakra-ui/react";
-import { useState } from "react";
 
-export const LocationCheckbox = (props: { location: string }) => {
-  const location = props.location;
+export const LocationCheckbox = (props: { location: string, isChecked: boolean }) => {
+  const { location, isChecked } = props;
   const dispatch = useDispatch();
-  const [isChecked, setIsChecked] = useState(false);
 
   function handleLocationButtonClick(e: React.ChangeEvent<HTMLInputElement>) {
     const target = e.target.value;
@@ -16,7 +14,6 @@ export const LocationCheckbox = (props: { location: string }) => {
     } else {
       dispatch(festivalDataReducer.actions.deleteSelectedCategories(target));
     }
-    setIsChecked(!isChecked);
   }
 
   return (

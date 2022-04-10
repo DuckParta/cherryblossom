@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
 
-export default function useIntersectionObserver(page: number) {
-  const { items } = useSelector((state: RootState) => state.festivalDataReducer);
+export default function useFetchFestivalData(page: number) {
+  const { items } = useSelector((state: RootState) => state.festivalData);
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<any>([]);
 
