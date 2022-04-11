@@ -6,6 +6,7 @@ import useIntersectionObserver from "../../common/hooks/useFetchFestivalData";
 import { Items } from "../../common/Interface/festivalDataInterface";
 import { RootState } from "../../common/reducers";
 import { getSelectedList } from "../../common/reducers/festivalDataReducer";
+import ToTheTopButton from "../UI/ToTheTopButton";
 import CreateSkeletonItems from "./CreateSkeletonItems";
 import FestivalItem from "./FestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
@@ -68,6 +69,7 @@ export default function FestivalsList() {
 
   return (
     <Box id="scrollArea" width="70%">
+      <ToTheTopButton />
       <Flex flexFlow="row wrap" justifyContent="space-around" pb="100px">
         {selectedCategories!.length === 0
         ? renderList(list) 
