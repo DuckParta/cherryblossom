@@ -102,7 +102,14 @@ function AppBar() {
             fontSize="3xl"
             letterSpacing="widest"
           >
-            <Link to="/">CB</Link>
+            <Link to="/">
+              <Image
+                src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
+                w="35px"
+                alt="wish"
+                cursor="pointer"
+              />
+            </Link>
           </Heading>
         </Box>
         {login ? (
