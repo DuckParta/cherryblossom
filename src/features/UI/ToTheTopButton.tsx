@@ -13,8 +13,8 @@ export default function ToTheTopButton() {
     <Button 
       onClick={scrollToTop}
       position="fixed"
-      right="5%"
-      bottom="5%"
+      right="6%"
+      bottom="6%"
       w="10px"
       bgColor="gray.200"
       opacity="70%"
