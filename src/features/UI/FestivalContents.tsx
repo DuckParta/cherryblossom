@@ -1,49 +1,63 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../common/reducers";
-import AppBar from "../Header/AppBar";
-import Map from "../Map/Map";
+import {
+  ArrowBackIcon,
+  ExternalLinkIcon,
+  LinkIcon,
+  SearchIcon,
+} from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   Center,
   Container,
   Divider,
   Flex,
   Heading,
   Link,
-  Button,
   Table,
-  Tbody,
-  Tr,
-  Td,
   TableContainer,
+  Tbody,
+  Td,
+  Textarea,
+  Tr,
+  useToast,
 } from "@chakra-ui/react";
-import { ArrowBackIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import {
-  ref,
-  set,
-  push,
-  onValue,
-  get,
-  remove,
   child,
+  get,
   getDatabase,
+  onValue,
+  push,
+  ref,
+  remove,
+  set,
 } from "firebase/database";
-import { database } from "../../common/service/firebase";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
-import { AddWishListButton } from "./AddWishListButton";
-import { Items } from "../../common/Interface/festivalDataInterface";
-import SkeletonFestivalContents from "./SkeletonFestivalContents";
+import styled from "styled-components";
 import { fetchFestivalData } from "../../common/async/fetchFestivalData";
+import { Items } from "../../common/Interface/festivalDataInterface";
+import { RootState } from "../../common/reducers";
+import { database } from "../../common/service/firebase";
+import AppBar from "../Header/AppBar";
+import Map from "../Map/Map";
+import { AddWishListButton } from "./AddWishListButton";
+import SkeletonFestivalContents from "./SkeletonFestivalContents";
 
 function FestivalContents() {
   const param = useParams();
+  const copyUrlRef = useRef<any>(null);
   const dispatch = useDispatch();
   const [login, setLogin] = useState(false);
   const [isWish, setIsWish] = useState(false);
   const [currentFstvlKey, setCurrentFstvlKey] = useState(0);
   const { contents } = useSelector((state: RootState) => state.fetchContents);
   const user = useSelector((state: RootState) => state.user);
+  const MAP_URL = `https://map.kakao.com/link/to/${contents.opar},${contents.latitude},${contents.longitude}`;
+  const toast = useToast({
+    title: "Cherry Blossom",
+    duration: 1000,
+  });
 
   useEffect(() => {
     if (user.userId === "" || user.userId === undefined) {
@@ -63,7 +77,12 @@ function FestivalContents() {
     if (login) {
       setFirebaseDB();
       return;
-    } 
+    }
+    return toast({
+      status: "info",
+      position: "top",
+      description: "로그인 후 이용 가능합니다!",
+    });
   }
 
   function setFirebaseDB() {
@@ -71,28 +90,23 @@ function FestivalContents() {
     const dbRef = ref(getDatabase());
     get(child(dbRef, `${user.userId}`)).then((snapshot) => {
       if (snapshot.exists()) {
-        // 축제 전체 데이터
         const data = snapshot.val();
         const fstvlList: Items[] = Object.values(data);
-        // 축제 검색
         if (!checkFestival(fstvlList)) {
-          // 축제가 없다면 저장
           const newPostRef = push(userRef);
           set(newPostRef, {
-            ...contents
+            ...contents,
           });
           return;
-        } 
-        // 축제가 있다면 삭제
+        }
         const fstvlKeys = Object.keys(data);
         remove(ref(database, `${user.userId}/${fstvlKeys[currentFstvlKey]}`));
         setIsWish(false);
         return;
-      } 
-      // 사용자 정보가 등록되어 있지 않다면 축제 저장
+      }
       const newPostRef = push(userRef);
       set(newPostRef, {
-        ...contents
+        ...contents,
       });
     });
   }
@@ -106,10 +120,10 @@ function FestivalContents() {
         if (checkFestival(fstvlList)) {
           setIsWish(true);
           return;
-        } 
+        }
         setIsWish(false);
         return;
-      } 
+      }
       setIsWish(false);
     });
   }
@@ -125,98 +139,229 @@ function FestivalContents() {
     }
   }
 
+  function handleShareButtonClick(e: any) {
+    copyUrlRef.current.select();
+    document.execCommand("copy");
+    e.target.focus();
+    return toast({
+      status: "success",
+      description: "클립보드에 복사되었습니다!",
+      containerStyle: {},
+    });
+  }
+
   return (
-    <Box>
+    <FestivalContentsWrapper>
       <AppBar />
       <Container maxW="container.2xl" pb="100px">
-        {!contents.fstvlId
-        ? <SkeletonFestivalContents />
-        : <Flex mt="2em" justifyContent="center">
-        <Flex w="80%" flexFlow="column nowrap" mx="2em">
-          <Box w="30%">
-            <Center>
-            <Link href="/">
-              <Button colorScheme={"whiteAlpha"}>
-                <ArrowBackIcon color={"black"} boxSize={7} />
-              </Button>
-            </Link>
-            </Center>
-          </Box>
-          <Center my="50px">
-            <Heading size="2xl" textAlign="center">{contents.fstvlNm}</Heading>
-          </Center>
-          <Center mb="30px">
-          <Flex
-            flexDirection="row"
-            bg="gray.100"
-            borderRadius="xl"
-            px="20px"
-          >
-            <Heading size="md" textAlign="center" py="20px">
-              {contents.decimalDay}
-            </Heading>
-            <Center ml="10px">
-              <AddWishListButton
-                onAdd={handleWishButtonClick}
-                isWish={isWish}
-              />
-            </Center>
+        <Flex mt="2em" justifyContent="center">
+          <Flex className="container" w="80%" flexFlow="column nowrap" mx="2em">
+            <Box className="back-button" w="30%">
+              <Center>
+                <Link href="/">
+                  <Button colorScheme={"whiteAlpha"}>
+                    <ArrowBackIcon color={"black"} boxSize={7} />
+                  </Button>
+                </Link>
+              </Center>
+            </Box>
+            {contents.fstvlId !== param.fstvlId || !contents.fstvlId ? (
+              <SkeletonFestivalContents />
+            ) : (
+              <>
+                <Center my="50px">
+                  <Heading
+                    className="festival-name"
+                    size="2xl"
+                    textAlign="center"
+                  >
+                    {contents.fstvlNm}
+                  </Heading>
+                </Center>
+                <Center mb="30px">
+                  <Flex flexDirection="row">
+                    <Box bg="gray.100" borderRadius="xl" px="20px">
+                      <Heading size="md" textAlign="center" py="15px">
+                        {contents.decimalDay}
+                      </Heading>
+                    </Box>
+                    <Center ml="15px">
+                      <AddWishListButton
+                        onAdd={handleWishButtonClick}
+                        isWish={isWish}
+                      />
+                    </Center>
+                  </Flex>
+                </Center>
+                <Divider />
+                <Box my="30px">
+                  <Center className="table-wrapper">
+                    <TableContainer className="table-container" w="70%">
+                      <Table
+                        className="table"
+                        variant="striped"
+                        fontWeight="semibold"
+                      >
+                        <Tbody>
+                          <Tr>
+                            <Td className="list-name">기간</Td>
+                            <Td className="list-contents">
+                              {contents.fstvlStartDate} ~{" "}
+                              {contents.fstvlEndDate}
+                            </Td>
+                          </Tr>
+                          <Tr>
+                            <Td className="list-name">장소</Td>
+                            <Td className="list-contents">{contents.opar}</Td>
+                          </Tr>
+                          <Tr>
+                            <Td className="list-name">주소</Td>
+                            <Td className="list-contents">
+                              {contents.rdnmadr || contents.lnmadr}
+                            </Td>
+                          </Tr>
+                          <Tr>
+                            <Td className="list-name">주최기관</Td>
+                            <Td className="list-contents">
+                              {contents.auspcInstt}
+                            </Td>
+                          </Tr>
+                          <Tr>
+                            <Td className="list-name">문의 전화</Td>
+                            <Td className="list-contents">
+                              {contents.phoneNumber}
+                            </Td>
+                          </Tr>
+                          <Tr>
+                            <Td className="list-name">공식 사이트</Td>
+                            <Td className="list-contents">
+                              <Link href={contents.homepageUrl} isExternal>
+                                <Flex
+                                  className="homepage-url-wrapper"
+                                  flexFlow="row nowrap"
+                                >
+                                  <Box
+                                    className="homepage-url"
+                                    w="500px"
+                                    isTruncated
+                                  >
+                                    {contents.homepageUrl}
+                                  </Box>
+                                  <ExternalLinkIcon m="3px" />
+                                </Flex>
+                              </Link>
+                            </Td>
+                          </Tr>
+                        </Tbody>
+                      </Table>
+                    </TableContainer>
+                  </Center>
+                  <Heading
+                    className="description"
+                    my="80px"
+                    textAlign="center"
+                    size="md"
+                  >
+                    {contents.fstvlCo}
+                  </Heading>
+                  <Flex m="30px auto" w="200px" justifyContent="space-between">
+                    <Box>
+                      <Link
+                        href={MAP_URL}
+                        isExternal
+                        _hover={{ textUnderlineOffset: "none" }}
+                      >
+                        <Button>
+                          <SearchIcon mr="5px" />
+                          길찾기
+                        </Button>
+                      </Link>
+                    </Box>
+                    <Box position="relative">
+                      <Button onClick={handleShareButtonClick}>
+                        <LinkIcon mr="5px" />
+                        공유
+                        <Textarea
+                          ref={copyUrlRef}
+                          value={window.location.href}
+                          position="absolute"
+                          opacity="0"
+                          zIndex="-1"
+                          readOnly
+                        />
+                      </Button>
+                    </Box>
+                  </Flex>
+                  <Center className="descktop-map-wrapper">
+                    <Map
+                      className="desktop-map"
+                      latitude={contents.latitude}
+                      longitude={contents.longitude}
+                    />
+                  </Center>
+                  {/* <Center className="mobile-map-wrapper">
+                    <Map
+                      className="mobile-map"
+                      latitude={contents.latitude}
+                      longitude={contents.longitude}
+                    />
+                  </Center> */}
+                </Box>
+              </>
+            )}
           </Flex>
-        </Center>
-          <Divider />
-          <Box my="30px">
-            <Center>
-              <TableContainer>
-                <Table variant="striped" fontWeight="semibold">
-                  <Tbody>
-                    <Tr>
-                      <Td>기간</Td>
-                      <Td>{contents.fstvlStartDate} ~ {contents.fstvlEndDate}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>장소</Td>
-                      <Td>{contents.opar}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>주소</Td>
-                      <Td>{contents.rdnmadr || contents.lnmadr}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>주최기관</Td>
-                      <Td>{contents.auspcInstt}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>문의 전화</Td>
-                      <Td>{contents.phoneNumber}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>공식 사이트</Td>
-                      <Td>
-                        <Box w="70%"isTruncated>
-                        {contents.homepageUrl}
-                        </Box>
-                        <Link href={contents.homepageUrl} isExternal>
-                          <ExternalLinkIcon mx="3px" />
-                        </Link>
-                      </Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </Center>
-            <Heading my="100px" textAlign="center" size="md">
-              {contents.fstvlCo}
-            </Heading>
-            <Center>
-              <Map latitude={contents.latitude} longitude={contents.longitude} />
-            </Center>
-          </Box>
         </Flex>
-      </Flex>
-      }
-    </Container>
-    </Box>
+      </Container>
+    </FestivalContentsWrapper>
   );
 }
 
 export default FestivalContents;
+
+export const FestivalContentsWrapper = styled.div`
+  @media only screen and (max-width: 480px) {
+    .festival-name {
+      margin-top: 20px;
+      font-size: 1.5rem;
+    }
+    .table-container {
+      width: 100%;
+    }
+    .table {
+      font-size: 0.9rem;
+    }
+    .list-name {
+      padding: 0px 0px 0px 10px;
+    }
+    .homepage-url-wrapper {
+      width: 80%;
+    }
+    .homepage-url {
+      width: 150px;
+    }
+    .description {
+      font-size: 1rem;
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    .container {
+      position: relative;
+      width: 100%;
+    }
+    .homepage-url {
+      width: 100px;
+    }
+    .back-button {
+      position: absolute;
+      left: 0px;
+      width: 10%;
+    }
+    .homepage-url {
+      width: 250px;
+    }
+  }
+  .list-name {
+    text-align: right;
+  }
+`;

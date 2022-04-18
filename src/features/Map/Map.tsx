@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./Map.css";
 
 declare global {
@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-const { kakao}: Window  = window;
+const { kakao }: Window = window;
 
 const Map = ({ latitude, longitude }: any) => {
   useEffect(() => {
@@ -24,6 +24,16 @@ const Map = ({ latitude, longitude }: any) => {
       };
     // 지도 생성
     const map = new kakao.maps.Map(mapContainer, mapOptions);
+    // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+
+    // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+    // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     // 장소 검색 객체를 생성합니다
     const ps = new kakao.maps.services.Places(map);
     // 지도에 idle 이벤트를 등록합니다
@@ -44,8 +54,6 @@ const Map = ({ latitude, longitude }: any) => {
     addEventHandle(contentNode, "touchstart", kakao.maps.event.preventMap);
     // 커스텀 오버레이 컨텐츠를 설정합니다
     placeOverlay.setContent(contentNode);
-    // 각 카테고리에 클릭 이벤트를 등록합니다
-    addCategoryClickEvent();
 
     // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
     function addEventHandle(target: any, type: any, callback: any) {
@@ -181,52 +189,6 @@ const Map = ({ latitude, longitude }: any) => {
       placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
       placeOverlay.setMap(map);
     }
-
-    // 각 카테고리에 클릭 이벤트를 등록합니다
-    function addCategoryClickEvent() {
-      const category = document.getElementById("category"),
-        children = category?.children;
-      // @ts-ignore
-      for (let i = 0; i < children.length; i++) {
-        // @ts-ignore
-        children[i].onclick = onClickCategory;
-      }
-    }
-
-    // 카테고리를 클릭했을 때 호출되는 함수입니다
-    // eslint-disable-next-line no-unused-vars
-    function onClickCategory(this: any) {
-      var id = this.id,
-        className = this.className;
-
-      placeOverlay.setMap(null);
-
-      if (className === "on") {
-        currCategory = "";
-        // @ts-ignore
-        changeCategoryClass();
-        removeMarker();
-      } else {
-        currCategory = id;
-        changeCategoryClass(this);
-        searchPlaces();
-      }
-    }
-
-    // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-    function changeCategoryClass(el: any) {
-      var category = document.getElementById("category"),
-        children = category?.children,
-        i;
-      // @ts-ignore
-      for (i = 0; i < children?.length; i++) {
-        // @ts-ignore
-        children[i].className = "";
-      }
-      if (el) {
-        el.className = "on";
-      }
-    }
   }, [latitude]);
 
   return (
@@ -240,32 +202,6 @@ const Map = ({ latitude, longitude }: any) => {
           overflow: "hidden",
         }}
       />
-      <ul id="category">
-        <li id="BK9" data-order="0">
-          <span className="category_bg bank" />
-          은행
-        </li>
-        <li id="MT1" data-order="1">
-          <span className="category_bg mart" />
-          마트
-        </li>
-        <li id="PM9" data-order="2">
-          <span className="category_bg pharmacy" />
-          약국
-        </li>
-        <li id="OL7" data-order="3">
-          <span className="category_bg oil" />
-          주유소
-        </li>
-        <li id="CE7" data-order="4">
-          <span className="category_bg cafe" />
-          카페
-        </li>
-        <li id="CS2" data-order="5">
-          <span className="category_bg store" />
-          편의점
-        </li>
-      </ul>
     </div>
   );
 };
