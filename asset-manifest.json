@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/cherryblossom/static/css/main.56feddcf.css",
-    "main.js": "/cherryblossom/static/js/main.b37a0e7c.js",
-    "static/js/787.ea00e4f3.chunk.js": "/cherryblossom/static/js/787.ea00e4f3.chunk.js",
-    "service-worker.js": "/cherryblossom/service-worker.js",
-    "index.html": "/cherryblossom/index.html",
-    "main.56feddcf.css.map": "/cherryblossom/static/css/main.56feddcf.css.map",
-    "main.b37a0e7c.js.map": "/cherryblossom/static/js/main.b37a0e7c.js.map",
-    "787.ea00e4f3.chunk.js.map": "/cherryblossom/static/js/787.ea00e4f3.chunk.js.map"
+    "main.css": "/static/css/main.6578176e.css",
+    "main.js": "/static/js/main.beff9417.js",
+    "static/js/787.ea00e4f3.chunk.js": "/static/js/787.ea00e4f3.chunk.js",
+    "service-worker.js": "/service-worker.js",
+    "index.html": "/index.html",
+    "main.6578176e.css.map": "/static/css/main.6578176e.css.map",
+    "main.beff9417.js.map": "/static/js/main.beff9417.js.map",
+    "787.ea00e4f3.chunk.js.map": "/static/js/787.ea00e4f3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.56feddcf.css",
-    "static/js/main.b37a0e7c.js"
+    "static/css/main.6578176e.css",
+    "static/js/main.beff9417.js"
   ]
 }
