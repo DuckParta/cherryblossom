@@ -1,5 +1,5 @@
+import { Box, Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { Items } from "../../common/Interface/festivalDataInterface";
-import { Box, Flex, Text, Heading, Center } from "@chakra-ui/react";
 
 export default function FestivalItem(props: { items: Items }) {
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
@@ -7,6 +7,7 @@ export default function FestivalItem(props: { items: Items }) {
 
   return (
     <Box
+      className="item-container"
       margin="15px"
       padding="30px"
       w="300px"
@@ -15,16 +16,11 @@ export default function FestivalItem(props: { items: Items }) {
       bg="white"
       rounded="3xl"
       textAlign="center"
-      >
+    >
       <Flex flexFlow="column nowrap" h="100%">
         <Heading size="lg">{location}</Heading>
         <Box h="70%">
-          <Heading
-            mt="50px"
-            fontSize="lg"
-            overflow="hidden"
-            cursor="pointer"
-          >
+          <Heading mt="50px" fontSize="lg" overflow="hidden" cursor="pointer">
             {fstvlNm}
           </Heading>
         </Box>

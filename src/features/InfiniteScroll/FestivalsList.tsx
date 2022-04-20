@@ -2,6 +2,7 @@ import { Box, Divider, Flex } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import useIntersectionObserver from "../../common/hooks/useFetchFestivalData";
 import { Items } from "../../common/Interface/festivalDataInterface";
 import { RootState } from "../../common/reducers";
@@ -10,7 +11,6 @@ import ToTheTopButton from "../UI/ToTheTopButton";
 import CreateSkeletonItems from "./CreateSkeletonItems";
 import FestivalItem from "./FestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
-
 
 export default function FestivalsList() {
   const [page, setPage] = useState(0);
@@ -21,7 +21,7 @@ export default function FestivalsList() {
     (state: RootState) => state.festivalData
   );
 
-  const selectedItems = useSelector((state: RootState) => 
+  const selectedItems = useSelector((state: RootState) =>
     getSelectedList(state.festivalData)
   );
 
@@ -55,30 +55,41 @@ export default function FestivalsList() {
     return list.map((item: Items, index: number): JSX.Element => {
       const itemKey = item.id + JSON.stringify(index);
       if (item.isPassedDate) {
-        return (
-          <OutOfDateFestivalItem key={itemKey} items={item}/>
-        );
+        return <OutOfDateFestivalItem key={itemKey} items={item} />;
       }
       return (
         <Link to={`/${item.id}`} key={itemKey}>
           <FestivalItem items={item} />
         </Link>
       );
-    })
+    });
   };
 
   return (
-    <Box id="scrollArea" width="70%">
-      <ToTheTopButton />
-      <Flex flexFlow="row wrap" justifyContent="space-around" pb="100px">
-        {selectedCategories!.length === 0
-        ? renderList(list) 
-        : renderList(selectedItems)
-        }
-        <div ref={loader}></div>
-      </Flex>
-      {loading && <CreateSkeletonItems />}
-      <Divider />
-    </Box>
+    <FestivalsListWrapper>
+      <Box id="scroll-area" width="70%">
+        <ToTheTopButton />
+        <Flex flexFlow="row wrap" justifyContent="space-around" pb="100px">
+          {selectedCategories!.length === 0
+            ? renderList(list)
+            : renderList(selectedItems)}
+          <div ref={loader}></div>
+        </Flex>
+        {loading && <CreateSkeletonItems />}
+        <Divider />
+      </Box>
+    </FestivalsListWrapper>
   );
 }
+
+export const FestivalsListWrapper = styled.div`
+  #scroll-area {
+    margin: 0px auto;
+  }
+  @media only screen and (max-width: 900px) {
+    #scroll-area {
+      margin: 0px auto;
+      width: 90%;
+    }
+  }
+`;

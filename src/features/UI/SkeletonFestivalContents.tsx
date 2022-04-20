@@ -1,91 +1,119 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
   Center,
   Divider,
   Flex,
   ListItem,
-  UnorderedList,
   Skeleton,
-  Button,
-  Link,
+  UnorderedList,
 } from "@chakra-ui/react";
+import styled from "styled-components";
 
 export default function SkeletonFestivalContents() {
   return (
-    <Flex mt="2em" justifyContent="center">
-        <Flex w="80%" flexDirection="column" mx="2em">
-          <Box w="30%">
-            <Center>
-              <Link href="/">
-                <Button colorScheme={"whiteAlpha"}>
-                  <ArrowBackIcon color={"black"} boxSize={7} />
-                </Button>
-              </Link>
-            </Center>
+    <SkeletonContentsWrapper>
+      <Center my="50px">
+        <Skeleton className="festival-name" w="60%" h="45px" />
+      </Center>
+      <Center mb="30px">
+        <Flex flexDirection="row">
+          <Box px="20px">
+            <Skeleton
+              className="decimal-div"
+              w="90px"
+              h="60px"
+              borderRadius="xl"
+            />
           </Box>
-          <Center my="50px">
-            <Skeleton w="50%" h="45px" />
-          </Center>
-          <Center mb="30px">
-            <Box>
-              <Skeleton w="160px" h="60px" borderRadius="xl" />
-            </Box>
-          </Center>
-          <Divider />
-          <Box my="30px">
-            <UnorderedList
-              alignSelf="center"
-              spacing={3}
-              p="10px"
-              listStyleType="none"
-              fontSize="lg"
-              fontWeight="semibold"
-            >
-              <ListItem>
-                <Center>
-                  <Skeleton w="60%" h="25px"/>
-                </Center>
-              </ListItem>
-              <ListItem>
-                <Center>
-                  <Skeleton w="60%" h="25px"/>
-                </Center>
-              </ListItem>
-              <ListItem>
-                <Center>
-                  <Skeleton w="60%" h="25px"/>
-                </Center>
-              </ListItem>
-              <ListItem>
-                <Center>
-                  <Skeleton w="60%" h="25px"/>
-                </Center>
-              </ListItem>
-              <ListItem>
-                <Center>
-                  <Skeleton w="60%" h="25px"/>
-                </Center>
-              </ListItem>
-              <ListItem>
-                <Center>
-                  <Skeleton w="60%" h="25px"/>
-                </Center>
-              </ListItem>
-              <ListItem>
-                <Center>
-                  <Skeleton w="60%" h="25px"/>
-                </Center>
-              </ListItem>
-            </UnorderedList>
+          <Box>
+            <Skeleton w="60px" h="60px" borderRadius="xl" />
           </Box>
-          <Center mb="50px">
-            <Skeleton w="50%" h="100px"/>
-          </Center>
-          <Center>
-            <Skeleton w="90%" h="300px"/>
-          </Center>
         </Flex>
-      </Flex>
-  )
+      </Center>
+      <Divider />
+      <Box my="30px">
+        <UnorderedList
+          alignSelf="center"
+          spacing={3}
+          p="10px"
+          listStyleType="none"
+          fontSize="lg"
+          fontWeight="semibold"
+        >
+          <ListItem>
+            <Center>
+              <Skeleton className="table-contents" w="70%" h="40px" />
+            </Center>
+          </ListItem>
+          <ListItem>
+            <Center>
+              <Skeleton className="table-contents" w="70%" h="40px" />
+            </Center>
+          </ListItem>
+          <ListItem>
+            <Center>
+              <Skeleton className="table-contents" w="70%" h="40px" />
+            </Center>
+          </ListItem>
+          <ListItem>
+            <Center>
+              <Skeleton className="table-contents" w="70%" h="40px" />
+            </Center>
+          </ListItem>
+          <ListItem>
+            <Center>
+              <Skeleton className="table-contents" w="70%" h="40px" />
+            </Center>
+          </ListItem>
+          <ListItem>
+            <Center>
+              <Skeleton className="table-contents" w="70%" h="40px" />
+            </Center>
+          </ListItem>
+          <ListItem>
+            <Center>
+              <Skeleton className="table-contents" w="70%" h="40px" />
+            </Center>
+          </ListItem>
+        </UnorderedList>
+      </Box>
+      <Center mb="50px">
+        <Skeleton className="festival-contents" w="60%" h="100px" />
+      </Center>
+      <Center m="30px auto" w="200px">
+        <Flex flexDirection="row" justifyContent="space-between">
+          <Box px="20px">
+            <Skeleton w="90px" h="45px" borderRadius="md" />
+          </Box>
+          <Box>
+            <Skeleton w="90px" h="45px" borderRadius="md" />
+          </Box>
+        </Flex>
+      </Center>
+      <Center>
+        <Skeleton className="table-contents" w="80%" h="500px" />
+      </Center>
+    </SkeletonContentsWrapper>
+  );
 }
+
+const SkeletonContentsWrapper = styled.div`
+  @media only screen and (max-width: 480px) {
+    .container {
+      position: relative;
+      width: 100%;
+    }
+    .festival-name {
+      margin-top: 20px;
+      width: 80%;
+      font-size: 1.5rem;
+    }
+    .table-contents {
+      width: 100%;
+    }
+    .festival-contents {
+      width: 80%;
+      height: 30px;
+    }
+  }
+`;
