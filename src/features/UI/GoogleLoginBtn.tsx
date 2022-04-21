@@ -1,8 +1,5 @@
 import GoogleLogin from "react-google-login";
-import {
-  Button,
-  Image,
-} from "@chakra-ui/react";
+import { Button, Image } from "@chakra-ui/react";
 
 export default function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
   const onSuccess = async (response: any) => {
