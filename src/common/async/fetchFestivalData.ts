@@ -9,7 +9,7 @@ export const fetchFestivalData = createAsyncThunk(
   "fetchFestivalData",
   async (param: { fstvlId: string }, thunkAPI) => {
     const [targetName, targetStartDate] = param.fstvlId.split("--");
-    const URL = `http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${targetName}&fstvlStartDate=${targetStartDate}`;
+    const URL = `/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${targetName}&fstvlStartDate=${targetStartDate}`;
     try {
       const response = await axios.get(URL);
       const item = response.data.response.body.items[0];
@@ -24,7 +24,7 @@ const fetchSlice = createSlice({
   name: "contents",
   initialState: {
     contents: {
-      fstvlId:"",
+      fstvlId: "",
       auspcInstt: "",
       fstvlCo: "",
       fstvlEndDate: "",
@@ -43,10 +43,9 @@ const fetchSlice = createSlice({
       relateInfo: "",
       suprtInstt: "",
     } as Items,
-    status: ""
+    status: "",
   },
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchFestivalData.pending, (state) => {
       state.status = "loading";
@@ -55,19 +54,20 @@ const fetchSlice = createSlice({
       fetchFestivalData.fulfilled,
       (state, { payload }: PayloadAction<Items>) => {
         state.status = "success";
-        const addId = {...payload, 
+        const addId = {
+          ...payload,
           fstvlId: `${payload.fstvlNm}--${payload.fstvlStartDate}`,
           isPassedDate: getIsPassedDate(payload.fstvlEndDate),
           decimalDay: getDecimalDay(payload.fstvlStartDate),
-          location: getFestivalLocation(payload)
-        }
+          location: getFestivalLocation(payload),
+        };
         state.contents = { ...addId };
       }
     );
     builder.addCase(fetchFestivalData.rejected, (state) => {
       state.status = "failed";
     });
-  }
+  },
 });
 
 export default fetchSlice;

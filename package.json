@@ -78,5 +78,6 @@
     "eslint": "^8.12.0",
     "prettier": "2.6.1",
     "webpack": "5.70.0"
-  }
+  },
+  "proxy": "http://api.data.go.kr"
 }
