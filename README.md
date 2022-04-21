@@ -1,5 +1,7 @@
 # Cherry Blossom
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4f1d196c-495c-4c27-a0a7-c1355d64e3e9/deploy-status)](https://app.netlify.com/sites/cherryblossom-festival/deploys)
+
 ### 📢 Introduction
 
 **사용자에게** ✨ **축제 정보 및 알림 기능**✨**을 제공하는 서비스입니다.**

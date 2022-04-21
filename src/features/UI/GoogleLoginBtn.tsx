@@ -1,10 +1,7 @@
 import GoogleLogin from "react-google-login";
-import {
-  Button,
-  Image,
-} from "@chakra-ui/react";
+import { Button, Image } from "@chakra-ui/react";
 
-export default function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
+export default function GoogleLoginBtn({ onGoogleLogin, clientid }: any) {
   const onSuccess = async (response: any) => {
     const {
       profileObj: { googleId: userId, name },
@@ -18,7 +15,7 @@ export default function GoogleLoginBtn({ onGoogleLogin, clientId }: any) {
 
   return (
     <GoogleLogin
-      clientId={clientId}
+      clientid={clientid}
       responseType={"id_token"}
       render={(renderProps) => (
         <Button

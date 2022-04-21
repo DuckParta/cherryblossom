@@ -50,7 +50,7 @@ function AppBar() {
     dispatch(setInfo(userInfo));
   }, [userInfo]);
 
-  const clientId = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
+  const clientid = process.env.REACT_APP_GOOGLE_LOGIN_API || "";
 
   const setLoginInfo = (userId: string, name: string) => {
     onClose();
@@ -200,7 +200,7 @@ function AppBar() {
                   >
                     <GoogleLoginBtn
                       onGoogleLogin={setLoginInfo}
-                      clientId={clientId}
+                      clientid={clientid}
                     />
                     <Heading size="md" textAlign="center" textColor="GrayText">
                       Google 로그인
