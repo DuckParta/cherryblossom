@@ -11,8 +11,14 @@ export const fetchFestivalData = createAsyncThunk(
     const [targetName, targetStartDate] = param.fstvlId.split("--");
     const URL = `/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${targetName}&fstvlStartDate=${targetStartDate}`;
     try {
-      const response = await axios.get(URL);
-      const item = response.data.response.body.items[0];
+      // const response = await axios.get(URL);
+      const temp = await axios.get(`/api/${URL}`).then((res) => {
+        console.log(res);
+        return res;
+      });
+      console.log(temp);
+      // const item = response.data.response.body.items[0];
+      const item = temp.data.response.body.items[0];
       return item;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
