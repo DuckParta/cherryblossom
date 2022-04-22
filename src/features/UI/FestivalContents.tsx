@@ -53,7 +53,8 @@ function FestivalContents() {
   const [currentFstvlKey, setCurrentFstvlKey] = useState(0);
   const { contents } = useSelector((state: RootState) => state.fetchContents);
   const user = useSelector((state: RootState) => state.user);
-  const MAP_URL = `https://map.kakao.com/link/to/${contents.opar},${contents.latitude},${contents.longitude}`;
+  const MAP_OPPAR = contents.opar.split("(")[0];
+  const MAP_URL = `https://map.kakao.com/link/to/${MAP_OPPAR},${contents.latitude},${contents.longitude}`;
   const toast = useToast({
     title: "Cherry Blossom",
     duration: 1000,
