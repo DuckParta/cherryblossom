@@ -8,4 +8,4 @@
 
 [Cherry Blossom - 우리나라 모든 축제](https://cherryblossom-festival.netlify.app/)
 
-more - [**✨ Notion**](https://cherryblossom-festival.netlify.app/)
+more - [**✨ Notion**](https://www.notion.so/Cherry-Blossom-7b5d3ac377a24648b4b9b30f0ad63ce8)
