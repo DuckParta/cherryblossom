@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducers";
 import { festivalDataReducer } from "../reducers/festivalDataReducer";
-import { firestore, db } from "../service/firebase";
+import { db } from "../service/firebase";
 
 export const useFireStore = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector((state: RootState) => state.festivalData);
-
   const [loading, setLoading] = useState(false);
+  
   const getData = async () => {
     setLoading(true);
     const docRef = doc(db, "data","festival");
