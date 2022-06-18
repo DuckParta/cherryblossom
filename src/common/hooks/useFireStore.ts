@@ -1,15 +1,13 @@
-/* eslint-disable no-unused-vars */
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { useDispatch } from "react-redux";
 import { festivalDataReducer } from "../reducers/festivalDataReducer";
 import { db } from "../service/firebase";
 
 export const useFireStore = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  
+
   const getData = async () => {
     setLoading(true);
     const docRef = doc(db, "data","festival");
