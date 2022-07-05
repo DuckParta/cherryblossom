@@ -43,6 +43,7 @@ import AppBar from "../Header/AppBar";
 import Map from "../Map/Map";
 import { AddWishListButton } from "./AddWishListButton";
 import SkeletonFestivalContents from "./SkeletonFestivalContents";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 function FestivalContents() {
   const param = useParams();
@@ -140,10 +141,10 @@ function FestivalContents() {
     }
   }
 
-  function handleShareButtonClick(e: any) {
-    copyUrlRef.current.select();
-    document.execCommand("copy");
-    e.target.focus();
+  function handleShareButtonClick() {
+    // copyUrlRef.current.select();
+    // document.execCommand("copy");
+    // e.target.focus();
     return toast({
       status: "success",
       description: "클립보드에 복사되었습니다!",
@@ -279,18 +280,23 @@ function FestivalContents() {
                       </Link>
                     </Box>
                     <Box position="relative">
-                      <Button onClick={handleShareButtonClick}>
-                        <LinkIcon mr="5px" />
-                        공유
-                        <Textarea
-                          ref={copyUrlRef}
-                          value={window.location.href}
-                          position="absolute"
-                          opacity="0"
-                          zIndex="-1"
-                          readOnly
-                        />
-                      </Button>
+                      <CopyToClipboard
+                        text={copyUrlRef.current}
+                        onCopy={handleShareButtonClick}
+                      >
+                        <Button>
+                          <LinkIcon mr="5px" />
+                          공유
+                          <Textarea
+                            ref={copyUrlRef}
+                            value={window.location.href}
+                            position="absolute"
+                            opacity="0"
+                            zIndex="-1"
+                            readOnly
+                          />
+                        </Button>
+                      </CopyToClipboard>
                     </Box>
                   </Flex>
                   <Center className="descktop-map-wrapper">
@@ -300,13 +306,6 @@ function FestivalContents() {
                       longitude={contents.longitude}
                     />
                   </Center>
-                  {/* <Center className="mobile-map-wrapper">
-                    <Map
-                      className="mobile-map"
-                      latitude={contents.latitude}
-                      longitude={contents.longitude}
-                    />
-                  </Center> */}
                 </Box>
               </>
             )}
