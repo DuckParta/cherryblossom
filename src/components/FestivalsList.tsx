@@ -3,16 +3,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import useIntersectionObserver from "../../common/hooks/useFetchFestivalData";
-import { Items } from "../../common/Interface/festivalDataInterface";
-import { RootState } from "../../common/reducers";
-import { getSelectedList } from "../../common/reducers/festivalDataReducer";
-import ToTheTopButton from "../UI/ToTheTopButton";
+import useIntersectionObserver from "../hooks/useFetchFestivalData";
+import { Items } from "../types/type.d";
+import { RootState } from "../reducers";
+import { getSelectedList } from "../reducers/festivalDataReducer";
+import ToTheTopButton from "./ToTheTopButton";
 import CreateSkeletonItems from "./CreateSkeletonItems";
 import FestivalItem from "./FestivalItem";
 import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
 
-export default function FestivalsList() {
+const FestivalsList = () => {
   const [page, setPage] = useState(0);
   const { loading, list } = useIntersectionObserver(page);
   const loader = useRef(null);
@@ -51,8 +51,8 @@ export default function FestivalsList() {
     };
   }, [handleObserver, loader]);
 
-  const renderList = (list: Items[]) => {
-    return list.map((item: Items, index: number): JSX.Element => {
+  const renderList = (list2: Items[]) => {
+    return list2.map((item: Items, index: number): JSX.Element => {
       const itemKey = item.id + JSON.stringify(index);
       if (item.isPassedDate) {
         return <OutOfDateFestivalItem key={itemKey} items={item} />;
@@ -73,14 +73,14 @@ export default function FestivalsList() {
           {selectedCategories!.length === 0
             ? renderList(list)
             : renderList(selectedItems)}
-          <div ref={loader}></div>
+          <div ref={loader} />
         </Flex>
         {loading && <CreateSkeletonItems />}
         <Divider />
       </Box>
     </FestivalsListWrapper>
   );
-}
+};
 
 export const FestivalsListWrapper = styled.div`
   #scroll-area {
@@ -93,3 +93,5 @@ export const FestivalsListWrapper = styled.div`
     }
   }
 `;
+
+export default FestivalsList;

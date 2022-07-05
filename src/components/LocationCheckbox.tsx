@@ -1,9 +1,12 @@
 import { useDispatch } from "react-redux";
-import { festivalDataReducer } from "../../common/reducers/festivalDataReducer";
+import { festivalDataReducer } from "../reducers/festivalDataReducer";
 
 import { Checkbox, Heading } from "@chakra-ui/react";
 
-export const LocationCheckbox = (props: { location: string, isChecked: boolean }) => {
+export const LocationCheckbox = (props: {
+  location: string;
+  isChecked: boolean;
+}) => {
   const { location, isChecked } = props;
   const dispatch = useDispatch();
 
@@ -26,7 +29,9 @@ export const LocationCheckbox = (props: { location: string, isChecked: boolean }
       bgColor="transparent"
       fontSize="lg"
     >
-      <Heading size="sm" fontWeight="semibold">{location}</Heading>
+      <Heading size="sm" fontWeight="semibold">
+        {location}
+      </Heading>
     </Checkbox>
   );
 };

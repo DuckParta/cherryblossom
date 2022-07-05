@@ -1,4 +1,4 @@
-import { Items } from "../../common/Interface/festivalDataInterface";
+import { Items } from "../types/type";
 
 export default function getFestivalLocation(item: Items) {
   const location = item.rdnmadr.substring(0, 2);

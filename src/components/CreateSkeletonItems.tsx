@@ -1,7 +1,7 @@
 import { Flex, Box } from "@chakra-ui/react";
-import SkeletonFestivalItem from "../UI/SkeletonFestivalItem";
+import SkeletonFestivalItem from "./SkeletonFestivalItem";
 
-export default function CreateSkeletonItems() {
+const CreateSkeletonItems = () => {
   const range = (num: number) => [...Array(num).keys()];
 
   return (
@@ -13,4 +13,6 @@ export default function CreateSkeletonItems() {
       ))}
     </Flex>
   );
-}
+};
+
+export default CreateSkeletonItems;

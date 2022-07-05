@@ -2,7 +2,7 @@ import CategoryBar from "./CategoryBar";
 import FestivalsList from "./FestivalsList";
 
 import { Center, Box } from "@chakra-ui/react";
-import { useFireStore } from "../../common/hooks/useFireStore";
+import { useFireStore } from "../hooks/useFireStore";
 import CreateSkeletonItems from "./CreateSkeletonItems";
 
 export default function FestivalsWrapper() {

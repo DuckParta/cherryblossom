@@ -1,9 +1,9 @@
 import { Box, Center, Flex, Heading, Text } from "@chakra-ui/react";
-import { Items } from "../../common/Interface/festivalDataInterface";
+import { Items } from "../types/type.d";
 
-export default function FestivalItem(props: { items: Items }) {
+const FestivalItem = ({ items }: { items: Items }) => {
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
-    props.items;
+    items;
 
   return (
     <Box
@@ -42,4 +42,6 @@ export default function FestivalItem(props: { items: Items }) {
       </Flex>
     </Box>
   );
-}
+};
+
+export default FestivalItem;

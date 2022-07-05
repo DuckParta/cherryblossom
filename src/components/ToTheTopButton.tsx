@@ -1,16 +1,16 @@
 import { Button } from "@chakra-ui/react";
-import { ArrowUpIcon } from "@chakra-ui/icons";
+// import { ArrowUpIcon } from "@chakra-ui/icons";
 
 export default function ToTheTopButton() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
-  }
+  };
 
   return (
-    <Button 
+    <Button
       onClick={scrollToTop}
       position="fixed"
       right="6%"
@@ -20,7 +20,7 @@ export default function ToTheTopButton() {
       opacity="70%"
       borderRadius="full"
     >
-      <ArrowUpIcon/>
+      {/* <ArrowUpIcon/> */}
     </Button>
   );
 }

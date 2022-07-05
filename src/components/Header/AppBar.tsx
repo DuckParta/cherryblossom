@@ -18,16 +18,15 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { TriangleDownIcon } from "@chakra-ui/icons";
+// import { TriangleDownIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../common/reducers";
-import { setInfo, setLogout } from "../../common/reducers/userReducer";
-import GoogleLoginBtn from "../UI/GoogleLoginBtn";
-import { IUser } from "../../common/reducers/userReducer";
+import { RootState } from "../../reducers";
+import GoogleLoginBtn from "../GoogleLoginBtn";
+import { setInfo, setLogout, IUser } from "../../reducers/userReducer";
 
-function AppBar() {
+const AppBar = () => {
   const dispatch = useDispatch();
   const user = useSelector((store: RootState) => store.user);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -74,23 +73,11 @@ function AppBar() {
           fail: (error: any) => console.error(error),
         });
       },
-      fail: function (err: any) {
+      fail(err: any) {
         console.log(JSON.stringify(err));
       },
     });
   };
-
-  function LogoutBtn() {
-    const onLogout = () => {
-      dispatch(setLogout());
-    };
-
-    return (
-      <Text w="100%" onClick={onLogout}>
-        로그아웃
-      </Text>
-    );
-  }
 
   return (
     <>
@@ -113,45 +100,38 @@ function AppBar() {
           </Heading>
         </Box>
         {login ? (
-          <>
-            <Center mx="15px">
-              <Menu>
-                <Text
-                  w="10em"
-                  fontSize="lg"
-                  fontWeight="bold"
-                  textAlign="right"
-                >
-                  {userInfo?.name}
-                </Text>
-                <Box
-                  mx={3}
-                  px={2}
-                  py={2}
-                  borderRadius="full"
-                  boxShadow="0 0 8px rgb(0 0 0 / 9%)"
-                >
-                  <Image
-                    src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
-                    w="30px"
-                  />
-                </Box>
-                <MenuButton>
-                  <TriangleDownIcon w="3" color="gray.500" cursor="pointer" />
-                </MenuButton>
-                <MenuList minWidth="150px" px={3}>
-                  <MenuItem borderRadius="lg">
-                    <Link to="/wishlist">
-                      <Text w="100px">내 축제</Text>
-                    </Link>
-                  </MenuItem>
-                  <MenuItem borderRadius="lg">
-                    <LogoutBtn />
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Center>
-          </>
+          <Center mx="15px">
+            <Menu>
+              <Text w="10em" fontSize="lg" fontWeight="bold" textAlign="right">
+                {userInfo?.name}
+              </Text>
+              <Box
+                mx={3}
+                px={2}
+                py={2}
+                borderRadius="full"
+                boxShadow="0 0 8px rgb(0 0 0 / 9%)"
+              >
+                <Image
+                  src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
+                  w="30px"
+                />
+              </Box>
+              <MenuButton>
+                {/* <TriangleDownIcon w="3" color="gray.500" cursor="pointer" /> */}
+              </MenuButton>
+              <MenuList minWidth="150px" px={3}>
+                <MenuItem borderRadius="lg">
+                  <Link to="/wishlist">
+                    <Text w="100px">내 축제</Text>
+                  </Link>
+                </MenuItem>
+                <MenuItem borderRadius="lg">
+                  <LogoutBtn />
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Center>
         ) : (
           <Center w="7em">
             <Button
@@ -167,7 +147,7 @@ function AppBar() {
         )}
       </Flex>
       <Modal
-        blockScrollOnMount={true}
+        blockScrollOnMount
         size="2xl"
         isCentered
         motionPreset="slideInBottom"
@@ -194,7 +174,7 @@ function AppBar() {
                 >
                   <Flex
                     h="170px"
-                    flexDirection="column"
+                    flexDirection="row"
                     justifyContent="space-between"
                     my="20px"
                   >
@@ -240,6 +220,18 @@ function AppBar() {
       </Modal>
     </>
   );
-}
+};
 
+const LogoutBtn = () => {
+  const dispatch = useDispatch();
+  const onLogout = () => {
+    dispatch(setLogout());
+  };
+
+  return (
+    <Text w="100%" onClick={onLogout}>
+      로그아웃
+    </Text>
+  );
+};
 export default AppBar;

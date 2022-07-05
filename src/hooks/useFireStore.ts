@@ -10,20 +10,20 @@ export const useFireStore = () => {
 
   const getData = async () => {
     setLoading(true);
-    const docRef = doc(db, "data","festival");
+    const docRef = doc(db, "data", "festival");
     const docSnap = await getDoc(docRef);
     setLoading(false);
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    return [...data[0], ...data[1]];
-  }
-  }
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return [...data[0], ...data[1]];
+    }
+  };
 
   useEffect(() => {
     getData().then((data) => {
-      dispatch((festivalDataReducer.actions.storeFestivalData(data!)));
+      dispatch(festivalDataReducer.actions.storeFestivalData(data!));
     });
   }, []);
 
   return loading;
-}
+};

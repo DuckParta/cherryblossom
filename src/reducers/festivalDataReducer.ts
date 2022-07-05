@@ -1,14 +1,14 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitialFestivalData, Items } from "../Interface/festivalDataInterface";
-import getDecimalDay from "../../features/Compute/getDecimalDay";
-import getIsPassedDate from "../../features/Compute/getIsPassedDate";
+import { InitialFestivalData, Items } from "../types/type.d";
+import getDecimalDay from "../util/getDecimalDay";
+import getIsPassedDate from "../util/getIsPassedDate";
 
 const initialState = {
   items: [],
   status: "",
   clickedFestival: {},
   selectedCategories: [],
-  selectedItems: []
+  selectedItems: [],
 };
 
 export const festivalDataReducer = createSlice({
@@ -21,8 +21,9 @@ export const festivalDataReducer = createSlice({
     },
     deleteSelectedCategories: (state, { payload }: PayloadAction<string>) => {
       const location = payload.split("/");
-      state.selectedCategories = state.selectedCategories!.filter((category) => {
-          return !location.includes(category)
+      state.selectedCategories = state.selectedCategories!.filter(
+        (category) => {
+          return !location.includes(category);
         }
       );
     },
@@ -43,7 +44,7 @@ export const festivalDataReducer = createSlice({
 });
 
 const selectItems = (state: InitialFestivalData) => state.items;
-const selectSelectedCategories = (state: InitialFestivalData) => 
+const selectSelectedCategories = (state: InitialFestivalData) =>
   state.selectedCategories;
 
 export const getSelectedList = createSelector(

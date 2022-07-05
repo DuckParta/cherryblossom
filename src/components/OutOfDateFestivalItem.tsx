@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Heading, Center } from "@chakra-ui/react";
-import { Items } from "../../common/Interface/festivalDataInterface";
+import { Items } from "../types/type";
 
 export default function OutOfDateFestivalItem(props: { items: Items }) {
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =
@@ -19,7 +19,12 @@ export default function OutOfDateFestivalItem(props: { items: Items }) {
       <Flex flexFlow="column nowrap" h="100%" cursor="default">
         <Heading>{location}</Heading>
         <Box h="70%">
-          <Heading mt="50px" overflow="hidden" fontSize="lg" textColor="gray.500">
+          <Heading
+            mt="50px"
+            overflow="hidden"
+            fontSize="lg"
+            textColor="gray.500"
+          >
             {fstvlNm}
           </Heading>
         </Box>

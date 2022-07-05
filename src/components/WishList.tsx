@@ -1,16 +1,17 @@
-import AppBar from "../Header/AppBar";
+import AppBar from "./Header/AppBar";
 import { Box, Button, Center, Flex, Heading, Image } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../common/reducers";
+import { RootState } from "../reducers";
 import { onValue, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
-import { Items } from "../../common/Interface/festivalDataInterface";
-import { database } from "../../common/service/firebase";
-import FestivalItem from "../InfiniteScroll/FestivalItem";
-import OutOfDateFestivalItem from "../InfiniteScroll/OutOfDateFestivalItem";
+import { Items } from "../types/type.d";
+import { database } from "../service/firebase";
+import FestivalItem from "./FestivalItem";
+import OutOfDateFestivalItem from "./OutOfDateFestivalItem";
 import { Link } from "react-router-dom";
+import { WishActiveIcon } from "../assets/svgs";
 
-function WishList() {
+const WishList = () => {
   const user = useSelector((state: RootState) => state.user);
   const [festivalList, setFestivalList] = useState<Items[]>([]);
   const [deleteKeys, setDeleteKeys] = useState<String[]>([]);
@@ -47,11 +48,12 @@ function WishList() {
       <AppBar />
       <Box pb="20%" bgColor="gray.50">
         <Center py="10%">
-          <Image
+          {/* <Image
             src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
             w="25px"
             mx="10px"
-          />
+          /> */}
+          <WishActiveIcon />
           <Heading>내 축제 리스트</Heading>
         </Center>
         <Center>
@@ -66,11 +68,11 @@ function WishList() {
       </Box>
     </Box>
   );
-}
+};
 
 const renderFestivalList = (list: any, onDelete: any) => {
   return (
-    <>
+    <div>
       {!list ? (
         <Box h="container.lg" textAlign="center" my="10%">
           <Heading
@@ -99,22 +101,21 @@ const renderFestivalList = (list: any, onDelete: any) => {
                   </Center>
                 </Box>
               );
-            } else {
-              return (
-                <Box key={itemKey}>
-                  <Link to={`/${item.fstvlId}`} key={itemKey}>
-                    <FestivalItem items={item} />
-                  </Link>
-                  <Center>
-                    <Button onClick={() => onDelete(index)}>삭제</Button>
-                  </Center>
-                </Box>
-              );
             }
+            return (
+              <Box key={itemKey}>
+                <Link to={`/${item.fstvlId}`} key={itemKey}>
+                  <FestivalItem items={item} />
+                </Link>
+                <Center>
+                  <Button onClick={() => onDelete(index)}>삭제</Button>
+                </Center>
+              </Box>
+            );
           })}
         </>
       )}
-    </>
+    </div>
   );
 };
 

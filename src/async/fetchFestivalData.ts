@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import getDecimalDay from "../../features/Compute/getDecimalDay";
-import getFestivalLocation from "../../features/Compute/getFestivalLocation";
-import getIsPassedDate from "../../features/Compute/getIsPassedDate";
-import { Items } from "../Interface/festivalDataInterface";
+import getDecimalDay from "../util/getDecimalDay";
+import getFestivalLocation from "../util/getFestivalLocation";
+import getIsPassedDate from "../util/getIsPassedDate";
+import { Items } from "../types/type.d";
 
 export const fetchFestivalData = createAsyncThunk(
   "fetchFestivalData",
   async (param: { fstvlId: string }, thunkAPI) => {
     const [targetName, targetStartDate] = param.fstvlId.split("--");
-    const URL = `/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=PsnPqBdiFYqwLlJF6wAm8TjrIHmfHqIpRoH0Pch%2B8%2FYdNtxltESW1eKpCM1RvH3nbTXwl7JFWQE8bdKNnuPtag%3D%3D&pageNo=1&type=json&fstvlNm=${targetName}&fstvlStartDate=${targetStartDate}`;
+    const URL = `/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=${process.env.REACT_APP_SERVICE_KEY}&pageNo=1&type=json&fstvlNm=${targetName}&fstvlStartDate=${targetStartDate}`;
     try {
       const response = await axios.get(`/api${URL}`).then((res) => {
         return res;

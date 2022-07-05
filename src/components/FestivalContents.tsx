@@ -1,9 +1,9 @@
-import {
-  ArrowBackIcon,
-  ExternalLinkIcon,
-  LinkIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
+// import {
+//   ArrowBackIcon,
+//   ExternalLinkIcon,
+//   LinkIcon,
+//   SearchIcon,
+// } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -35,16 +35,16 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import { fetchFestivalData } from "../../common/async/fetchFestivalData";
-import { Items } from "../../common/Interface/festivalDataInterface";
-import { RootState } from "../../common/reducers";
-import { database } from "../../common/service/firebase";
-import AppBar from "../Header/AppBar";
-import Map from "../Map/Map";
-import { AddWishListButton } from "./AddWishListButton";
+import { fetchFestivalData } from "../async/fetchFestivalData";
+import { RootState } from "../reducers";
+import { database } from "../service/firebase";
+import { Items } from "../types/type.d";
+import AppBar from "./Header/AppBar";
+import Map from "./Map/Map";
 import SkeletonFestivalContents from "./SkeletonFestivalContents";
+import WishListButton from "./WishListButton";
 
-function FestivalContents() {
+const FestivalContents = () => {
   const param = useParams();
   const copyUrlRef = useRef<any>(null);
   const dispatch = useDispatch();
@@ -160,8 +160,8 @@ function FestivalContents() {
             <Box className="back-button" w="30%">
               <Center>
                 <Link href="/">
-                  <Button colorScheme={"whiteAlpha"}>
-                    <ArrowBackIcon color={"black"} boxSize={7} />
+                  <Button colorScheme="whiteAlpha">
+                    {/* <ArrowBackIcon color={"black"} boxSize={7} /> */}
                   </Button>
                 </Link>
               </Center>
@@ -187,7 +187,7 @@ function FestivalContents() {
                       </Heading>
                     </Box>
                     <Center ml="15px">
-                      <AddWishListButton
+                      <WishListButton
                         onAdd={handleWishButtonClick}
                         isWish={isWish}
                       />
@@ -248,7 +248,7 @@ function FestivalContents() {
                                   >
                                     {contents.homepageUrl}
                                   </Box>
-                                  <ExternalLinkIcon m="3px" />
+                                  {/* <ExternalLinkIcon m="3px" /> */}
                                 </Flex>
                               </Link>
                             </Td>
@@ -273,14 +273,14 @@ function FestivalContents() {
                         _hover={{ textUnderlineOffset: "none" }}
                       >
                         <Button>
-                          <SearchIcon mr="5px" />
+                          {/* <SearchIcon mr="5px" /> */}
                           길찾기
                         </Button>
                       </Link>
                     </Box>
                     <Box position="relative">
                       <Button onClick={handleShareButtonClick}>
-                        <LinkIcon mr="5px" />
+                        {/* <LinkIcon mr="5px" /> */}
                         공유
                         <Textarea
                           ref={copyUrlRef}
@@ -315,7 +315,7 @@ function FestivalContents() {
       </Container>
     </FestivalContentsWrapper>
   );
-}
+};
 
 export default FestivalContents;
 
