@@ -1,0 +1,1 @@
+export const OUT_OF_DATE_FESTIVAL_ITEM_STYLE = {};

@@ -2,7 +2,6 @@
   "name": "cherryblossom",
   "version": "0.1.0",
   "private": true,
-  "main": "functions/src/index.js",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.6",

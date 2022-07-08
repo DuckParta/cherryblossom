@@ -1,30 +1,17 @@
-import ReactDOM from "react-dom";
-import App from "./app/App";
-import { Provider } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import WishList from "./features/UI/WishList";
-import { store } from "./app/store";
 import { ChakraProvider } from "@chakra-ui/react";
-import FestivalContents from "./features/UI/FestivalContents";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
-
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import reportWebVitals from "./reportWebVitals";
+import App from "./routes";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.render(
-  <ChakraProvider>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/wishlist" element={<WishList />} />
-          <Route
-            path="/:fstvlId"
-            element={<FestivalContents />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
-  </ChakraProvider>,
+  <Provider store={store}>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
+  </Provider>,
   document.getElementById("root")
 );
 
