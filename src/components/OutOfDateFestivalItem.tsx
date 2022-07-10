@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Heading, Center } from "@chakra-ui/react";
-import { Items } from "../types/type";
+import { Items } from "../types/type.d";
 
 const OutOfDateFestivalItem = ({ items }: { items: Items }) => {
   const { fstvlNm, opar, fstvlStartDate, fstvlEndDate, decimalDay, location } =

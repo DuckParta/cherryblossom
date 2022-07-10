@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useFetchFestivalData } from "../../../hooks/useFetchFestivalData";
-import { Items } from "../../../types/type";
+import { Items } from "../../../types/type.d";
 import { RootState } from "../../../reducers";
 import { getSelectedList } from "../../../reducers/festivalDataReducer";
 import ToTheTopButton from "../../../components/button/ToTheTopButton";
@@ -50,8 +50,8 @@ const FestivalsList = () => {
     };
   }, [handleObserver, loader]);
 
-  const renderList = (list: Items[]) => {
-    return list.map((item: Items, index: number): JSX.Element => {
+  const renderList = (itemsList: Items[]) => {
+    return itemsList.map((item: Items, index: number): JSX.Element => {
       const itemKey = item.id + JSON.stringify(index);
       if (item.isPassedDate) {
         return <OutOfDateFestivalItem key={itemKey} items={item} />;
@@ -72,7 +72,7 @@ const FestivalsList = () => {
           {selectedCategories!.length === 0
             ? renderList(list)
             : renderList(selectedItems)}
-          <div ref={loader}></div>
+          <div ref={loader} />
         </Flex>
         {loading && <CreateSkeletonItems />}
         <Divider />

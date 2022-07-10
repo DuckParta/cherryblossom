@@ -11,6 +11,7 @@ import { RootState } from "../../reducers";
 import FestivalItem from "../../components/FestivalItem";
 import Header from "../../components/Header";
 import OutOfDateFestivalItem from "../../components/OutOfDateFestivalItem";
+import { WishActiveIcon } from "../../assets/svgs";
 
 import { Items } from "../../types/type.d";
 
@@ -51,11 +52,7 @@ const WishList = () => {
       <Header />
       <Box pb="20%" bgColor="gray.50">
         <Center py="10%">
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
-            w="25px"
-            mx="10px"
-          />
+          <WishActiveIcon width="25px" height="25px" />
           <Heading>내 축제 리스트</Heading>
         </Center>
         <Center>
@@ -97,20 +94,19 @@ const WishList = () => {
                               </Center>
                             </Box>
                           );
-                        } else {
-                          return (
-                            <Box key={itemKey}>
-                              <Link to={`/${item.fstvlId}`} key={itemKey}>
-                                <FestivalItem items={item} />
-                              </Link>
-                              <Center>
-                                <Button onClick={() => onDelete(index)}>
-                                  삭제
-                                </Button>
-                              </Center>
-                            </Box>
-                          );
                         }
+                        return (
+                          <Box key={itemKey}>
+                            <Link to={`/${item.fstvlId}`} key={itemKey}>
+                              <FestivalItem items={item} />
+                            </Link>
+                            <Center>
+                              <Button onClick={() => onDelete(index)}>
+                                삭제
+                              </Button>
+                            </Center>
+                          </Box>
+                        );
                       }
                     )}
                   </>

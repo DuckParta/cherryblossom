@@ -31,7 +31,7 @@ import { AddWishListButton } from "../../components/button/AddWishListButton";
 import Header from "../../components/Header";
 import { RootState } from "../../reducers";
 import { database } from "../../service/firebase";
-import { Items } from "../../types/type";
+import { Items } from "../../types/type.d";
 import FestivalContentsTable from "./FestivalContentsTable";
 import Map from "./Map/Map";
 import SkeletonFestivalContents from "./SkeletonFestivalContents";
@@ -69,7 +69,7 @@ const FestivalContents = () => {
   });
 
   useEffect(() => {
-    if (user.userId === "" || user.userId === undefined) {
+    if (!user.userId || user.userId === "") {
       setLogin(false);
       setIsWish(false);
     } else {
@@ -165,8 +165,8 @@ const FestivalContents = () => {
             <Box className="back-button" w="30%">
               <Center>
                 <Link href="/">
-                  <Button colorScheme={"whiteAlpha"}>
-                    <ArrowBackIcon color={"black"} boxSize={7} />
+                  <Button colorScheme="whiteAlpha">
+                    <ArrowBackIcon color="black" boxSize={7} />
                   </Button>
                 </Link>
               </Center>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { useEffect } from "react";
 import "./Map.css";
 
@@ -13,26 +14,26 @@ const { kakao }: Window = window;
 const Map = ({ latitude, longitude }: any) => {
   useEffect(() => {
     // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-    let placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
-      contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-      markers: any = [], // 마커를 담을 배열입니다
-      currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
-    const mapContainer = document.getElementById("map"),
-      mapOptions = {
-        center: new kakao.maps.LatLng(latitude, longitude),
-        level: 3,
-      };
+    const placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 });
+    const contentNode = document.createElement("div"); // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+    let markers: any = []; // 마커를 담을 배열입니다
+    const currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+    const mapContainer = document.getElementById("map");
+    const mapOptions = {
+      center: new kakao.maps.LatLng(latitude, longitude),
+      level: 3,
+    };
     // 지도 생성
     const map = new kakao.maps.Map(mapContainer, mapOptions);
     // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
-    var mapTypeControl = new kakao.maps.MapTypeControl();
+    const mapTypeControl = new kakao.maps.MapTypeControl();
 
     // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
     // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
     map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
-    var zoomControl = new kakao.maps.ZoomControl();
+    const zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     // 장소 검색 객체를 생성합니다
     const ps = new kakao.maps.services.Places(map);
@@ -60,7 +61,7 @@ const Map = ({ latitude, longitude }: any) => {
       if (target.addEventListener) {
         target.addEventListener(type, callback);
       } else {
-        target.attachEvent("on" + type, callback);
+        target.attachEvent(`on${type}`, callback);
       }
     }
 
@@ -95,6 +96,7 @@ const Map = ({ latitude, longitude }: any) => {
       const order = document
         .getElementById(currCategory)
         ?.getAttribute("data-order");
+      // eslint-disable-next-line no-plusplus
       for (let i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         const marker = addMarker(
@@ -114,22 +116,22 @@ const Map = ({ latitude, longitude }: any) => {
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position: any, order: any) {
       const imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
-        imgOptions = {
-          spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-          spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-          offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        },
-        markerImage = new kakao.maps.MarkerImage(
-          imageSrc,
-          imageSize,
-          imgOptions
-        ),
-        marker = new kakao.maps.Marker({
-          position: position, // 마커의 위치
-          image: markerImage,
-        });
+        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+      const imageSize = new kakao.maps.Size(27, 28); // 마커 이미지의 크기
+      const imgOptions = {
+        spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
+        spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+        offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+      };
+      const markerImage = new kakao.maps.MarkerImage(
+        imageSrc,
+        imageSize,
+        imgOptions
+      );
+      const marker = new kakao.maps.Marker({
+        position, // 마커의 위치
+        image: markerImage,
+      });
 
       marker.setMap(map); // 지도 위에 마커를 표출합니다
       markers.push(marker); // 배열에 생성된 마커를 추가합니다
@@ -139,6 +141,7 @@ const Map = ({ latitude, longitude }: any) => {
 
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
     function removeMarker() {
+      // eslint-disable-next-line no-plusplus
       for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
       }
@@ -148,42 +151,21 @@ const Map = ({ latitude, longitude }: any) => {
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     function displayPlaceInfo(place: any) {
       let content =
-        '<div class="placeinfo">' +
-        '   <a class="title" href="' +
-        place.place_url +
-        '" target="_blank" title="' +
-        place.place_name +
-        '">' +
-        place.place_name +
-        "</a>";
+        `<div class="placeinfo">` +
+        `   <a class="title" href="${place.place_url}" target="_blank" title="${place.place_name}">${place.place_name}</a>`;
 
       if (place.road_address_name) {
         content +=
-          '    <span title="' +
-          place.road_address_name +
-          '">' +
-          place.road_address_name +
-          "</span>" +
-          '  <span class="jibun" title="' +
-          place.address_name +
-          '">(지번 : ' +
-          place.address_name +
-          ")</span>";
+          `    <span title="${place.road_address_name}">${place.road_address_name}</span>` +
+          `  <span class="jibun" title="${place.address_name}">(지번 : ${place.address_name})</span>`;
       } else {
-        content +=
-          '    <span title="' +
-          place.address_name +
-          '">' +
-          place.address_name +
-          "</span>";
+        content += `    <span title="${place.address_name}">${place.address_name}</span>`;
       }
 
       content +=
-        '    <span class="tel">' +
-        place.phone +
-        "</span>" +
-        "</div>" +
-        '<div class="after"></div>';
+        `    <span class="tel">${place.phone}</span>` +
+        `</div>` +
+        `<div class="after"></div>`;
 
       contentNode.innerHTML = content;
       placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));

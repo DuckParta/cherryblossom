@@ -24,7 +24,7 @@ const SkeletonFestivalItem = () => {
               borderRadius="lg"
               bgColor="gray.100"
               fontSize="lg"
-            ></Heading>
+            />
           </Skeleton>
         </Center>
         <Skeleton h="30px" my="5px" />

@@ -1,25 +1,14 @@
-import { Image } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { WishIcon, WishActiveIcon } from "../../assets/svgs";
 
 export const AddWishListButton = ({ isWish, onAdd }: any) => {
   return (
-    <>
+    <Box cursor="pointer">
       {isWish ? (
-        <Image
-          src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
-          w="30px"
-          alt="wish"
-          onClick={onAdd}
-          cursor="pointer"
-        />
+        <WishActiveIcon onClick={onAdd} width="35px" height="35px" />
       ) : (
-        <Image
-          src={`${process.env.PUBLIC_URL}/images/wish_icon.png`}
-          w="30px"
-          alt="wish"
-          onClick={onAdd}
-          cursor="pointer"
-        />
+        <WishIcon onClick={onAdd} width="35px" height="35px" />
       )}
-    </>
+    </Box>
   );
 };

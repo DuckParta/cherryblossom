@@ -23,9 +23,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
-import { setInfo, setLogout } from "../../reducers/userReducer";
+import { setInfo, setLogout, IUser } from "../../reducers/userReducer";
 import GoogleLoginBtn from "../button/GoogleLoginButton";
-import { IUser } from "../../reducers/userReducer";
+import { WishActiveIcon } from "../../assets/svgs";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const Header = () => {
   }, [user]);
 
   useEffect(() => {
-    if (userInfo.userId !== "" && userInfo.userId !== undefined) {
+    if (!userInfo.userId && userInfo.userId !== "") {
       setLogin(true);
     } else {
       setLogin(false);
@@ -74,23 +74,15 @@ const Header = () => {
           fail: (error: any) => console.error(error),
         });
       },
-      fail: function (err: any) {
-        console.log(JSON.stringify(err));
+      fail(err: any) {
+        console.error(JSON.stringify(err));
       },
     });
   };
 
-  function LogoutBtn() {
-    const onLogout = () => {
-      dispatch(setLogout());
-    };
-
-    return (
-      <Text w="100%" onClick={onLogout}>
-        로그아웃
-      </Text>
-    );
-  }
+  const onLogout = () => {
+    dispatch(setLogout());
+  };
 
   return (
     <>
@@ -102,56 +94,45 @@ const Header = () => {
             fontSize="3xl"
             letterSpacing="widest"
           >
-            <Link to="/">
-              <Image
-                src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
-                w="35px"
-                alt="wish"
-                cursor="pointer"
-              />
-            </Link>
+            <Box w="35px">
+              <Link to="/">
+                <WishActiveIcon width="35px" height="35px" />
+              </Link>
+            </Box>
           </Heading>
         </Box>
         {login ? (
-          <>
-            <Center mx="15px">
-              <Menu>
-                <Text
-                  w="10em"
-                  fontSize="lg"
-                  fontWeight="bold"
-                  textAlign="right"
-                >
-                  {userInfo?.name}
-                </Text>
-                <Box
-                  mx={3}
-                  px={2}
-                  py={2}
-                  borderRadius="full"
-                  boxShadow="0 0 8px rgb(0 0 0 / 9%)"
-                >
-                  <Image
-                    src={`${process.env.PUBLIC_URL}/images/wish_active_icon.png`}
-                    w="30px"
-                  />
-                </Box>
-                <MenuButton>
-                  <TriangleDownIcon w="3" color="gray.500" cursor="pointer" />
-                </MenuButton>
-                <MenuList minWidth="150px" px={3}>
-                  <MenuItem borderRadius="lg">
-                    <Link to="/wishlist">
-                      <Text w="100px">내 축제</Text>
-                    </Link>
-                  </MenuItem>
-                  <MenuItem borderRadius="lg">
-                    <LogoutBtn />
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Center>
-          </>
+          <Center mx="15px">
+            <Menu>
+              <Text w="10em" fontSize="lg" fontWeight="bold" textAlign="right">
+                {userInfo?.name}
+              </Text>
+              <Box
+                mx={3}
+                px={2}
+                py={2}
+                borderRadius="full"
+                boxShadow="0 0 8px rgb(0 0 0 / 9%)"
+              >
+                <WishActiveIcon width="35px" height="35px" />
+              </Box>
+              <MenuButton>
+                <TriangleDownIcon w="3" color="gray.500" cursor="pointer" />
+              </MenuButton>
+              <MenuList minWidth="150px" px={3}>
+                <MenuItem borderRadius="lg">
+                  <Link to="/wishlist">
+                    <Text w="100px">내 축제</Text>
+                  </Link>
+                </MenuItem>
+                <MenuItem borderRadius="lg">
+                  <Text w="100%" onClick={onLogout}>
+                    로그아웃
+                  </Text>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Center>
         ) : (
           <Center w="7em">
             <Button
@@ -167,7 +148,7 @@ const Header = () => {
         )}
       </Flex>
       <Modal
-        blockScrollOnMount={true}
+        blockScrollOnMount
         size="2xl"
         isCentered
         motionPreset="slideInBottom"

@@ -1,18 +1,18 @@
-import GoogleLogin from "react-google-login";
 import { Button, Image } from "@chakra-ui/react";
+import GoogleLogin from "react-google-login";
 
 const GoogleLoginBtn = ({
   onGoogleLogin,
   clientId,
 }: {
-  onGoogleLogin: any;
+  onGoogleLogin: (userId: string, name: string) => void;
   clientId: string;
 }) => {
   const onSuccess = async (response: any) => {
     const {
       profileObj: { googleId: userId, name },
     } = response;
-    await onGoogleLogin(userId, name, true);
+    await onGoogleLogin(userId, name);
   };
 
   const onFailure = (error: any) => {
@@ -22,7 +22,7 @@ const GoogleLoginBtn = ({
   return (
     <GoogleLogin
       clientId={clientId}
-      responseType={"id_token"}
+      responseType="id_token"
       render={(renderProps) => (
         <Button
           onClick={renderProps.onClick}
