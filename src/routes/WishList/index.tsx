@@ -9,7 +9,7 @@ import { database } from "../../service/firebase";
 import { RootState } from "../../reducers";
 
 import FestivalItem from "../../components/FestivalItem";
-import AppBar from "../../components/Header";
+import Header from "../../components/Header";
 import OutOfDateFestivalItem from "../../components/OutOfDateFestivalItem";
 
 import { Items } from "../../types/type.d";
@@ -48,7 +48,7 @@ const WishList = () => {
 
   return (
     <Box>
-      <AppBar />
+      <Header />
       <Box pb="20%" bgColor="gray.50">
         <Center py="10%">
           <Image
