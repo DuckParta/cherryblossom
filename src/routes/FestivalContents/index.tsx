@@ -72,10 +72,10 @@ const FestivalContents = () => {
     if (!user.userId || user.userId === "") {
       setLogin(false);
       setIsWish(false);
-    } else {
-      setLogin(true);
-      getFestival();
+      return;
     }
+    setLogin(true);
+    getFestival();
   }, [user, login]);
 
   useEffect(() => {
@@ -83,15 +83,14 @@ const FestivalContents = () => {
   }, []);
 
   const handleWishButtonClick = () => {
-    if (login) {
-      setFirebaseDB();
-      return;
+    if (!login) {
+      return toast({
+        status: "info",
+        position: "top",
+        description: "로그인 후 이용 가능합니다!",
+      });
     }
-    return toast({
-      status: "info",
-      position: "top",
-      description: "로그인 후 이용 가능합니다!",
-    });
+    setFirebaseDB();
   };
 
   const setFirebaseDB = () => {
@@ -171,7 +170,7 @@ const FestivalContents = () => {
                 </Link>
               </Center>
             </Box>
-            {fstvlId !== param.fstvlId || !fstvlId ? (
+            {!fstvlId || fstvlId !== param.fstvlId ? (
               <SkeletonFestivalContents />
             ) : (
               <>

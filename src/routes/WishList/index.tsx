@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { Box, Button, Center, Flex, Heading, Image } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
 import { onValue, ref, remove } from "firebase/database";
 import { database } from "../../service/firebase";
 

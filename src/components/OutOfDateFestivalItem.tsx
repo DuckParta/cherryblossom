@@ -17,7 +17,7 @@ const OutOfDateFestivalItem = ({ items }: { items: Items }) => {
       textAlign="center"
     >
       <Flex flexFlow="column nowrap" h="100%" cursor="default">
-        <Heading>{location}</Heading>
+        <Heading size="lg">{location}</Heading>
         <Box h="70%">
           <Heading
             mt="50px"
